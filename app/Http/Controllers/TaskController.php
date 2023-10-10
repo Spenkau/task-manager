@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller;
 use Illuminate\Routing\Controller as BaseController;
 //TODO в ридми ларавеля глянуть
 // Simple, fast routing engine.
@@ -13,7 +15,10 @@ use Illuminate\Routing\Controller as BaseController;
 //Database agnostic schema migrations.
 //Robust background job processing.
 //Real-time event broadcasting.
-class Controller extends BaseController
+class TaskController extends Controller
 {
-    use AuthorizesRequests, ValidatesRequests;
+    public function show() {
+        $tasks = Task::all();
+        return view('tasks', compact('tasks'));
+    }
 }
