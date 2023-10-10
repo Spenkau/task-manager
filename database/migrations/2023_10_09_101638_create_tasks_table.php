@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->unsignedBigInteger('priority_id')->default(0);
-            $table->unsignedBigInteger('status_id')->default(0);
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->integer('priority_id');
+            $table->integer('status_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parentId')->nullable();
             $table->timestamp('started_at')->nullable();
@@ -26,13 +26,9 @@ return new class extends Migration
 
             $table->softDeletes();
 
-            $table->index('priority_id');
-            $table->index('status_id');
             $table->index('category_id');
 
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('priority_id')->references('id')->on('priorities');
-            $table->foreign('status_id')->references('id')->on('statuses');
 
             $table->foreign('user_id')->references('id')->on('users');
         });
