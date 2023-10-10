@@ -6,14 +6,19 @@ use App\Models\Task;
 
 class Service
 {
+    public function show()
+    {
+        return Task::with('category')->get();
+    }
+
     public function store($data)
     {
         Task::create($data);
 
     }
 
-    public function update($post, $data)
+    public function update($task, $data)
     {
-        $post->update($data);
+        $task->update($data);
     }
 }

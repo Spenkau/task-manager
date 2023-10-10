@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Enums;
 enum PriorityEnum: int
 {
     case LOW = 1;
