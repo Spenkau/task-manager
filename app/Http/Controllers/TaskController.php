@@ -27,7 +27,7 @@ class TaskController extends BaseController
 
         dump($data);
     }
-
+    // TEST
     public function update(UpdateRequest $request, Task $task)
     {
         $data = $request->validated();
