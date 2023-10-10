@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(CategoriesTableSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(TaskSeeder::class);
-
         $this->command->info('Categories filled successfully');
     }
 }
