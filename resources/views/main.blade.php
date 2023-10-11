@@ -11,5 +11,9 @@
 </head>
 <body>
     @component('components.Header')   @endcomponent
+
+    @foreach($categories as $category)
+        {{ $category->name }}
+    @endforeach
 </body>
 </html>
