@@ -6,7 +6,7 @@ use App\Models\Task;
 
 class Service
 {
-    public function show()
+    public function showAll()
     {
         return Task::with('category')->get();
     }
@@ -14,7 +14,6 @@ class Service
     public function store($data)
     {
         Task::create($data);
-
     }
 
     public function update($task, $data)
