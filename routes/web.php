@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Task\IndexController;
+use App\Http\Controllers\Task\IndexController as Task_IndexController;
 use App\Http\Controllers\Task\ShowController;
 use App\Http\Controllers\Task\StoreController;
 use App\Http\Controllers\Task\UpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Category\IndexController as C_IndexController;
+use App\Http\Controllers\Category\IndexController as Category_IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,14 +23,14 @@ Route::get('/', function () {
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Task'], function () {
-    Route::get('/tasks', IndexController::class)->name('tasks.index');
+    Route::get('/tasks', Task_IndexController::class)->name('tasks.index');
     Route::get('/tasks/{task}', ShowController::class)->name('tasks.show');
     Route::patch('/tasks/{task}', UpdateController::class)->name('tasks.update');
     Route::post('/tasks/{task}', StoreController::class)->name('tasks.store');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Category'], function () {
-    Route::get('/categories', C_IndexController::class)->name('categories.index');
+    Route::get('/', Category_IndexController::class)->name('categories.index');
 });
 // TODO: для роутов админки создать отдельный файл
 Route::get('/login', function () {
