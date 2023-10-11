@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Task;
 
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
@@ -12,26 +12,14 @@ use Illuminate\Routing\Controller;
 use App\Http\Controllers\BaseController;
 use App\Enums\StatusEnum;
 
-class TaskController extends BaseController
+class UpdateController extends BaseController
 {
-    public function show()
-    {
-        $tasks = $this->service->show();
-
-        return view('tasks', compact('tasks'));
-    }
-
-    public function store(StoreRequest $request)
-    {
-        $data = $request->validated();
-
-        dump($data);
-    }
-    // TEST
-    public function update(UpdateRequest $request, Task $task)
+    public function __invoke(UpdateRequest $request, Task $task)
     {
         $data = $request->validated();
 
         $this->service->update($task, $data);
+
+        return redirect()->route('post.show', $task->id);
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('priority_id');
             $table->integer('status_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('parentId')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
