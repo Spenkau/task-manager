@@ -19,7 +19,7 @@ use App\Http\Controllers\Category\IndexController as Category_IndexController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Task'], function () {
