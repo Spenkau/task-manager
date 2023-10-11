@@ -4,8 +4,8 @@ use App\Http\Controllers\Task\IndexController;
 use App\Http\Controllers\Task\ShowController;
 use App\Http\Controllers\Task\StoreController;
 use App\Http\Controllers\Task\UpdateController;
-use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Category\IndexController as C_IndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +27,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Task'], function () {
     Route::get('/tasks/{task}', ShowController::class)->name('tasks.show');
     Route::patch('/tasks/{task}', UpdateController::class)->name('tasks.update');
     Route::post('/tasks/{task}', StoreController::class)->name('tasks.store');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\Category'], function () {
+    Route::get('/categories', C_IndexController::class)->name('categories.index');
 });
 // TODO: для роутов админки создать отдельный файл
 Route::get('/login', function () {
