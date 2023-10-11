@@ -15,8 +15,8 @@ class IndexController extends BaseController
             ->get();
 
         $array = $categories->toArray();
-        dd($array);
-//        return view('categories', compact('categories'));
+        dump($array);
+        return view('welcome', compact('categories'));
     }
 
 }
