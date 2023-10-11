@@ -30,7 +30,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Task'], function () {
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Category'], function () {
-    Route::get('/', Category_IndexController::class)->name('categories.index');
+    Route::get('/categories', Category_IndexController::class)->name('categories.index');
 });
 // TODO: для роутов админки создать отдельный файл
 Route::get('/login', function () {
