@@ -11,5 +11,7 @@
 </head>
 <body>
     @component('components.Header')   @endcomponent
+    @component('components.Sidebar') @endcomponent
+    @vite('resources/js/main.ts')
 </body>
 </html>
