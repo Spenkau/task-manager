@@ -17,14 +17,14 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function showCategories()
+    public function show()
     {
         $categories = Category::all();
 
         return view('main', compact('categories'));
     }
 
-    public function storeCategory(StoreRequest $request)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
 
