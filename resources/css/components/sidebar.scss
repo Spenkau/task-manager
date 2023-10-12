@@ -1,0 +1,89 @@
+@import "../general";
+
+.sidebar {
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    height: 100%;
+    background-color: $abs-white;
+    min-width: 300px;
+    padding: 20px 0 20px 20px;
+    transition: left 350ms ease;
+
+    h2 {
+        color: $green;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        line-height: 26px;
+    }
+
+    a {
+        display: flex;
+        margin-top: 100%;
+        align-items: center;
+        gap: 5px;
+        color: $black;
+
+        i {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.sidebar__logo {
+    margin-bottom: 30%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    h1 {
+        width: 90px;
+        font-size: 24px;
+        font-weight: 900;
+        line-height: 18px;
+    }
+
+    span {
+        font-size: 26px;
+        color: $green;
+    }
+}
+
+.active-category {
+    background: url("/public/images/icons/active.svg") right no-repeat;
+}
+
+.sidebar__list {
+    li {
+        margin-bottom: 20px;
+        padding-right: 20px;
+
+        button {
+            display: flex;
+            align-items: center;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            font-size: 16px;
+            gap: 5px;
+
+        }
+    }
+}
+
+.sidebar_hide {
+    left: -5000px;
+}
+
+.sidebar_active {
+    left: 0;
+}
+.icon-square-plus{
+    @include icon(20px,20px,"square-plus");
+}
+.list__new-category{
+    button{
+        color: $green;
+    }
+}
