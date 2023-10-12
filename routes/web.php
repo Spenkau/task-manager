@@ -15,13 +15,8 @@ Route::post('/tasks/{task}', [TaskController::class, 'store'])->name('tasks.stor
 /**************************** END TASKS *************************/
 
 /**************************** CATEGORIES *************************/
-Route::get('/categories', [CategoryController::class, 'show'])->name('categories.index');
+Route::get('/', [CategoryController::class, 'show'])->name('categories.index');
 /**************************** END CATEGORIES *************************/
-
-
-Route::group(['namespace' => 'App\Http\Controllers\Category'], function () {
-    Route::get('/', Category_IndexController::class)->name('categories.index');
-});
 
 
 

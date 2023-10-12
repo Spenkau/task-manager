@@ -5,7 +5,8 @@ if (isAuth) {
     const modal: HTMLDivElement = document.querySelector('.overlay__modal');
     const buttonOpenModal: HTMLButtonElement = document.querySelector('.container-button');
     const sidebar: HTMLDivElement = document.querySelector('.sidebar');
-    const buttonNewCategory: HTMLButtonElement = document.querySelector('.list__new-category > button')
+    const buttonNewCategory: HTMLButtonElement = document.querySelector('.list__new-category > button');
+    const newCategoryModal:HTMLDivElement = document.querySelector('.modal-category');
 
     //modal + overlay
     buttonOpenModal.addEventListener('click', (e) => {
