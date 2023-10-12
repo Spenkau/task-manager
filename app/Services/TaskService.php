@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Services\Task;
+namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Task;
+use App\Repositories\TaskRepository;
 use http\Env\Request;
 
-class Service
+class TaskService
 {
-    public function showAll()
+    protected $taskRepo;
+
+    public function __construct(TaskRepository $taskRepository)
     {
-        return Task::with(['category', 'user'])->get();
+        $this->taskRepo = $taskRepository;
     }
 
-    public function store($data)
+    public function all()
     {
-        Task::create($data);
-    }
-
-    public function update($task, $data)
-    {
-        $task->update($data);
+        return $this->taskRepo->all();
     }
 
     public function tasksBySlug(Request $request)
