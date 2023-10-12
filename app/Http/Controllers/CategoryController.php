@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\BaseController;
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
-class IndexController extends BaseController
+class CategoryController extends BaseController
 {
-    public function __invoke()
+    public function show()
     {
         $categories = Category::whereNull('category_id')
             ->with('childrenCategories')
             ->get();
 
         $array = $categories->toArray();
+
+        dump($array);
         return view('main', compact('categories'));
     }
-
 }

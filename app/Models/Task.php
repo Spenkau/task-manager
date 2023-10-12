@@ -12,11 +12,13 @@ class Task extends Model
     protected $table = 'tasks';
     protected $guarded = false;
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

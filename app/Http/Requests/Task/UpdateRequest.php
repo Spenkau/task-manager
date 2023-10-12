@@ -32,5 +32,5 @@ class UpdateRequest extends FormRequest
             'started_at' => 'date_format:Y-m-d',
             'finished_at' => 'date_format:Y-m-d',
         ];
-    }
+     } // у реквестов обработчики
 }
