@@ -29,6 +29,8 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         $this->categoryService->store($data);
+
+        return back();
     }
 
 }
