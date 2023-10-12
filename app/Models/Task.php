@@ -12,6 +12,16 @@ class Task extends Model
     protected $table = 'tasks';
     protected $guarded = false;
 
+    public function parent()
+    {
+        return $this->hasOne(self::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
