@@ -15,9 +15,14 @@ class Category extends Model
     protected $table = 'categories';
     protected $guarded = false;
 
-    public function categories()
+    public function parent()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function children()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function tasks()

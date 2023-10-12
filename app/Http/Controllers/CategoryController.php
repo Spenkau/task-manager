@@ -9,12 +9,9 @@ class CategoryController extends BaseController
 {
     public function show()
     {
-//        $categories = Category::whereNull('category_id')
-//            ->with('childrenCategories')
-//            ->get();
-//
-//        $array = $categories->toArray();
-//        dump($array);
-//        return view('main', compact('categories'));
+        $categories = Category::with('children')->whereNull('category_id')->get()->toArray();
+
+        dump($categories);
+        return view('main', compact('categories'));
     }
 }
