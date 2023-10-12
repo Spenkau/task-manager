@@ -8,24 +8,24 @@
     <title>Categories</title>
 </head>
 <body>
-    <ul>
-        @foreach($categories as $category)
-            <li>{{ $category['name'] }}</li>
-            <ul>
-                @if($category['children_categories'])
-                    @foreach($category['children_categories'] as $childCategory)
-                        <li>{{ $childCategory['name'] }}</li>
-                        <ul>
-                            @if($childCategory['categories'])
-                                @foreach($childCategory['categories'] as $subCategory)
-                                    <li>{{ $subCategory['name'] }}</li>
-                                @endforeach
-                            @endif
-                        </ul>
-                    @endforeach
-                @endif
-            </ul>
-        @endforeach
-    </ul>
+<ul>
+    @foreach($categories as $category)
+        <li>{{ $category['name'] }}</li>
+        <ul>
+            @if($category['children_categories'])
+                @foreach($category['children_categories'] as $childCategory)
+                    <li>{{ $childCategory['name'] }}</li>
+                    <ul>
+                        @if($childCategory['categories'])
+                            @foreach($childCategory['categories'] as $subCategory)
+                                <li>{{ $subCategory['name'] }}</li>
+                            @endforeach
+                        @endif
+                    </ul>
+                @endforeach
+            @endif
+        </ul>
+    @endforeach
+</ul>
 </body>
 </html>
