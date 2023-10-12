@@ -20,13 +20,9 @@ class Category extends Model
         return $this->hasMany(Category::class);
     }
 
-    public function childrenCategories()
-    {
-        return $this->hasMany(Category::class)->with('categories');
-    }
-
     public function tasks()
     {
+//        Category::query()->where(...)?->categories;
         return $this->hasMany(Task::class);
     }
 

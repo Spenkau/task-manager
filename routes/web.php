@@ -1,38 +1,26 @@
 <?php
 
-use App\Http\Controllers\Task\IndexController as Task_IndexController;
-use App\Http\Controllers\Task\ShowController;
-use App\Http\Controllers\Task\StoreController;
-use App\Http\Controllers\Task\UpdateController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Category\IndexController as Category_IndexController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('main');
 });
+/**************************** TASKS *************************/
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::post('/tasks/{task}', [TaskController::class, 'store'])->name('tasks.store');
+/**************************** END TASKS *************************/
 
-Route::group(['namespace' => 'App\Http\Controllers\Task'], function () {
-    Route::get('/tasks', Task_IndexController::class)->name('tasks.index');
-    Route::get('/tasks/{task}', ShowController::class)->name('tasks.show');
-    Route::patch('/tasks/{task}', UpdateController::class)->name('tasks.update');
-    Route::post('/tasks/{task}', StoreController::class)->name('tasks.store');
+/**************************** CATEGORIES *************************/
+Route::get('/', CategoryController::class)->name('categories.index');
+/**************************** END CATEGORIES *************************/
 
-});
 
-Route::group(['namespace' => 'App\Http\Controllers\Category'], function () {
-    Route::get('/', Category_IndexController::class)->name('categories.index');
-});
+
+/**************************** ADMIN *************************/
 // TODO: для роутов админки создать отдельный файл
 Route::get('/login', function () {
     return view('login');
@@ -42,10 +30,11 @@ Route::get('/register', function () {
     return view('login');
 });
 
-Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function() {
+Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function () {
     Route::get('/login', function () {
         return view('login');
     });
 
     Route::post('/login', 'AuthController@postSignin');
 });
+/**************************** END ADMIN *************************/
