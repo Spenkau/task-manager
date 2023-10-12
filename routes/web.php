@@ -15,14 +15,19 @@ Route::post('/tasks/{task}', [TaskController::class, 'store'])->name('tasks.stor
 /**************************** END TASKS *************************/
 
 /**************************** CATEGORIES *************************/
+
+Route::get('/', [CategoryController::class, 'show'])->name('categories.index');
+
 Route::get('/', [CategoryController::class, 'show'])->name('categories.show');
 Route::get('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+
 /**************************** END CATEGORIES *************************/
 
 
 
 /**************************** ADMIN *************************/
 // TODO: для роутов админки создать отдельный файл
+
 Route::get('/login', function () {
     return view('login');
 });

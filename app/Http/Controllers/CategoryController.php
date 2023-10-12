@@ -18,8 +18,13 @@ class CategoryController extends Controller
     }
 
     public function show()
+
+    {   //
+        $categories = Category::with('children')->where('category_id', null)->get();
+
     {
         $categories = Category::all();
+
 
         return view('main', compact('categories'));
     }

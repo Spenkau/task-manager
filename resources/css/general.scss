@@ -2,14 +2,14 @@
 
 $main-font: 'Nunito', sans-serif;
 $green: #29a19c;
-$yellow:#ecca75;
-$red:#f05454;
+$yellow: #ecca75;
+$red: #f05454;
 $white: #fafafa;
 $abs-white: #ffffff;
 $black: #282846;
 
 
-@mixin icon($w,$h,$icon-name){
+@mixin icon($w,$h,$icon-name) {
     display: block;
     font-size: 0;
     width: $w;
@@ -18,8 +18,8 @@ $black: #282846;
 
 }
 
-body{
+body {
     font-family: $main-font;
-    color:$black;
+    color: $black;
     background-color: $white;
 }
