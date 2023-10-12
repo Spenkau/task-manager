@@ -17,11 +17,11 @@
                         --- PARENT: {{ $task->parentId }}
                     @endif
                 </p>
-                <p>{{ $task->content }}</p>
-                <p>{{ $task->category->name }}</p>
+                <p>CONTENT: {{ $task->content }}</p>
+                <p>USER: {{ $task->user->name }}</p>
+                <p>CATEGORY: {{ $task->category->name }}</p>
                 <p>STATUS: {{ \App\Enums\StatusEnum::from($task->status_id)->name }}</p>
                 <p>PRIORITY: {{ \App\Enums\PriorityEnum::from($task->priority_id)->name }}</p>
-
 
                 <button>Начать</button>
                 <button>Закончить</button>

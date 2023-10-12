@@ -1,0 +1,183 @@
+@import "../general";
+
+.icon-plus {
+    @include icon(15px, 15px, "plus");
+}
+
+.header {
+    display: flex;
+    min-height: 100px;
+    justify-content: center;
+    gap: 250px;
+}
+
+.header__buttons {
+    display: flex;
+    align-items: center;
+    gap: 250px;
+}
+
+.button__create-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 5px;
+    background-color: $green;
+    gap: 5px;
+    color: $white;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 200ms ease-in-out;
+    font-size: 16px;
+
+    &:hover {
+        box-shadow: inset 0 0 73px -27px rgba(33, 32, 33, 1);
+    }
+}
+
+.disabled {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    p {
+        font-size: 18px;
+    }
+}
+
+.button__change-color-mode {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    .icon-moon {
+        @include icon(24px, 24px, "moon")
+    }
+    .icon-sun{
+        @include icon(24px, 24px, "sun")
+    }
+}
+
+.icon-arrow-down {
+    @include icon(15px, 10px, "arrow-down")
+}
+
+
+.container-button {
+    display: flex;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .container__layout-icon {
+        background-color: $abs-white;
+        border-radius: 50%;
+        box-shadow: 0 0 73px -27px rgba(33, 32, 33, 1);
+        padding: 7px;
+    }
+
+}
+
+.header__overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgb(40, 40, 70, .2);
+    z-index: 10;
+}
+
+.overlay__modal {
+    position: absolute;
+    display: block;
+    right: 200px;
+    top: 100px;
+    width: 200px;
+    background-color: $white;
+    padding: 25px 30px;
+    border-radius: 10px;
+    color: $black;
+    z-index: 155;
+
+}
+
+.icon-user {
+    @include icon(22px, 22px, "user")
+}
+
+.icon-moon {
+    @include icon(20px, 20px, "moon")
+}
+
+.icon-settings {
+    @include icon(20px, 20px, "settings")
+}
+
+.icon-logout {
+    @include icon(17px, 20px, "logout")
+}
+
+.modal__list {
+    font-size: 14px;
+
+    li:not(li:last-child) {
+        padding-bottom: 20px;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        gap: 5px;
+
+        &:hover {
+            color: $green;
+        }
+    }
+}
+
+.icon-auth{
+    @include icon(17px, 20px, "logout");
+}
+
+
+.icon-reg{
+    @include icon(25px, 25px, "reg");
+}
+
+.header__auth-buttons{
+    display: flex;
+    align-items: center;
+    a{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: $green;
+        margin-right: 45px;
+    }
+}
+
+
+.icon-sidebar-open{
+    position: absolute;
+    left: 20px;
+    top:40px;
+    @include icon(30px, 30px, "open_sb");
+    z-index: 3;
+}
