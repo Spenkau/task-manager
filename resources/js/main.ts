@@ -6,8 +6,10 @@ if (isAuth) {
     const buttonOpenModal: HTMLButtonElement = document.querySelector('.container-button');
     const sidebar: HTMLDivElement = document.querySelector('.sidebar');
     const buttonNewCategory: HTMLButtonElement = document.querySelector('.list__new-category > button');
-    const newCategoryModal:HTMLDivElement = document.querySelector('.modal-category');
-
+    const newCategoryModal: HTMLDivElement = document.querySelector('.modal-category');
+    const newCategoryForm:HTMLDivElement = document.querySelector('.form-inner');
+    const inputCategoryName = document.querySelector('.form-inner>input[type="text"]');
+    const inputCategorySubmit = document.querySelector('.form-inner>input[type="submit"]');
     //modal + overlay
     buttonOpenModal.addEventListener('click', (e) => {
         e.preventDefault()
@@ -39,7 +41,7 @@ if (isAuth) {
     categories.forEach((category) => {
         category.addEventListener('click', (e) => {
             e.preventDefault()
-            category.classList.toggle('active-category')
+            category.classList.remove('modal-category_disabled')
         })
 
     })
@@ -47,7 +49,19 @@ if (isAuth) {
     //modal add category
     buttonNewCategory.addEventListener('click', (e) => {
         e.preventDefault()
+        newCategoryModal.classList.replace('modal-category_disabled', 'modal-category_active');
 
+    })
+
+    newCategoryModal.addEventListener('click', (e) => {
+        e.preventDefault()
+        if (
+            e.target !== newCategoryForm &&
+            e.target !== inputCategoryName &&
+            e.target !== inputCategorySubmit
+        ) {
+            newCategoryModal.classList.replace('modal-category_active','modal-category_disabled');
+        }
     })
 
 }

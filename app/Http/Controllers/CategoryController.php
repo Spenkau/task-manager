@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 class CategoryController extends BaseController
 {
     public function show()
-    {
-        $categories = Category::with('children')->where('category_id', null)->get()->toArray();
+    {   //
+        $categories = Category::with('children')->where('category_id', null)->get();
 
-        dump($categories);
         return view('main', compact('categories'));
     }
 }

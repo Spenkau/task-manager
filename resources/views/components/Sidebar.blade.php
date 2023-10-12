@@ -11,6 +11,9 @@
                     <i> иконка дома</i>
                     {{$category -> name}}
                 </button>
+{{--                @if($category->children->count() > 0)--}}
+{{--                    @include('categories.child', ['children' => $category->children])--}}
+{{--                @endif--}}
             </li>
         @endforeach
         <li class="list__new-category">
