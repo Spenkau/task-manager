@@ -19,7 +19,8 @@ class TaskSeeder extends Seeder
                 'priority_id' => 1,
                 'status_id' => 2,
                 'category_id' => 3,
-                'user_id' => $i
+                'user_id' => $i,
+                'parent_id' => random_int(1, 20) > 10 ? null : random_int(1, 10),
             ]);
         }
     }
