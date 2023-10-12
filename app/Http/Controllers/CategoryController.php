@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Category;
@@ -10,9 +9,9 @@ class CategoryController extends BaseController
 {
     public function show()
     {
-        $categories = [];
+        $categories = Category::with('children')->where('category_id', null)->get()->toArray();
 
-
+        dump($categories);
         return view('main', compact('categories'));
     }
 }
