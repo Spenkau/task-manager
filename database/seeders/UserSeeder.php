@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
                 'name' => $str,
                 'email' => $str,
                 'password' => $str,
+                'phone' => $str,
             ]);
             $str .= 'e';
         }
