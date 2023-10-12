@@ -13,7 +13,18 @@ class Category extends Model
     protected $table = 'categories';
     protected $guarded = false;
 
-    public function tasks() {
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function childrenCategories()
+    {
+        return $this->hasMany(Category::class)->with('categories');
+    }
+
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 }
