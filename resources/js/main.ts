@@ -5,6 +5,7 @@ if (isAuth) {
     const modal: HTMLDivElement = document.querySelector('.overlay__modal');
     const buttonOpenModal: HTMLButtonElement = document.querySelector('.container-button');
     const sidebar: HTMLDivElement = document.querySelector('.sidebar');
+    const buttonNewCategory: HTMLButtonElement = document.querySelector('.list__new-category > button')
 
     //modal + overlay
     buttonOpenModal.addEventListener('click', (e) => {
@@ -42,18 +43,23 @@ if (isAuth) {
 
     })
 
+    //modal add category
+    buttonNewCategory.addEventListener('click', (e) => {
+        e.preventDefault()
+
+    })
+
 }
 
 const timeElement: HTMLSpanElement = document.querySelector('.time');
 const dateElement: HTMLSpanElement = document.querySelector('.date');
 const changeColorModeButton: HTMLButtonElement = document.querySelector('.button__change-color-mode');
-const colorModeIcon:HTMLElement = document.querySelector('.button__change-color-mode > i')
+const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i')
 
-changeColorModeButton.addEventListener('click', (e)=>{
+changeColorModeButton.addEventListener('click', (e) => {
     e.preventDefault();
     colorModeIcon.classList.toggle('icon-sun')
 })
-
 
 
 //time-date-section
