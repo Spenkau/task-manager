@@ -14,13 +14,23 @@ class CategoryService
         $this->categoryRepo = $categoryRepository;
     }
 
-    public function show()
+    public function allOrParent(string $relation)
     {
-        return Category::all();
+        return $this->categoryRepo->allOrParent($relation);
     }
 
-    public function store($data)
+    public function update(int $categoryId, $data)
     {
-        return $this->categoryRepo->store($data);
+        $this->categoryRepo->update($categoryId, $data);
+    }
+
+    public function store(mixed $data)
+    {
+        $this->categoryRepo->store($data);
+    }
+
+    public function delete(int $categoryId)
+    {
+        $this->categoryRepo->delete($categoryId);
     }
 }

@@ -16,9 +16,14 @@ class TaskService
         $this->taskRepo = $taskRepository;
     }
 
-    public function all()
+    public function allOrParent(string $relation)
     {
-        return $this->taskRepo->all();
+        return $this->taskRepo->allOrParent($relation);
+    }
+
+    public function show(int $taskId)
+    {
+        $this->taskRepo->show($taskId);
     }
 
     public function tasksBySlug(Request $request)
@@ -28,5 +33,10 @@ class TaskService
         $categoryId = Category::where('slug', $categorySlug)->value('id');
 
         return Task::where('category_id', $categoryId)->get();
+    }
+
+    public function store(mixed $data)
+    {
+        $this->taskRepo->store($data);
     }
 }

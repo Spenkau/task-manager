@@ -14,12 +14,13 @@ class Task extends Model
 
     public function parent()
     {
-        return $this->hasOne(self::class, 'parent_id');
+        return $this->belongsTo(self::class, 'id', 'parent_id');
     }
 
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id')
+                ->with('children');
     }
 
     public function category()

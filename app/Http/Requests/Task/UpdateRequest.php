@@ -32,5 +32,13 @@ class UpdateRequest extends FormRequest
             'started_at' => 'date_format:Y-m-d',
             'finished_at' => 'date_format:Y-m-d',
         ];
-     } // у реквестов обработчики
+     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'title' => trim($this->title),
+            'content' => trim($this->content),
+        ]);
+    }
 }

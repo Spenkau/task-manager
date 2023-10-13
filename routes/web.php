@@ -16,8 +16,9 @@ Route::post('/tasks/{task}', [TaskController::class, 'store'])->name('tasks.stor
 
 /**************************** CATEGORIES *************************/
 
-Route::get('/', [CategoryController::class, 'show'])->name('categories.index');
-Route::get('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
+Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+Route::patch('/categories/update', [CategoryController::class, 'update'])->name('categories.update');
 
 /**************************** END CATEGORIES *************************/
 
@@ -25,7 +26,6 @@ Route::get('/categories/create', [CategoryController::class, 'store'])->name('ca
 
 /**************************** ADMIN *************************/
 // TODO: для роутов админки создать отдельный файл
-
 Route::get('/login', function () {
     return view('login');
 });
