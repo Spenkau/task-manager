@@ -10,7 +10,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function allOrParent(string $relation) // with children
     {
-        return Category::whereParentId(null)->with('children')->get()->toArray();
+        return Category::whereParentId(null)->with($relation)->get()->toArray();
     }
 
     public function store(mixed $data)

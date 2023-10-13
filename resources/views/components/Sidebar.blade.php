@@ -5,36 +5,23 @@
     </div>
     <h2>Категории</h2>
     <ul class="sidebar__list">
-        <li class="active">
-            <button>
-                <i> иконка дома</i>
-                Дом
-            </button>
-        </li>
-        <li>
-            <button>
-                <i> иконка семьи</i>
-                Семья
-            </button>
-        </li>
-        <li>
-            <button>
-                <i> иконка роботы</i>
-                Работа
-            </button>
-        </li>
-        <li>
-            <button>
-                <i> иконка спорта</i>
-                Спорт
-            </button>
-        </li>
-        <li>
+        @foreach($categories as $category)
+            <li>
+                <button>
+                    <i> иконка дома</i>
+                    {{$category -> name}}
+                </button>
+{{--                @if($category->children->count() > 0)--}}
+{{--                    @include('categories.child', ['children' => $category->children])--}}
+{{--                @endif--}}
+            </li>
+        @endforeach
+        <li class="list__new-category">
             <button type="button">
-                <i>иконка добавить задачу</i>
-                Добавить задачу
+                <i class="icon-square-plus">иконка добавить задачу</i>
+                Добавить
             </button>
         </li>
-        <a class="logout" href="/signin"><i class="icon-logout">иконка выхода</i> Выйти</a>
     </ul>
+    <a class="logout" href="/signin"><i class="icon-logout">иконка выхода</i> Выйти</a>
 </div>
