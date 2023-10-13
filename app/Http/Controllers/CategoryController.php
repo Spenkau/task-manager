@@ -21,8 +21,8 @@ class CategoryController extends Controller
     {
         $categories = $this->categoryService->allOrParent('children');
 
-        dump($categories);
-//        return view('main', compact('categories'));
+//        dump($categories);
+        return view('main', compact('categories'));
     }
 
     public function store(StoreRequest $request)
