@@ -42,3 +42,7 @@ Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function (
     Route::post('/login', 'AuthController@postSignin');
 });
 /**************************** END ADMIN *************************/
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
