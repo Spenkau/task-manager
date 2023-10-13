@@ -8,7 +8,7 @@
                         {{ $child->name }}
                     </button>
                     @if($child->children->count() > 0)
-                        @include('categories.child', ['children' => $child->children])
+                        @include('UIcomponents.categoryChild', ['children' => $child->children])
                     @endif
                 </li>
             @endforeach
