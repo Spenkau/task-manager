@@ -9,7 +9,11 @@ class TaskRepository implements TaskRepositoryInterface
 {
     public function allOrParent(string $relation)
     {
-        return Task::with($relation)->whereNull('parent_id')->get()->toArray();
+        $allTasks = Task::all();
+
+//        return Task::with($relation)->whereNull('parent_id')->get()->toArray();
+        return Task::whereParentId(null)->with('children')->get()->toArray();
+
     }
 
     public function store(mixed $data)

@@ -21,6 +21,8 @@ class CategoryController extends Controller
     {
         $categories = $this->categoryService->allOrParent('children');
 
+        dump($categories);
+
         return view('main', compact('categories'));
     }
 

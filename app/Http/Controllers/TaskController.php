@@ -22,7 +22,8 @@ class TaskController extends Controller
     {
         $tasks = $this->taskService->allOrParent('children');
 
-        return view('tasks', compact('tasks'));
+        dump($tasks);
+//        return view('tasks', compact('tasks'));
     }
 
     public function show(Task $task)
