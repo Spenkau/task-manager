@@ -8,12 +8,12 @@
         @foreach($categories as $category)
             <li>
                 <button>
-                    <i> иконка дома</i>
-{{--                    {{$category -> name}}--}}
+                    <i class="icon-category"> иконка дома</i>
+                    {{ $category['name'] }}
                 </button>
-{{--                @if($category->children->count() > 0)--}}
-{{--                    @include('UIcomponents.child', ['children' => $category->children])--}}
-{{--                @endif--}}
+                @if(count($category['children']) > 0)
+                    @include('UIcomponents.categoryChild', ['children' => $category['children']])
+                @endif
             </li>
         @endforeach
         <li class="list__new-category">

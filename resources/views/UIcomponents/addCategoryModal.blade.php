@@ -1,6 +1,8 @@
 <div class="modal-category__overlay modal-category_disabled" > оверлэй</div>
 <div class="modal-category_container modal-category_disabled">
-    <form class="decor" action={{ route('categories.store') }}>
+    <form class="decor" method="POST" action={{ route('categories.store') }}>
+        @csrf
+        @method('POST')
         <div class="form-left-decoration"></div>
         <div class="form-right-decoration"></div>
         <div class="circle"></div>

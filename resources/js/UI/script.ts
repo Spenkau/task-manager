@@ -4,7 +4,7 @@ const loader:HTMLDivElement = document.querySelector('.spinner-wrapper');
 document.addEventListener('DOMContentLoaded',()=>{
     setTimeout(() => {
         loader.classList.remove('spinner-active')
-    }, 2000);
+    }, 1700);
 
 })
 
