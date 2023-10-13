@@ -1,6 +1,3 @@
-@php
-    $isAuth = true;
-@endphp
 <header>
     <div class="header">
         <div class="header__buttons">
