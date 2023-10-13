@@ -17,16 +17,12 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function show()
-
-    {   //
-        $categories = Category::with('children')->where('category_id', null)->get();
-
+    public function index()
     {
-        $categories = Category::all();
+        $categories = $this->categoryService->allOrParent('children');
 
-
-        return view('main', compact('categories'));
+        dump($categories);
+//        return view('main', compact('categories'));
     }
 
     public function store(StoreRequest $request)

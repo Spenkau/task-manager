@@ -25,4 +25,11 @@ class UpdateRequest extends FormRequest
             'name' => 'required|max:81',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'name' => trim($this->name),
+        ]);
+    }
 }
