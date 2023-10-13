@@ -33,4 +33,12 @@ class StoreRequest extends FormRequest
             'finished_at' => 'date_format:Y-m-d',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'title' => trim($this->title),
+            'content' => trim($this->content),
+        ]);
+    }
 }

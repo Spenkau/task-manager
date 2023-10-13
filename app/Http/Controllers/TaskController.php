@@ -20,21 +20,25 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = $this->taskService->all();
+        $tasks = $this->taskService->allOrParent('children');
 
         return view('tasks', compact('tasks'));
     }
 
     public function show(Task $task)
     {
-        dump($task);
+        $this->taskService->show($task->id);
+
+        return 'данные об одном посте';
     }
 
-    public function store(StoreRequest $request, Task $task)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
 
         $this->taskService->store($data);
+
+        return 'таска создана!';
     }
 
     public function update(UpdateRequest $request, Task $task)

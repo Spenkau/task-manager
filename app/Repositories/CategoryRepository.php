@@ -4,20 +4,31 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use App\Models\Task;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
-class CategoryRepository
+class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function all()
+    public function allOrParent(string $relation) // with children
     {
-        return Category::all();
+        return Category::with($relation)->whereNull('parent_id')->get()->toArray();
     }
 
-    public function store($data)
+    public function store(mixed $data)
     {
-        return Category::create($data);
+        Category::firstOrCreate(['name' => $data->name], $data);
     }
-//    public function update($taskId, $data)
-//    {
-//        $task = Task::find
-//    }
+
+    public function update(int $categoryId, $data)
+    {
+        $category = Category::find($categoryId);
+
+        $category->update($data);
+    }
+
+    public function delete(int $categoryId)
+    {
+        $category = Category::find($categoryId);
+
+        $category->delete($categoryId);
+    }
 }
