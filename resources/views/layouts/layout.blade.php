@@ -11,10 +11,12 @@
     @vite('resources/css/style.scss')
 </head>
 <body>
-@component('components.Header') @endcomponent
+<x-header :isAuth="true"></x-header>
+{{--@component('components.Header') @endcomponent--}}
 <section class="main">
     @yield('main')
+    @include('UIcomponents.loader')
 </section>
-@vite('resources/js/main.ts')
+@vite('resources/js/UI/script.ts')
 </body>
 </html>

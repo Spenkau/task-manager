@@ -1,6 +1,7 @@
 @import "../general";
 
-.modal-category {
+
+.modal-category__overlay {
     display: block;
     position: fixed;
     background-color: rgb(40, 40, 70, .2);
@@ -9,14 +10,20 @@
     width: 100%;
     height: 100%;
     z-index: 6;
+    font-size: 0;
+}
+
+
+.modal-category_container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
 
     form {
         min-width: 500px;
         background-color: $white;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
         border-radius: 15px;
     }
 }
@@ -109,11 +116,13 @@
         border-bottom: 4px solid #175d5a;
         color: white;
         font-size: 14px;
-        &:hover{
+
+        &:hover {
             border-bottom: none;
             border-top: 4px solid #175d5a;
         }
-        &:active{
+
+        &:active {
             border-bottom: none;
             border-top: none;
             border-right: 4px solid #175d5a;
