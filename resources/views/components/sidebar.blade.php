@@ -9,10 +9,10 @@
             <li>
                 <button>
                     <i> иконка дома</i>
-                    {{$category -> name}}
+{{--                    {{$category -> name}}--}}
                 </button>
 {{--                @if($category->children->count() > 0)--}}
-{{--                    @include('categories.child', ['children' => $category->children])--}}
+{{--                    @include('UIcomponents.child', ['children' => $category->children])--}}
 {{--                @endif--}}
             </li>
         @endforeach

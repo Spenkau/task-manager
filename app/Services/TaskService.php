@@ -23,7 +23,7 @@ class TaskService
 
     public function show(int $taskId)
     {
-        $this->taskRepo->show($taskId);
+        return $this->taskRepo->show($taskId);
     }
 
     public function tasksBySlug(Request $request)
