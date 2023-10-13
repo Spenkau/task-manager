@@ -1,14 +1,14 @@
-<ul>
+<ul class="category-child-list">
     @foreach($children as $child)
         <ul>
             @foreach($children as $child)
                 <li>
                     <button>
-                        <i>иконка дома</i>
-                        {{ $child->name }}
+                        <i class="icon-category">иконка дома</i>
+                        {{ $child['name'] }}
                     </button>
-                    @if($child->children->count() > 0)
-                        @include('UIcomponents.categoryChild', ['children' => $child->children])
+                    @if(count($child['children']) > 0)
+                        @include('UIcomponents.categoryChild', ['children' => $child['children']])
                     @endif
                 </li>
             @endforeach
