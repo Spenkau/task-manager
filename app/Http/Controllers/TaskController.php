@@ -23,14 +23,14 @@ class TaskController extends Controller
         $tasks = $this->taskService->allOrParent('children');
 
         dump($tasks);
-//        return view('tasks', compact('tasks'));
+        return view('tasks', compact('tasks'));
     }
 
     public function show(Task $task)
     {
-        $this->taskService->show($task->id);
-
-        return 'данные об одном посте';
+        $task = $this->taskService->show($task->id);
+        dump($task);
+        return view('task', compact('task'));
     }
 
     public function store(StoreRequest $request)
