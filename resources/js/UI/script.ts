@@ -1,13 +1,12 @@
-const loader:HTMLDivElement = document.querySelector('.spinner-wrapper');
+const loader: HTMLDivElement = document.querySelector('.spinner-wrapper');
 
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         loader.classList.remove('spinner-active')
     }, 1700);
 
 })
-
 
 
 const isAuth = Boolean((document.getElementById('isAuth') as HTMLInputElement).value);
@@ -18,9 +17,13 @@ if (isAuth) {
     const buttonOpenModal: HTMLButtonElement = document.querySelector('.container-button');
     const sidebar: HTMLDivElement = document.querySelector('.sidebar');
     const buttonNewCategory: HTMLButtonElement = document.querySelector('.list__new-category > button');
-    const newCategoryModal: HTMLDivElement = document.querySelector('.modal-category__overlay');
+    const newCategoryModal = document.getElementById('overlay-category');
+    const newTaskModal = document.getElementById('overlay-task')
     const newCategoryContainer: HTMLDivElement = document.querySelector('.modal-category_container')
-    const formNewCategory = document.querySelector('.decor') as HTMLFormElement;
+    const newTaskContainer: HTMLDivElement = document.querySelector('.modal-task_container')
+    const formNewCategory = document.getElementById('category') as HTMLFormElement;
+    const formNewTask = document.getElementById('task') as HTMLFormElement;
+    const buttonNewTask = document.querySelector('.button__create-task');
 
     //modal + overlay
     buttonOpenModal.addEventListener('click', () => {
@@ -62,14 +65,28 @@ if (isAuth) {
     })
 
     newCategoryModal.addEventListener('click', () => {
-        newCategoryModal.classList.replace('modal-category_active','modal-category_disabled');
-        newCategoryContainer.classList.replace('modal-category_active','modal-category_disabled');
+        newCategoryModal.classList.replace('modal-category_active', 'modal-category_disabled');
+        newCategoryContainer.classList.replace('modal-category_active', 'modal-category_disabled');
     })
 
     formNewCategory.addEventListener('submit', () => {
-        console.log(123)
         newCategoryModal.classList.replace('modal-category_active', 'modal-category_disabled');
         newCategoryContainer.classList.replace('modal-category_active', 'modal-category_disabled');
+    })
+
+    buttonNewTask.addEventListener('click', () => {
+        newTaskModal.classList.replace('modal-category_disabled', 'modal-category_active');
+        newTaskContainer.classList.replace('modal-category_disabled', 'modal-category_active');
+    })
+
+    newTaskModal.addEventListener('click', () => {
+        newTaskModal.classList.replace('modal-category_active', 'modal-category_disabled');
+        newTaskContainer.classList.replace('modal-category_active', 'modal-category_disabled');
+    })
+
+    formNewTask.addEventListener('submit', () => {
+        newTaskModal.classList.replace('modal-category_active', 'modal-category_disabled');
+        newTaskContainer.classList.replace('modal-category_active', 'modal-category_disabled');
     })
 
 }

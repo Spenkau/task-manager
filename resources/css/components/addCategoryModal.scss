@@ -13,6 +13,32 @@
     font-size: 0;
 }
 
+.modal-task_container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
+    form{
+        min-width: 600px;
+        background-color: $white;
+    }
+    .form-right-decoration{
+        top:380px;
+    }
+
+    .form-left-decoration{
+        bottom:0;
+        top:60px;
+    }
+
+    .circle{
+        bottom: 0;
+        top: 80px;
+    }
+}
+
+
 
 .modal-category_container {
     position: absolute;
@@ -133,6 +159,9 @@
 
 
 .form-inner textarea {
+    &::placeholder{
+        padding-top: 10px;
+    }
     resize: none;
 }
 
@@ -143,6 +172,22 @@
     color: #707981;
     margin-bottom: 20px;
 }
+
+.radio-group{
+    display: flex;
+    width: 90%;
+    label{
+       white-space: nowrap;
+    }
+    margin-bottom: 15px;
+}
+
+.category-group{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 
 .modal-category_disabled {
     display: none;

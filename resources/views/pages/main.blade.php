@@ -3,4 +3,5 @@
     <x-sidebar :categories="$categories"></x-sidebar>
     @include('UIcomponents.timeDatePanel')
     @include('UIcomponents.addCategoryModal')
+    @include('UIcomponents.addTaskModal')
 @endsection
