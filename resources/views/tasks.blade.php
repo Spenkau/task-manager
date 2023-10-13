@@ -12,16 +12,18 @@
     @foreach($tasks as $task)
         <li>
             <p>
-                {{ $task->title }}
-                @if(isset($task->parentId))
-                    --- PARENT: {{ $task->parentId }}
+                <a href="{{ route('tasks.show', $task['id'])}}">
+                    {{ $task['title'] }}
+                </a>
+                @if(isset($task['parentId']))
+                    --- PARENT: {{ $task['parentId'] }}
                 @endif
             </p>
-            <p>CONTENT: {{ $task->content }}</p>
-            <p>USER: {{ $task->user->name }}</p>
-            <p>CATEGORY: {{ $task->category->name }}</p>
-            <p>STATUS: {{ \App\Enums\StatusEnum::from($task->status_id)->name }}</p>
-            <p>PRIORITY: {{ \App\Enums\PriorityEnum::from($task->priority_id)->name }}</p>
+            <p>CONTENT: {{ $task['content'] }}</p>
+            <p>USER: {{ $task['user_id'] }}</p>
+            <p>CATEGORY: {{ $task['category_id'] }}</p>
+            <p>STATUS: {{ \App\Enums\StatusEnum::from($task['status_id'])->name }}</p>
+            <p>PRIORITY: {{ \App\Enums\PriorityEnum::from($task['priority_id'])->name }}</p>
 
             <button>Начать</button>
             <button>Закончить</button>
