@@ -1,11 +1,19 @@
+@import "reset.css";
 @import "general";
 @import "components/header";
 @import "components/sidebar";
 @import "components/datePanel";
 @import "components/addCategoryModal";
 @import "components/loader.css";
+@import "components/personalArea";
+@import "components/accountSuccess";
+@import "components/task";
 
-
+.body-main{
+    display: flex;
+    justify-content: space-around;
+    padding: 40px;
+}
 
 
 

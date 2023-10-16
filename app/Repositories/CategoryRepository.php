@@ -15,7 +15,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function store(mixed $data)
     {
-        Category::firstOrCreate(['name' => $data->name], $data);
+        Category::firstOrCreate(['name' => $data['name']], $data);
     }
 
     public function update(int $categoryId, $data)

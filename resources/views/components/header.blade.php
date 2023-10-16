@@ -23,7 +23,7 @@
                     <div class="overlay__modal">
                         <ul class="modal__list">
                             <li>
-                                <a href="">
+                                <a href="/personal-area">
                                     <i class="icon-user"> иконка личного кабинета </i>
                                     Личный кабинет
                                 </a>
