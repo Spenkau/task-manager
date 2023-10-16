@@ -28,7 +28,6 @@ class Category extends Model
 
     public function tasks()
     {
-//        Category::query()->where(...)?->categories;
         return $this->hasMany(Task::class);
     }
 

@@ -2,17 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Task;
-use Database\Factories\TaskFactory;
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Seeder;
 
-class TaskSeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        TaskFactory::new()->count(20)->create();
+        CategoryFactory::new()->count(25)->create();
     }
 }
