@@ -18,19 +18,25 @@ class TaskController extends Controller
         $this->taskService = $taskService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $tasks = $this->taskService->allOrParent('children');
 
         dump($tasks);
+        dump(Task::class);
+//        dump($request->session()->_previous());
         return view('tasks', compact('tasks'));
     }
 
     public function show(Task $task)
     {
         $task = $this->taskService->show($task->id);
-        dump($task);
-        return view('task', compact('task'));
+
+        if (!$task) {
+            return response()->view('errors.404', [], 404);
+        }
+
+        return response()->view('task', ['task' => $task]);
     }
 
     public function store(StoreRequest $request)
