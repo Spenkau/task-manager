@@ -22,6 +22,11 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::find($taskId)->toArray();
     }
 
+    public function showByCategory($categoryId)
+    {
+        return Task::where('category_id', $categoryId)->get()->toArray();
+    }
+
     public function softDelete(Task $task)
     {
         $task->delete();
