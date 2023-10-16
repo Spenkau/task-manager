@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Task;
+use Database\Factories\TaskFactory;
 use Illuminate\Database\Seeder;
 
 class TaskSeeder extends Seeder
@@ -12,16 +13,6 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i < 10; $i++) {
-            Task::create([
-                'title' => 'title' . $i,
-                'content' => 'content' . $i,
-                'priority_id' => 1,
-                'status_id' => 2,
-                'category_id' => 3,
-                'user_id' => $i,
-                'parent_id' => random_int(1, 20) > 10 ? null : random_int(1, 10),
-            ]);
-        }
+        TaskFactory::new()->count(20)->create();
     }
 }
