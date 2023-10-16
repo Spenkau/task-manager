@@ -33,11 +33,16 @@ class TaskController extends Controller
     {
         $task = $this->taskService->show($task->id);
 
-        if (!$task) {
-            return response()->view('errors.404', [], 404);
-        }
-
         return response()->view('task', ['task' => $task]);
+    }
+
+    public function showByCategory(string $slug)
+    {
+        $tasks = $this->taskService->showByCategory($slug);
+
+        dump($slug);
+
+        return view('tasks_by_category', compact('tasks', 'slug'));
     }
 
     public function store(StoreRequest $request)
@@ -70,8 +75,8 @@ class TaskController extends Controller
         return back();
     }
 
-    public function showByCategory(\http\Env\Request $request)
-    {
-        $tasks = $this->taskService->tasksBySlug($request);
-    }
+//    public function showByCategory(\http\Env\Request $request)
+//    {
+//        $tasks = $this->taskService->tasksBySlug($request);
+//    }
 }
