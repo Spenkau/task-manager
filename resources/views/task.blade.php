@@ -15,7 +15,7 @@
             method="POST"
         >
             @csrf
-            @method('delete')
+            @method('DELETE')
             <input type="submit" value="Delete" class="btn btn-blue cursor-pointer">
         </form>
     </li>

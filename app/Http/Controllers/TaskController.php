@@ -8,6 +8,8 @@ use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaskController extends Controller
 {
@@ -18,13 +20,12 @@ class TaskController extends Controller
         $this->taskService = $taskService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $tasks = $this->taskService->allOrParent('children');
 
         dump($tasks);
-        dump(Task::class);
-//        dump($request->session()->_previous());
+
         return view('tasks', compact('tasks'));
     }
 
@@ -55,6 +56,18 @@ class TaskController extends Controller
         $this->taskService->update($task, $data);
 
         return redirect()->route('post.show', $task->id);
+    }
+
+    public function softDelete(Task $task)
+    {
+        try {
+            $this->taskService->softDelete($task);
+            Session::flash('message', 'Task deleted successfully');
+        } catch (NotFoundHttpException $e) {
+            Session::flash('message', $e->getMessage());
+        }
+
+        return back();
     }
 
     public function showByCategory(\http\Env\Request $request)

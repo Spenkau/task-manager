@@ -8,6 +8,11 @@
     <title>Document</title>
 </head>
 <body>
+@if(\Illuminate\Support\Facades\Session::has('message'))
+    <div class="absolute left-[200px] top-[50px]">
+        {{ \Illuminate\Support\Facades\Session::get('message') }}
+    </div>
+@endif
 <ul>
     @foreach($tasks as $task)
         <li>

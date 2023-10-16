@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
 use http\Env\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaskService
 {
@@ -38,5 +39,14 @@ class TaskService
     public function store(mixed $data)
     {
         $this->taskRepo->store($data);
+    }
+
+    public function softDelete(Task $task)
+    {
+        if (!$task) {
+            throw new NotFoundHttpException('Задача не найдена');
+        }
+
+        $this->taskRepo->softDelete($task);
     }
 }
