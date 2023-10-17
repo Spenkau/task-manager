@@ -54,9 +54,15 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+Route::get('/personal-area', function () {
+    return view('pages.personalArea');
+});
+
 /**************************** ADMIN *************************/
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 });
 
 /**************************** END ADMIN *************************/
+

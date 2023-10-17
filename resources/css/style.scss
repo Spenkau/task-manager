@@ -1,10 +1,41 @@
+@import "reset.css";
 @import "general";
 @import "components/header";
 @import "components/sidebar";
 @import "components/datePanel";
 @import "components/addCategoryModal";
 @import "components/loader.css";
+@import "components/personalArea";
+@import "components/accountSuccess";
+@import "components/task";
 
+body {
+
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: $white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $green;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1d726e;
+}
+
+
+.body-main {
+    display: flex;
+    justify-content: space-around;
+    padding: 60px;
+}
 
 
 

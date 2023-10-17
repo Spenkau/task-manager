@@ -13,9 +13,36 @@
     font-size: 0;
 }
 
+.modal-task_container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
+
+    form {
+        min-width: 600px;
+        background-color: $white;
+    }
+
+    .form-right-decoration {
+        top: 380px;
+    }
+
+    .form-left-decoration {
+        bottom: 0;
+        top: 60px;
+    }
+
+    .circle {
+        bottom: 0;
+        top: 80px;
+    }
+}
+
 
 .modal-category_container {
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -133,6 +160,10 @@
 
 
 .form-inner textarea {
+    &::placeholder {
+        padding-top: 10px;
+    }
+
     resize: none;
 }
 
@@ -144,6 +175,24 @@
     margin-bottom: 20px;
 }
 
+.radio-group {
+    display: flex;
+    width: 90%;
+
+    label {
+        white-space: nowrap;
+    }
+
+    margin-bottom: 15px;
+}
+
+.category-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+
 .modal-category_disabled {
     display: none;
 }
@@ -153,3 +202,61 @@
 }
 
 
+.icon-priority_high {
+    @include icon(20px, 29px, 'priority_high')
+}
+
+.icon-priority_medium {
+    @include icon(20px, 29px, 'priority_medium')
+}
+
+.icon-priority_low {
+    @include icon(20px, 29px, 'priority_low')
+}
+
+.custom-select {
+    position: relative;
+    width: 200px;
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    background-color: #E9EFF6;
+}
+
+.selected-option {
+    padding: 10px;
+    display: block;
+}
+
+.options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    display: none;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #E9EFF6;
+    width: 100%;
+}
+
+.options li {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+}
+
+.options li:hover {
+    background-color: #f0f0f0;
+}
+
+.name-status-group {
+    display: flex;
+    gap: 20px;
+}
+
+.task-date {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 20px;
+}
