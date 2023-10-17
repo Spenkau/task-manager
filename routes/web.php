@@ -9,17 +9,21 @@ Route::get('/', function () {
     return view('main');
 });
 /**************************** TASKS *************************/
-Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
-Route::get('/tasks/{slug}', [TaskController::class, 'showByCategory'])->name('tasks.showByCategory');
-Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-Route::post('/tasks/{task}', [TaskController::class, 'store'])->name('tasks.store');
-Route::delete('/tasks/{task}', [TaskController::class, 'softDelete'])->name('tasks.delete');
+Route::prefix('tasks')->group(function () {
+    Route::get('', [TaskController::class, 'index'])->name('tasks.index');
+    // TODO сделать на одинаковые пути разные контроллеры
+    Route::get('{slug}', [TaskController::class, 'showByCategory'])->where('slug', '[a-z]+')->name('tasks.showByCategory');
+    Route::get('{task}', [TaskController::class, 'show'])->where('task', '[0-9]+')->name('tasks.show');
+    Route::patch('{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::post('{task}', [TaskController::class, 'store'])->name('tasks.store');
+    Route::delete('{task}', [TaskController::class, 'softDelete'])->name('tasks.delete');
+
+});
 /**************************** END TASKS *************************/
 
 /**************************** CATEGORIES *************************/
 
-Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/', [CategoryController::class, 'index', TaskController::class, 'index'])->name('categories.index');
 Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
 Route::patch('/categories/update', [CategoryController::class, 'update'])->name('categories.update');
 

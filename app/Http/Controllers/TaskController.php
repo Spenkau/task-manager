@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\TaskDTO;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Session;
@@ -24,43 +27,61 @@ class TaskController extends Controller
     {
         $tasks = $this->taskService->allOrParent('children');
 
-        dump($tasks);
+//        $data = TaskResource::collection($tasks);
 
-        return view('tasks', compact('tasks'));
+        try {
+            return response()->view('tasks', ['tasks' => $tasks]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your tasks: ' . $e]);
+        }
     }
 
     public function show(Task $task)
     {
         $task = $this->taskService->show($task->id);
 
-        return response()->view('task', ['task' => $task]);
+        try {
+            return response()->view('task', ['task' => $task]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your tasks: ' . $e]);
+        }
     }
 
-    public function showByCategory(string $slug)
+    public function showByCategory(Request $request)
     {
-        $tasks = $this->taskService->showByCategory($slug);
+        $tasks = $this->taskService->showByCategory('red');
 
-        dump($slug);
+        dump($tasks);
 
-        return view('tasks_by_category', compact('tasks', 'slug'));
+        try {
+            return response()->view('tasks', ['tasks' => $tasks]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your tasks: ' . $e]);
+        }
     }
 
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
+        $data = TaskDTO::formRequest($request);
 
-        $this->taskService->store($data);
-
-        return 'таска создана!';
+        try {
+            $this->taskService->store($data);
+            return redirect()->route('tasks');
+        } catch (Exception $e) {
+            return redirect()->route('tasks')->with(['error' => 'Failed to store task:' . $e]);
+        }
     }
 
     public function update(UpdateRequest $request, Task $task)
     {
         $data = $request->validated();
 
-        $this->taskService->update($task, $data);
-
-        return redirect()->route('post.show', $task->id);
+        try {
+            $this->taskService->update($task, $data);
+            return redirect()->route('tasks');
+        } catch (Exception $e) {
+            return redirect()->route('tasks')->with(['error' => 'Failed to update task: ' . $e]);
+        }
     }
 
     public function softDelete(Task $task)
@@ -74,9 +95,4 @@ class TaskController extends Controller
 
         return back();
     }
-
-//    public function showByCategory(\http\Env\Request $request)
-//    {
-//        $tasks = $this->taskService->tasksBySlug($request);
-//    }
 }

@@ -19,9 +19,9 @@ class CategoryService
         return $this->categoryRepo->allOrParent($relation);
     }
 
-    public function update(int $categoryId, $data)
+    public function update(Category $category, $data)
     {
-        $this->categoryRepo->update($categoryId, $data);
+        $this->categoryRepo->update($category, $data);
     }
 
     public function store(mixed $data)
@@ -29,8 +29,8 @@ class CategoryService
         $this->categoryRepo->store($data);
     }
 
-    public function delete(int $categoryId)
+    public function softDelete(Category $category)
     {
-        $this->categoryRepo->delete($categoryId);
+        $this->categoryRepo->softDelete($category);
     }
 }
