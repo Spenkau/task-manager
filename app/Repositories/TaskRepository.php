@@ -9,11 +9,7 @@ class TaskRepository implements TaskRepositoryInterface
 {
     public function allOrParent(string $relation)
     {
-        $allTasks = Task::all();
-
-//        return Task::with($relation)->whereNull('parent_id')->get()->toArray();
         return Task::whereParentId(null)->with('children')->get()->toArray();
-
     }
 
     public function store(mixed $data)
@@ -24,6 +20,16 @@ class TaskRepository implements TaskRepositoryInterface
     public function show(int $taskId)
     {
         return Task::find($taskId)->toArray();
+    }
+
+    public function showByCategory($categoryId)
+    {
+        return Task::where('category_id', $categoryId)->get()->toArray();
+    }
+
+    public function softDelete(Task $task)
+    {
+        $task->delete();
     }
 
     public function getByUser(Task $task)

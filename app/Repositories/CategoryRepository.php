@@ -8,7 +8,7 @@ use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function allOrParent(string $relation) // with children
+    public function allOrParent(string $relation)
     {
         return Category::whereParentId(null)->with($relation)->get()->toArray();
     }

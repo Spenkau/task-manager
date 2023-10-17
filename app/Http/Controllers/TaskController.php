@@ -8,6 +8,8 @@ use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaskController extends Controller
 {
@@ -23,14 +25,24 @@ class TaskController extends Controller
         $tasks = $this->taskService->allOrParent('children');
 
         dump($tasks);
+
         return view('tasks', compact('tasks'));
     }
 
     public function show(Task $task)
     {
         $task = $this->taskService->show($task->id);
-        dump($task);
-        return view('task', compact('task'));
+
+        return response()->view('task', ['task' => $task]);
+    }
+
+    public function showByCategory(string $slug)
+    {
+        $tasks = $this->taskService->showByCategory($slug);
+
+        dump($slug);
+
+        return view('tasks_by_category', compact('tasks', 'slug'));
     }
 
     public function store(StoreRequest $request)
@@ -51,8 +63,20 @@ class TaskController extends Controller
         return redirect()->route('post.show', $task->id);
     }
 
-    public function showByCategory(\http\Env\Request $request)
+    public function softDelete(Task $task)
     {
-        $tasks = $this->taskService->tasksBySlug($request);
+        try {
+            $this->taskService->softDelete($task);
+            Session::flash('message', 'Task deleted successfully');
+        } catch (NotFoundHttpException $e) {
+            Session::flash('message', $e->getMessage());
+        }
+
+        return back();
     }
+
+//    public function showByCategory(\http\Env\Request $request)
+//    {
+//        $tasks = $this->taskService->tasksBySlug($request);
+//    }
 }
