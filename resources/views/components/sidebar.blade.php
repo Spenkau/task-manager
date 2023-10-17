@@ -1,7 +1,6 @@
 <div class="sidebar sidebar_hide">
     <div class="sidebar__logo">
-        <img src="images/icons/logo.svg" width="64" height="64" alt="logo">
-        <h1><span>T</span>ask <span>E</span>vent <span>M</span>anager</h1>
+        <img src="images/icons/logo.svg" alt="logo">
     </div>
     <h2>Категории</h2>
     <ul class="sidebar__list">
