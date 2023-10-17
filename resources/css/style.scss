@@ -9,11 +9,34 @@
 @import "components/accountSuccess";
 @import "components/task";
 
-.body-main{
+body {
+
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: $white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $green;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1d726e;
+}
+
+
+.body-main {
     display: flex;
     justify-content: space-around;
-    padding: 40px;
+    padding: 60px;
 }
+
 
 
 

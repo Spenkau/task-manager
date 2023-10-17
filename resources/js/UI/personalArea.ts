@@ -33,7 +33,7 @@ inputUsername.addEventListener('change', (e) => {
 
 
 btnEditAbout.addEventListener('click', () => {
-    if(stateBtnEditAbout){
+    if (stateBtnEditAbout) {
         aboutInput.removeAttribute('disabled')
         aboutLengthDiv.classList.remove('len-hidden')
         btnEditAboutIcon.classList.replace('icon-edit', 'icon-apply')

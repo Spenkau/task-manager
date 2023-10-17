@@ -12,129 +12,185 @@
 
 .item-task {
     display: flex;
+    position: relative;
+    margin-bottom: 30px;
 }
 
 .task-card {
     padding: 20px;
-    background-color: $abs-white;
+    background-color: $bg-white;
     border-radius: 10px;
-    box-shadow: 0 0 73px -27px rgb(33, 32, 33);
+    border: 1px solid rgba(41, 161, 156, 0.3);
 }
 
 
 .task-complete, .task-delete {
+    position: absolute;
     width: 100px;
+    height: 100%;
     justify-content: center;
     align-items: center;
-    box-shadow:inset 0 0 73px -27px rgb(33, 32, 33);
-    position: relative;
-    button{
+    box-shadow: 0 0 73px -27px rgb(33, 32, 33);
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 0;
         color: $white;
         background-color: transparent;
-        border:none;
+        border: none;
         cursor: pointer;
+        box-shadow: inset 0 0 73px -27px rgb(33, 32, 33);
     }
 }
 
 .task-delete {
-    display: flex;
+    display: none;
     background-color: $red;
     border-radius: 10px 0 0 10px;
-    animation: delete 200ms ease;
+    transition: left 200ms ease;
+
+    button {
+        border-radius: 10px 0 0 10px;
+    }
 
 }
 
-.activate{
-    display: flex;
-}
 
 .task-complete {
-    display: flex;
+    right: 0;
+    display: none;
     background-color: $green;
     border-radius: 0 10px 10px 0;
-    animation: complete 200ms ease;
+    transition: right 200ms ease;
+
+    button {
+        border-radius: 0 10px 10px 0;
+    }
 }
 
-.task-header{
-    color: rgba(40,40,70,0.3);
+
+.activate {
+    display: flex;
+}
+
+.task-header {
+    color: rgba(40, 40, 70, 0.3);
     display: flex;
     align-items: center;
-    gap:40px;
+    gap: 40px;
 }
 
-.task-card-category{
+.task-card-category {
     display: flex;
     align-items: center;
     gap: 7px;
-    i{
+
+    i {
         width: 13px;
         height: 13px;
     }
 }
 
-.task-body{
+.task-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    gap: 80px;
-    h3{
-        a{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    gap: 120px;
+
+    h3 {
+        a {
             color: $black;
             font-size: 20px;
-            &:hover{
-                color: rgba(40,40,70,0.7);
+
+            &:hover {
+                color: rgba(40, 40, 70, 0.7);
             }
         }
     }
-    i{
+
+    i {
         width: 13px;
         height: 18px;
     }
 }
 
-.task-footer{
+.task-footer {
     display: flex;
     justify-content: space-around;
-    button{
+
+    button {
         display: flex;
         align-items: center;
         gap: 10px;
         font-size: 10px;
-        color: rgba(40,40,70,0.7);
+        color: rgba(40, 40, 70, 0.7);
         background-color: transparent;
         border: none;
     }
 }
 
 
-.icon-rewrite{
+.icon-rewrite {
     @include icon(20px, 20px, 'rewrite');
 }
 
-.icon-postpone{
+.icon-postpone {
     @include icon(20px, 20px, 'postpone');
 }
 
-.icon-share{
+.icon-share {
     @include icon(20px, 20px, 'share');
 }
 
-@keyframes delete {
-    0%{
-        left: 0;
+
+.task-list {
+    background-color: $white;
+    padding: 50px;
+    box-shadow: 0 0 73px -27px rgb(33, 32, 33);
+    border-radius: 8px;
+
+    .list-header {
+        color: $green;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
     }
-    100%{
-        left: 100px;
-    }
+
 }
 
-@keyframes complete {
-    0%{
-        right: 0;
+.pagination-tasks{
+    display: flex;
+    justify-content: center;
+    ul{
+        display: flex;
+        box-shadow: 0 0 17px -12px rgb(33, 32, 33);
+        background-color: $bg-white;
+        padding: 10px 15px;
+        gap: 20px;
+        border-radius: 10px;
     }
-    100%{
-        right: 100px;
+    li{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 13px;
+        width: 25px;
+        height: 25px;
+        border-radius: 3px;
+    }
+
+    li:not(.active-page,.ellipses):hover{
+        background-color: #EAEBEB;
+    }
+
+    .active-page{
+        background-color: $green;
+        color: $white;
     }
 }

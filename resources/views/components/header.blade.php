@@ -35,10 +35,10 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="">
+                                <button href="">
                                     <i class="icon-settings"> иконка настроек </i>
                                     Настройки
-                                </a>
+                                </button>
                             </li>
                             <li>
                                 <a href="">
@@ -50,12 +50,49 @@
                     </div>
                 </div>
             </div>
+            <div class="user-settings-modal">
+                <div class="container">
+                    <div class="settings-buttons">
+                        <button class="button-settings-1 active-settings-button">Настройки внешнего вида</button>
+                        <button class="button-settings-2 disabled-settings-button">Настройки аккаунта</button>
+                    </div>
+                    <div class="settings-body">
+                        <ul class="settings-ui">
+                            <li>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                Скрыть/Показывать часы
+                            </li>
+                            <li>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                Скрыть/Показывать наблюдение
+                            </li>
+                            <li>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                Скрыть/Показывать график успеваимости
+                            </li>
+                        </ul>
+                        <ul class="settings-profile disabled-settings">
+                            <li><a href="#">Изменить пароль</a></li>
+                            <li><a href="#">Изменить почту</a></li>
+                            <li><a href="#">Удалить аккаунт</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         @else
             <div class="header__auth-buttons">
                 <a href="/auth"><i class="icon-auth"> иконка авторизации </i> Войти </a>
                 <a href="/register"><i class="icon-reg"> иконка регистрации </i> Создать аккаунт </a>
             </div>
         @endif
-        <input type="hidden" id="isAuth" name="isAuth" value="{{$isAuth}}">
     </div>
 </header>
