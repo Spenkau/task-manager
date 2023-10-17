@@ -3,8 +3,7 @@
 
 .category-child-list{
     ul{
-        padding-left: 20px;
-        margin-bottom: 15px;
+        padding-left: 10px;
     }
     li{
         margin-bottom: 5px;
@@ -67,9 +66,8 @@
 }
 
 .sidebar__list {
+    padding-right: 20px;
     li {
-        margin-bottom: 20px;
-        padding-right: 20px;
 
         button {
             display: flex;

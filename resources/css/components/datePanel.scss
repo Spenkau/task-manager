@@ -2,11 +2,11 @@
 
 .time-date-section {
     width: 500px;
-    padding: 20px;
-    background-color: $abs-white;
+    padding: 30px;
+    background-color: $bg-white;
     border-radius: 10px;
     box-shadow: 0 0 73px -27px rgba(33, 32, 33, 1);
-
+    margin-bottom: 80px;
 }
 
 .icon-time {
@@ -45,5 +45,35 @@
 
 .time, .date {
     font-size: 26px;
+
+}
+
+.observation{
+    background-color: $bg-white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 73px -27px rgb(33, 32, 33);
+    margin-bottom: 80px;
+    h3{
+        color: $green;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+    p{
+        font-size: 18px;
+        span{
+            color: $green;
+        }
+    }
+
+    p:not(p:last-child){
+        margin-bottom: 15px;
+    }
+
+    button{
+        color: $green;
+        border-bottom: 1px solid $green;
+    }
 
 }

@@ -8,9 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 })
 
-
-//const isAuth = Boolean((document.getElementById('isAuth') as HTMLInputElement).value);
-
 const overlay: HTMLDivElement = document.querySelector('.header__overlay');
 const modal: HTMLDivElement = document.querySelector('.overlay__modal');
 const buttonOpenModal: HTMLButtonElement = document.querySelector('.container-button');
@@ -23,12 +20,29 @@ const newTaskContainer: HTMLDivElement = document.querySelector('.modal-task_con
 const formNewCategory = document.getElementById('category') as HTMLFormElement;
 const formNewTask = document.getElementById('task') as HTMLFormElement;
 const buttonNewTask = document.querySelector('.button__create-task');
+const observationButton = document.querySelector('.observation-button')
+const bodyMainPage = document.querySelector('body')
+const categories: NodeListOf<HTMLLIElement> = document.querySelectorAll('.sidebar__list li');
+const timeElement: HTMLSpanElement = document.querySelector('.time');
+const dateElement: HTMLSpanElement = document.querySelector('.date');
+const changeColorModeButton: HTMLButtonElement = document.querySelector('.button__change-color-mode');
+const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i')
+const customSelect: HTMLDivElement = document.querySelector('.custom-select');
+const selectedOption: HTMLSpanElement = document.querySelector('.selected-option');
+const options: HTMLLIElement = document.querySelector('.options');
+const hiddenInput = document.querySelector('#selected-value') as HTMLInputElement;
+const taskCards = document.querySelectorAll('.task-card');
+const taskDeleteList = document.querySelectorAll('.task-delete');
+const taskCompleteList = document.querySelectorAll('.task-complete');
+
 buttonOpenModal.addEventListener('click', () => {
     overlay.classList.replace("disabled", "active")
+    bodyMainPage.style.overflowY = 'hidden'
 })
 overlay.addEventListener('click', (e) => {
     if (e.target !== modal) {
         overlay.classList.replace("active", "disabled")
+        bodyMainPage.style.overflowY = 'visible'
     }
 
 })
@@ -40,7 +54,7 @@ document.addEventListener('mousemove', (e) => {
 sidebar.addEventListener("mouseleave", () => {
     sidebar.classList.replace('sidebar_active', 'sidebar_hide');
 });
-const categories: NodeListOf<HTMLLIElement> = document.querySelectorAll('.sidebar__list li');
+
 categories.forEach((category) => {
     category.addEventListener('click', () => {
         category.classList.toggle('active-category')
@@ -67,15 +81,18 @@ newTaskModal.addEventListener('click', () => {
     newTaskModal.classList.replace('modal-category_active', 'modal-category_disabled');
     newTaskContainer.classList.replace('modal-category_active', 'modal-category_disabled');
 })
+
+
+observationButton.addEventListener('click', () => {
+    newTaskModal.classList.replace('modal-category_disabled', 'modal-category_active');
+    newTaskContainer.classList.replace('modal-category_disabled', 'modal-category_active');
+})
+
 formNewTask.addEventListener('submit', () => {
     newTaskModal.classList.replace('modal-category_active', 'modal-category_disabled');
     newTaskContainer.classList.replace('modal-category_active', 'modal-category_disabled');
 })
 
-const timeElement: HTMLSpanElement = document.querySelector('.time');
-const dateElement: HTMLSpanElement = document.querySelector('.date');
-const changeColorModeButton: HTMLButtonElement = document.querySelector('.button__change-color-mode');
-const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i')
 
 changeColorModeButton.addEventListener('click', () => {
     colorModeIcon.classList.toggle('icon-sun')
@@ -99,11 +116,6 @@ updateDateAndTime()
 setInterval(updateDateAndTime, 1000);
 
 
-const customSelect: HTMLDivElement = document.querySelector('.custom-select');
-const selectedOption: HTMLSpanElement = document.querySelector('.selected-option');
-const options: HTMLLIElement = document.querySelector('.options');
-const hiddenInput = document.querySelector('#selected-value') as HTMLInputElement;
-
 customSelect.addEventListener('click', () => {
     options.style.display = options.style.display === 'block' ? 'none' : 'block';
 });
@@ -122,9 +134,28 @@ document.addEventListener('click', (event) => {
     }
 });
 
-const taskCard = document.querySelector('.task-card');
-const taskDelete = document.querySelector('.task-delete');
-const taskComplete = document.querySelector('.task-complete');
 
+taskCards.forEach((taskCard, key) => {
+    taskCard.addEventListener('mousemove', (e: MouseEvent) => {
+        if (e.clientX < 250) {
+            taskDeleteList[key].classList.add('activate')
+        }
+        if (e.clientX > 600) {
+            taskCompleteList[key].classList.add('activate')
+        }
+    })
+})
+
+taskDeleteList.forEach(taskDelete => {
+    taskDelete.addEventListener('mouseleave', () => {
+        taskDelete.classList.remove('activate')
+    })
+})
+
+taskCompleteList.forEach(taskComplete => {
+    taskComplete.addEventListener('mouseleave', () => {
+        taskComplete.classList.remove('activate')
+    })
+})
 
 
