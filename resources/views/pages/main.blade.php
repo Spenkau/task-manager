@@ -8,21 +8,11 @@
         <div class="task-list">
             <h3 class="list-header">Активные задачи</h3>
             <ul class="active-tasks">
-                <li>
-                    <x-taskCard :task="null"></x-taskCard>
-                </li>
-                <li>
-                    <x-taskCard :task="null"></x-taskCard>
-                </li>
-                <li>
-                    <x-taskCard :task="null"></x-taskCard>
-                </li>
-                <li>
-                    <x-taskCard :task="null"></x-taskCard>
-                </li>
-                <li>
-                    <x-taskCard :task="null"></x-taskCard>
-                </li>
+                @foreach($tasks as $task)
+                    <li>
+                        <x-taskCard :task="$task"></x-taskCard>
+                    </li>
+                @endforeach
             </ul>
             <div class="pagination-tasks">
                 <ul>

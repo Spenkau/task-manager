@@ -3,11 +3,10 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/', [MainPageController::class, 'index'])->name('main_page.index');
 // TODO сделать на одинаковые пути разные контроллеры
 /**************************** TASKS *************************/
 Route::prefix('tasks')->group(function () {
@@ -22,10 +21,11 @@ Route::prefix('tasks')->group(function () {
 /**************************** END TASKS *************************/
 
 /**************************** CATEGORIES *************************/
-
-Route::get('/', [CategoryController::class, 'index', TaskController::class, 'index'])->name('categories.index');
-Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
-Route::patch('/categories/update', [CategoryController::class, 'update'])->name('categories.update');
+Route::prefix('categories')->group(function () {
+//    Route::get('', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
+    Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
+});
 
 /**************************** END CATEGORIES *************************/
 

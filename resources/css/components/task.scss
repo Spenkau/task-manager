@@ -20,6 +20,7 @@
 }
 
 .task-card {
+    width: 600px;
     padding: 20px;
     background-color: $bg-white;
     border-radius: 10px;
@@ -201,5 +202,10 @@
 .task-card-tag{
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap:10px;
+    color: hsl(206, 100%, 40%);
+    background-color: hsl(206,96%,90%);
+    padding: 5px 7px;
+    border-radius: 5px;
+
 }

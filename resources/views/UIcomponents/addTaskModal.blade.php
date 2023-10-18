@@ -10,7 +10,7 @@
             <div class="name-status-group">
                 <input type="text" placeholder="Название задачи..." name="title" required>
                 <div class="custom-select">
-                    <span class="selected-option">Приоритет</span>
+                    <p class="selected-option"><i class="icon-arrow-down"> стрелка вниз</i><span>Приоритет</span></p>
                     <ul class="options options_hidden">
                         <li data-value="1"><i class="icon-priority_low">иконка приоритета</i> Низкий</li>
                         <li data-value="2"><i class="icon-priority_medium">иконка приоритета</i> Средний</li>
@@ -20,13 +20,16 @@
                 </div>
             </div>
             <div class="category-group custom-select">
-                <span class="selected-option">Категория</span>
+                <span class="selected-option selected-category"><i class="icon-arrow-down">иконка вниз</i>Категория</span>
                 <ul class="options options-category options_hidden">
-                    @foreach($parentCategories as $category)
-                        <li data-value="{{ $category['id'] }}">{{ $category['name'] }}</li>
+                    @foreach($allCategories as $category)
+                        <li data-value="{{ $category['id'] }}">
+                            <i class="icon-category">иконка категории</i>
+                            {{ $category['name'] }}
+                        </li>
                     @endforeach
                 </ul>
-                <input type="hidden" name="category_id">
+                <input type="hidden" name="category_id" class="input-category">
             </div>
             <textarea placeholder="Описание задачи..." rows="3" name="content" required></textarea>
             <div class="task-date">

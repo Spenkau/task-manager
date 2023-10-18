@@ -146,6 +146,8 @@ setInterval(updateDateAndTime, 1000);
 
 const selectCategory = document.querySelector('.category-group')
 const optionCategory = document.querySelector('.options-category')
+const selectOptionCategory = document.querySelector('.selected-category')
+const hiddenCategoryInput = document.querySelector('.input-category') as HTMLInputElement
 
 selectPriority.addEventListener('click', () => {
     selectPriority.classList.add('custom-select-active');
@@ -159,8 +161,10 @@ selectCategory.addEventListener('click', () => {
 
 optionCategory.addEventListener('click', (e)=>{
     if ((e.target as HTMLLIElement).tagName === 'LI'){
-        selectedOptionPriority.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
-
+        selectOptionCategory.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
+        hiddenCategoryInput.value = (e.target as HTMLLIElement).getAttribute('data-value');
+        selectCategory.classList.remove('custom-select-active')
+        optionCategory.classList.add('disabled-option')
     }
 })
 
@@ -172,17 +176,10 @@ optionsPriority.addEventListener('click', (e) => {
     }
 });
 
-document.addEventListener('click', (event) => {
-    if (!selectPriority.contains(event.target as HTMLLIElement)) {
-        optionsPriority.classList.add('options_hidden')
-        selectPriority.classList.remove('custom-select-active')
-    }
-});
-
 
 taskCards.forEach((taskCard, key) => {
     taskCard.addEventListener('mousemove', (e: MouseEvent) => {
-        if (e.clientX < 150) {
+        if (e.clientX < 170) {
             taskDeleteList[key].classList.add('activate')
         }
         if (e.clientX > 750) {
