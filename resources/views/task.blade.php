@@ -1,9 +1,9 @@
 <ul>
     <li class="w-screen">
-        <span>{{ $task['id'] }}. {{ $task['title'] }}</span>
-        <br>
-        <span>{{ $task['content'] }}</span>
-        <span>{{ $task['category_id'] }}</span>
+        {{ $task['title'] }}
+    </li>
+    <li>
+        {{ $task['content'] }}
     </li>
     <hr/>
     <br>

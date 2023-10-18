@@ -27,14 +27,14 @@ const timeElement: HTMLSpanElement = document.querySelector('.time');
 const dateElement: HTMLSpanElement = document.querySelector('.date');
 const changeColorModeButton: HTMLButtonElement = document.querySelector('.button__change-color-mode');
 const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i')
-const customSelect: HTMLDivElement = document.querySelector('.custom-select');
-const selectedOption: HTMLSpanElement = document.querySelector('.selected-option');
-const options: HTMLLIElement = document.querySelector('.options');
-const hiddenInput = document.querySelector('#selected-value') as HTMLInputElement;
-const taskCards:NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-card');
-const taskDeleteList:NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
-const taskCompleteList:NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
-const buttonOpenSettingsModal:HTMLButtonElement = document.querySelector('.open-settings-modal');
+const selectPriority: HTMLDivElement = document.querySelector('.custom-select');
+const selectedOptionPriority: HTMLSpanElement = document.querySelector('.selected-option');
+const optionsPriority: HTMLLIElement = document.querySelector('.options');
+const hiddenInputPriority = document.querySelector('#selected-value') as HTMLInputElement;
+const taskCards: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-card');
+const taskDeleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
+const taskCompleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
+const buttonOpenSettingsModal: HTMLButtonElement = document.querySelector('.open-settings-modal');
 
 
 buttonOpenModal.addEventListener('click', () => {
@@ -50,32 +50,30 @@ overlay.addEventListener('click', (e) => {
 })
 
 //user settings modal
-buttonOpenSettingsModal.addEventListener('click', ()=> {
-    const userSettingsModal:HTMLDivElement = document.querySelector('.user-settings-modal')
-    const buttonUISettings:HTMLButtonElement = document.querySelector('.button-settings-1');
-    const buttonProfileSettings:HTMLButtonElement = document.querySelector('.button-settings-2');
+buttonOpenSettingsModal.addEventListener('click', () => {
+    const userSettingsModal: HTMLDivElement = document.querySelector('.user-settings-modal')
+    const buttonUISettings: HTMLButtonElement = document.querySelector('.button-settings-1');
+    const buttonProfileSettings: HTMLButtonElement = document.querySelector('.button-settings-2');
     const settingsUI = document.querySelector('.settings-ui')
     const settingsProfile = document.querySelector('.settings-profile')
     userSettingsModal.classList.remove('disabled-settings')
 
-    buttonUISettings.addEventListener('click',()=>{
+    buttonUISettings.addEventListener('click', () => {
         settingsUI.classList.remove('disabled-settings');
         settingsProfile.classList.add('disabled-settings');
     })
 
-    buttonProfileSettings.addEventListener('click', ()=>{
+    buttonProfileSettings.addEventListener('click', () => {
         settingsProfile.classList.remove('disabled-settings');
         settingsUI.classList.add('disabled-settings');
     })
 
-    userSettingsModal.addEventListener('click', (e)=>{
-        if(e.target === userSettingsModal){
+    userSettingsModal.addEventListener('click', (e) => {
+        if (e.target === userSettingsModal) {
             userSettingsModal.classList.add('disabled-settings')
         }
     })
 })
-
-
 
 
 document.addEventListener('mousemove', (e) => {
@@ -91,7 +89,6 @@ categories.forEach((category) => {
     category.addEventListener('click', () => {
         category.classList.toggle('active-category')
     })
-
 })
 buttonNewCategory.addEventListener('click', () => {
     newCategoryModal.classList.replace('modal-category_disabled', 'modal-category_active');
@@ -147,27 +144,38 @@ const updateDateAndTime = () => {
 updateDateAndTime()
 setInterval(updateDateAndTime, 1000);
 
+const selectCategory = document.querySelector('.category-group')
+const optionCategory = document.querySelector('.options-category')
 
-customSelect.addEventListener('click', () => {
-    customSelect.classList.add('custom-select-active')
-    options.classList.remove('options-hidden');
+selectPriority.addEventListener('click', () => {
+    selectPriority.classList.add('custom-select-active');
+    optionsPriority.classList.remove('options_hidden');
 });
 
-options.addEventListener('click', (event) => {
-    if ((event.target as HTMLLIElement).tagName === 'LI') {
-        const selectedValue = `${(event.target as HTMLLIElement).innerHTML}`
-        selectedOption.innerHTML = selectedValue;
-        hiddenInput.value = (event.target as HTMLLIElement).getAttribute('data-value');
-        customSelect.classList.remove('custom-select-active')
-        options.classList.add('options-hidden');
-    }
+selectCategory.addEventListener('click', () => {
+    selectCategory.classList.add('custom-select-active');
+    optionCategory.classList.remove('options_hidden');
+})
 
+optionCategory.addEventListener('click', (e)=>{
+    if ((e.target as HTMLLIElement).tagName === 'LI'){
+        selectedOptionPriority.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
+
+    }
+})
+
+optionsPriority.addEventListener('click', (e) => {
+    if ((e.target as HTMLLIElement).tagName === 'LI') {
+        selectedOptionPriority.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
+        hiddenInputPriority.value = (e.target as HTMLLIElement).getAttribute('data-value');
+        selectPriority.classList.remove('custom-select-active')
+    }
 });
 
 document.addEventListener('click', (event) => {
-    if (!customSelect.contains(event.target as HTMLLIElement)) {
-        options.classList.add('options-hidden')
-        customSelect.classList.remove('custom-select-active')
+    if (!selectPriority.contains(event.target as HTMLLIElement)) {
+        optionsPriority.classList.add('options_hidden')
+        selectPriority.classList.remove('custom-select-active')
     }
 });
 

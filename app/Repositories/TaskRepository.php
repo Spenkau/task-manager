@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Task;
+use App\DTO\TaskDTO;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 
 class TaskRepository implements TaskRepositoryInterface
@@ -25,6 +26,11 @@ class TaskRepository implements TaskRepositoryInterface
     public function showByCategory($categoryId)
     {
         return Task::where('category_id', $categoryId)->get()->toArray();
+    }
+
+    public function update(Task $task, $data)
+    {
+        $task->update($data);
     }
 
     public function softDelete(Task $task)

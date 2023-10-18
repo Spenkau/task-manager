@@ -18,17 +18,13 @@ class CategoryRepository implements CategoryRepositoryInterface
         Category::firstOrCreate(['name' => $data['name']], $data);
     }
 
-    public function update(int $categoryId, $data)
+    public function update(Category $category, $data)
     {
-        $category = Category::find($categoryId);
-
         $category->update($data);
     }
 
-    public function delete(int $categoryId)
+    public function softDelete(Category $category)
     {
-        $category = Category::find($categoryId);
-
-        $category->delete($categoryId);
+        $category->delete();
     }
 }

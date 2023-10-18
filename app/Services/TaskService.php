@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
+use App\Http\Resources\TaskResource;
 use App\Models\Category;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
 use Exception;
-use http\Env\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaskService
 {
@@ -25,45 +24,28 @@ class TaskService
 
     public function show(int $taskId)
     {
-        try {
-            $task = $this->taskRepo->show($taskId);
-            return response()->json(['success' => true, 'data' => $task]);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failted tot show task: ' . $e]);
-        }
+        return $this->taskRepo->show($taskId);
     }
 
     public function showByCategory(string $slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        $category = Category::where('slug', $slug)->firstOrFail();
 
-        $tasks = $this->taskRepo->showByCategory($category->id);
-
-        try {
-            return response()->json(['success' => true, 'data' => $tasks]);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to show tasks: ' . $e]);
-        }
+        return $this->taskRepo->showByCategory($category->id);
     }
 
     public function store(mixed $data)
     {
-        try {
-            $this->taskRepo->store($data);
-            return response()->json(['success' => true, 'message' => 'Task created']);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to create: ' . $e]);
-        }
+        $this->taskRepo->store($data);
+    }
+
+    public function update(Task $task, $data)
+    {
+        $this->taskRepo->update($task, $data);
     }
 
     public function softDelete(Task $task)
     {
-        try {
-            $this->taskRepo->softDelete($task);
-            return response()->json(['success' => false, 'message' => 'Task deleted']);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to create: ' . $e]);
-        }
-
+        $this->taskRepo->softDelete($task);
     }
 }

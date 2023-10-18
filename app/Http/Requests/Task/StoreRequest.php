@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Task;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -24,13 +25,13 @@ class StoreRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'content' => 'required',
-            'category_id' => 'numeric|min:1',
-            'priority_id' => 'numeric|min:1|max:3',
+            'category_id' => 'required|numeric|min:1',
+            'priority_id' => 'required|numeric|min:1|max:3',
             'status_id' => 'numeric|min:1|max:3',
-            'user_id' => 'numeric',
-            'parentId' => 'numeric',
-            'started_at' => 'date_format:Y-m-d',
-            'finished_at' => 'date_format:Y-m-d',
+//            'user_id' => 'numeric|min:1',
+            'parentId' => 'numeric|min:1',
+            'started_at' => 'required',
+            'finished_at' => 'required',
         ];
     }
 
@@ -38,7 +39,12 @@ class StoreRequest extends FormRequest
     {
         $this->merge([
             'title' => trim($this->title),
-            'content' => trim($this->content),
+            'task_content' => trim($this->task_content),
         ]);
     }
+
+//    public function convertDateFormat($date)
+//    {
+//        $date = Carbon::createFromDate();
+//    }
 }
