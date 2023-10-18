@@ -23,10 +23,11 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->categoryService->allOrParent('children');
+        $allCategories = $this->categoryService->allOrParent('children');
+        $parentCategories = $this->categoryService->allOrParent('parent');
 
         try {
-            return view('pages.main', ['categories' => $categories]);
+            return view('pages.main', ['categories' => $allCategories, 'parentCategories' => $parentCategories]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show categories: ' . $e]);
         }

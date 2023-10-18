@@ -4,7 +4,7 @@ const loader: HTMLDivElement = document.querySelector('.spinner-wrapper');
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         loader.classList.remove('spinner-active')
-    }, 1700);
+    }, 1);
 
 })
 
@@ -59,7 +59,6 @@ categories.forEach((category) => {
     category.addEventListener('click', () => {
         category.classList.toggle('active-category')
     })
-
 })
 buttonNewCategory.addEventListener('click', () => {
     newCategoryModal.classList.replace('modal-category_disabled', 'modal-category_active');

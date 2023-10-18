@@ -60,15 +60,19 @@ class TaskController extends Controller
         }
     }
 
+    // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
     public function store(StoreRequest $request)
     {
-        $data = TaskDTO::formRequest($request);
-
+        $data = $request->validated();
+        $data['user_id'] = 1;
+        dump($data);
         try {
             $this->taskService->store($data);
-            return redirect()->route('tasks');
+//            return redirect()->route('tasks');
+            return response()->json(['success' => true, 'data' => $data]);
         } catch (Exception $e) {
-            return redirect()->route('tasks')->with(['error' => 'Failed to store task:' . $e]);
+//            return redirect()->route('tasks')->with(['error' => 'Failed to store task:' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to store data: ' . $e]);
         }
     }
 
