@@ -2,17 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Database\Factories\UserFactory;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class TagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        UserFactory::new()->count(20)->create();
+        Tag::new()->count(20)->create();
     }
 }

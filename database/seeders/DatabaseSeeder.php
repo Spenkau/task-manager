@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             UserSeeder::class,
             TaskSeeder::class,
+            TagSeeder::class
         ]);
         $this->command->info('бд заполнена');
     }

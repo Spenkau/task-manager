@@ -3,7 +3,6 @@
         <img src="images/icons/logo.svg" alt="logo">
     </div>
     <h2>Категории</h2>
-{{--    TODO переименовать $categories в $allCategories. После связаться с Alexander --}}
     <ul class="sidebar__list">
         @foreach($categories as $category)
             <li>
