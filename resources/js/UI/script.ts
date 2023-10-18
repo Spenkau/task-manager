@@ -27,13 +27,15 @@ const timeElement: HTMLSpanElement = document.querySelector('.time');
 const dateElement: HTMLSpanElement = document.querySelector('.date');
 const changeColorModeButton: HTMLButtonElement = document.querySelector('.button__change-color-mode');
 const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i')
-const customSelect: HTMLDivElement = document.querySelector('.custom-select');
-const selectedOption: HTMLSpanElement = document.querySelector('.selected-option');
-const options: HTMLLIElement = document.querySelector('.options');
-const hiddenInput = document.querySelector('#selected-value') as HTMLInputElement;
-const taskCards = document.querySelectorAll('.task-card');
-const taskDeleteList = document.querySelectorAll('.task-delete');
-const taskCompleteList = document.querySelectorAll('.task-complete');
+const selectPriority: HTMLDivElement = document.querySelector('.custom-select');
+const selectedOptionPriority: HTMLSpanElement = document.querySelector('.selected-option');
+const optionsPriority: HTMLLIElement = document.querySelector('.options');
+const hiddenInputPriority = document.querySelector('#selected-value') as HTMLInputElement;
+const taskCards: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-card');
+const taskDeleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
+const taskCompleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
+const buttonOpenSettingsModal: HTMLButtonElement = document.querySelector('.open-settings-modal');
+
 
 buttonOpenModal.addEventListener('click', () => {
     overlay.classList.replace("disabled", "active")
@@ -46,6 +48,34 @@ overlay.addEventListener('click', (e) => {
     }
 
 })
+
+//user settings modal
+buttonOpenSettingsModal.addEventListener('click', () => {
+    const userSettingsModal: HTMLDivElement = document.querySelector('.user-settings-modal')
+    const buttonUISettings: HTMLButtonElement = document.querySelector('.button-settings-1');
+    const buttonProfileSettings: HTMLButtonElement = document.querySelector('.button-settings-2');
+    const settingsUI = document.querySelector('.settings-ui')
+    const settingsProfile = document.querySelector('.settings-profile')
+    userSettingsModal.classList.remove('disabled-settings')
+
+    buttonUISettings.addEventListener('click', () => {
+        settingsUI.classList.remove('disabled-settings');
+        settingsProfile.classList.add('disabled-settings');
+    })
+
+    buttonProfileSettings.addEventListener('click', () => {
+        settingsProfile.classList.remove('disabled-settings');
+        settingsUI.classList.add('disabled-settings');
+    })
+
+    userSettingsModal.addEventListener('click', (e) => {
+        if (e.target === userSettingsModal) {
+            userSettingsModal.classList.add('disabled-settings')
+        }
+    })
+})
+
+
 document.addEventListener('mousemove', (e) => {
     if (e.clientX <= 40) {
         sidebar.classList.replace('sidebar_hide', 'sidebar_active')
@@ -114,32 +144,45 @@ const updateDateAndTime = () => {
 updateDateAndTime()
 setInterval(updateDateAndTime, 1000);
 
+const selectCategory = document.querySelector('.category-group')
+const optionCategory = document.querySelector('.options-category')
+const selectOptionCategory = document.querySelector('.selected-category')
+const hiddenCategoryInput = document.querySelector('.input-category') as HTMLInputElement
 
-customSelect.addEventListener('click', () => {
-    options.style.display = options.style.display === 'block' ? 'none' : 'block';
+selectPriority.addEventListener('click', () => {
+    selectPriority.classList.add('custom-select-active');
+    optionsPriority.classList.remove('options_hidden');
 });
 
-options.addEventListener('click', (event) => {
-    if ((event.target as HTMLLIElement).tagName === 'LI') {
-        selectedOption.innerText = (event.target as HTMLLIElement).innerText;
-        hiddenInput.value = (event.target as HTMLLIElement).getAttribute('data-value');
-        options.style.display = 'none';
+selectCategory.addEventListener('click', () => {
+    selectCategory.classList.add('custom-select-active');
+    optionCategory.classList.remove('options_hidden');
+})
+
+optionCategory.addEventListener('click', (e)=>{
+    if ((e.target as HTMLLIElement).tagName === 'LI'){
+        selectOptionCategory.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
+        hiddenCategoryInput.value = (e.target as HTMLLIElement).getAttribute('data-value');
+        selectCategory.classList.remove('custom-select-active')
+        optionCategory.classList.add('disabled-option')
     }
-});
+})
 
-document.addEventListener('click', (event) => {
-    if (!customSelect.contains(event.target as HTMLLIElement)) {
-        options.style.display = 'none';
+optionsPriority.addEventListener('click', (e) => {
+    if ((e.target as HTMLLIElement).tagName === 'LI') {
+        selectedOptionPriority.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
+        hiddenInputPriority.value = (e.target as HTMLLIElement).getAttribute('data-value');
+        selectPriority.classList.remove('custom-select-active')
     }
 });
 
 
 taskCards.forEach((taskCard, key) => {
     taskCard.addEventListener('mousemove', (e: MouseEvent) => {
-        if (e.clientX < 250) {
+        if (e.clientX < 170) {
             taskDeleteList[key].classList.add('activate')
         }
-        if (e.clientX > 600) {
+        if (e.clientX > 750) {
             taskCompleteList[key].classList.add('activate')
         }
     })

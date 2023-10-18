@@ -7,13 +7,13 @@
     <div class="body-main">
         <div class="task-list">
             <h3 class="list-header">Активные задачи</h3>
-            @foreach($tasks as $task)
-                <ul class="active-tasks">
+            <ul class="active-tasks">
+                @foreach($tasks as $task)
                     <li>
                         <x-taskCard :task="$task"></x-taskCard>
                     </li>
-                </ul>
-            @endforeach
+                @endforeach
+            </ul>
             <div class="pagination-tasks">
                 <ul>
                     <li class="arrow-back"><</li>
