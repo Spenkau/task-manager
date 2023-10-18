@@ -21,7 +21,7 @@
             </div>
             <div class="category-group">
                 <select name="category_id">
-                    @foreach($parentCategories as $category)
+                    @foreach($allCategories as $category)
                         <option value="{{ $category['id'] }}">{{ $category['name'] }}</option>
                     @endforeach
                 </select>

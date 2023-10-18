@@ -21,17 +21,17 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
-    {
-        $allCategories = $this->categoryService->allOrParent('children');
-        $parentCategories = $this->categoryService->allOrParent('parent');
-
-        try {
-            return view('pages.main', ['categories' => $allCategories, 'parentCategories' => $parentCategories]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show categories: ' . $e]);
-        }
-    }
+//    public function index()
+//    {
+//        $withChildCategories = $this->categoryService->allOrParent('children');
+//        $allCategories = $this->categoryService->allOrParent('all');
+//
+//        try {
+//            return view('pages.main', ['categories' => $withChildCategories, 'allCategories' => $allCategories]);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'Failed to show categories: ' . $e]);
+//        }
+//    }
 
     public function store(StoreRequest $request)
     {
