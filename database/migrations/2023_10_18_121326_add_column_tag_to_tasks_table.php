@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug');
-            $table->timestamps();
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->integer('tag_id')
+                ->after('parent_id')
+                ->nullable();
         });
     }
 
@@ -24,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->dropColumn('tag_id');
+        });
     }
 };

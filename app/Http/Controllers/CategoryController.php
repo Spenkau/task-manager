@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Category;
-use App\Models\Task;
 use App\Services\CategoryService;
 use Exception;
 use Illuminate\Routing\Controller;

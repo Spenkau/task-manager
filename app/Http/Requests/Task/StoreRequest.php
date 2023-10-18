@@ -29,9 +29,8 @@ class StoreRequest extends FormRequest
             'priority_id' => 'required|numeric|min:1|max:3',
             'status_id' => 'numeric|min:1|max:3',
 //            'user_id' => 'numeric|min:1',
-            'parentId' => 'numeric|min:1',
-            'started_at' => 'required',
-            'finished_at' => 'required',
+            'started_at' => '',
+            'finished_at' => '',
         ];
     }
 

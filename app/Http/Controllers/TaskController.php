@@ -7,6 +7,7 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Models\User;
 use App\Services\TaskService;
 use Exception;
 use Illuminate\Http\Request;
@@ -23,22 +24,25 @@ class TaskController extends Controller
         $this->taskService = $taskService;
     }
 
-    public function index()
-    {
-        $tasks = $this->taskService->allOrParent('children');
-
-//        $data = TaskResource::collection($tasks);
-
-        try {
-            return response()->view('tasks', ['tasks' => $tasks]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show your tasks: ' . $e]);
-        }
-    }
+//    public function index()
+//    {
+//        $tasks = $this->taskService->allOrParent('children');
+//
+////        $data = TaskResource::collection($tasks);
+//
+//        try {
+//            return response()->view('tasks', ['tasks' => $tasks]);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'Failed to show your tasks: ' . $e]);
+//        }
+//    }
 
     public function show(Task $task)
     {
         $task = $this->taskService->show($task->id);
+
+        $users = User::where('name', 'e')->with('tasks')->get()->toArray();
+        dump($users);
 
         try {
             return response()->view('task', ['task' => $task]);
@@ -65,7 +69,9 @@ class TaskController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = 1;
+
         dump($data);
+
         try {
             $this->taskService->store($data);
 //            return redirect()->route('tasks');

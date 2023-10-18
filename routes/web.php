@@ -7,7 +7,6 @@ use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainPageController::class, 'index'])->name('main_page.index');
-// TODO сделать на одинаковые пути разные контроллеры
 /**************************** TASKS *************************/
 Route::prefix('tasks')->group(function () {
     Route::get('', [TaskController::class, 'index'])->name('tasks.index');
