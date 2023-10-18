@@ -11,8 +11,8 @@
             <div class="name-status-group">
                 <input type="text" placeholder="Название задачи..." name="title" required>
                 <div class="custom-select">
-                    <span class="selected-option">Выберите приоритет</span>
-                    <ul class="options">
+                    <span class="selected-option">Приоритет</span>
+                    <ul class="options options-hidden">
                         <li data-value="1"><i class="icon-priority_low">иконка приоритета</i> Низкий</li>
                         <li data-value="2"><i class="icon-priority_medium">иконка приоритета</i> Средний</li>
                         <li data-value="3"><i class="icon-priority_high">иконка приоритета</i> Высокий</li>
@@ -33,13 +33,14 @@
             <div class="task-date">
                 <label for="">
                     Дата начала
-                    <input type="datetime-local" required>
+                    <input type="datetime-local" min="2023-10-18" required>
                 </label>
                 <label for="">
                     Дата завершения
                     <input type="datetime-local" required>
                 </label>
             </div>
+            <input type="text" maxlength="16" name="tag" placeholder="Введите тег задачи(необезательно)...">
             <input type="submit" value="Отправить">
         </div>
     </form>

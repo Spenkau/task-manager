@@ -133,7 +133,7 @@
     border-width: 0;
     border-radius: 20px;
     font-family: 'Roboto', sans-serif;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .form-inner {
@@ -203,52 +203,66 @@
 
 
 .icon-priority_high {
-    @include icon(20px, 29px, 'priority_high')
+    @include icon(11px, 20px, 'priority_high')
 }
 
 .icon-priority_medium {
-    @include icon(20px, 29px, 'priority_medium')
+    @include icon(11px, 20px, 'priority_medium')
 }
 
 .icon-priority_low {
-    @include icon(20px, 29px, 'priority_low')
+    @include icon(11px, 20px, 'priority_low')
 }
 
 .custom-select {
     position: relative;
     width: 200px;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     cursor: pointer;
     background-color: #E9EFF6;
+    height: 40px;
 }
 
 .selected-option {
+    font-size: 14px;
+    i{
+        width: 10px;
+        height: 19px;
+    }
     padding: 10px;
-    display: block;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.custom-select-active{
+    border-radius: 20px 20px 0 0;
 }
 
 .options {
+    display: block;
     list-style: none;
     padding: 0;
     margin: 0;
     position: absolute;
-    display: none;
+    font-size: 14px;
     border-top: none;
     border-radius: 0 0 4px 4px;
     background-color: #E9EFF6;
     width: 100%;
 }
 
+
 .options li {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     padding: 10px;
+    &:hover{
+        background-color: #f0f0f0;
+    }
 }
 
-.options li:hover {
-    background-color: #f0f0f0;
-}
 
 .name-status-group {
     display: flex;
@@ -258,5 +272,9 @@
 .task-date {
     display: flex;
     justify-content: space-around;
-    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.options-hidden{
+    display: none;
 }

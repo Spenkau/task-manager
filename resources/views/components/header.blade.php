@@ -35,7 +35,7 @@
                                 </a>
                             </li>
                             <li>
-                                <button href="">
+                                <button class="open-settings-modal">
                                     <i class="icon-settings"> иконка настроек </i>
                                     Настройки
                                 </button>
@@ -50,14 +50,14 @@
                     </div>
                 </div>
             </div>
-            <div class="user-settings-modal">
+            <div class="user-settings-modal disabled-settings">
                 <div class="container">
                     <div class="settings-buttons">
                         <button class="button-settings-1 active-settings-button">Настройки внешнего вида</button>
                         <button class="button-settings-2 disabled-settings-button">Настройки аккаунта</button>
                     </div>
                     <div class="settings-body">
-                        <ul class="settings-ui">
+                        <ul class="settings-ui ">
                             <li>
                                 <label class="switch">
                                     <input type="checkbox" checked>

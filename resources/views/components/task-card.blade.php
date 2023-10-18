@@ -16,6 +16,10 @@
                 <i class="icon-category">иконка категории</i>
                 <span>Работа</span>
             </p>
+            <p class="task-card-tag">
+                <i class="icon-tag">иконка тега</i>
+                <span>Тег</span>
+            </p>
         </div>
         <div class="task-body">
             <h3><a href="/tasks/1">Почитать документацию по laravel</a></h3>

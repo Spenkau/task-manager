@@ -4,7 +4,7 @@ const loader: HTMLDivElement = document.querySelector('.spinner-wrapper');
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         loader.classList.remove('spinner-active')
-    }, 1700);
+    }, 1);
 
 })
 
@@ -31,9 +31,11 @@ const customSelect: HTMLDivElement = document.querySelector('.custom-select');
 const selectedOption: HTMLSpanElement = document.querySelector('.selected-option');
 const options: HTMLLIElement = document.querySelector('.options');
 const hiddenInput = document.querySelector('#selected-value') as HTMLInputElement;
-const taskCards = document.querySelectorAll('.task-card');
-const taskDeleteList = document.querySelectorAll('.task-delete');
-const taskCompleteList = document.querySelectorAll('.task-complete');
+const taskCards:NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-card');
+const taskDeleteList:NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
+const taskCompleteList:NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
+const buttonOpenSettingsModal:HTMLButtonElement = document.querySelector('.open-settings-modal');
+
 
 buttonOpenModal.addEventListener('click', () => {
     overlay.classList.replace("disabled", "active")
@@ -46,6 +48,36 @@ overlay.addEventListener('click', (e) => {
     }
 
 })
+
+//user settings modal
+buttonOpenSettingsModal.addEventListener('click', ()=> {
+    const userSettingsModal:HTMLDivElement = document.querySelector('.user-settings-modal')
+    const buttonUISettings:HTMLButtonElement = document.querySelector('.button-settings-1');
+    const buttonProfileSettings:HTMLButtonElement = document.querySelector('.button-settings-2');
+    const settingsUI = document.querySelector('.settings-ui')
+    const settingsProfile = document.querySelector('.settings-profile')
+    userSettingsModal.classList.remove('disabled-settings')
+
+    buttonUISettings.addEventListener('click',()=>{
+        settingsUI.classList.remove('disabled-settings');
+        settingsProfile.classList.add('disabled-settings');
+    })
+
+    buttonProfileSettings.addEventListener('click', ()=>{
+        settingsProfile.classList.remove('disabled-settings');
+        settingsUI.classList.add('disabled-settings');
+    })
+
+    userSettingsModal.addEventListener('click', (e)=>{
+        if(e.target === userSettingsModal){
+            userSettingsModal.classList.add('disabled-settings')
+        }
+    })
+})
+
+
+
+
 document.addEventListener('mousemove', (e) => {
     if (e.clientX <= 40) {
         sidebar.classList.replace('sidebar_hide', 'sidebar_active')
@@ -117,30 +149,35 @@ setInterval(updateDateAndTime, 1000);
 
 
 customSelect.addEventListener('click', () => {
-    options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    customSelect.classList.add('custom-select-active')
+    options.classList.remove('options-hidden');
 });
 
 options.addEventListener('click', (event) => {
     if ((event.target as HTMLLIElement).tagName === 'LI') {
-        selectedOption.innerText = (event.target as HTMLLIElement).innerText;
+        const selectedValue = `${(event.target as HTMLLIElement).innerHTML}`
+        selectedOption.innerHTML = selectedValue;
         hiddenInput.value = (event.target as HTMLLIElement).getAttribute('data-value');
-        options.style.display = 'none';
+        customSelect.classList.remove('custom-select-active')
+        options.classList.add('options-hidden');
     }
+
 });
 
 document.addEventListener('click', (event) => {
     if (!customSelect.contains(event.target as HTMLLIElement)) {
-        options.style.display = 'none';
+        options.classList.add('options-hidden')
+        customSelect.classList.remove('custom-select-active')
     }
 });
 
 
 taskCards.forEach((taskCard, key) => {
     taskCard.addEventListener('mousemove', (e: MouseEvent) => {
-        if (e.clientX < 250) {
+        if (e.clientX < 150) {
             taskDeleteList[key].classList.add('activate')
         }
-        if (e.clientX > 600) {
+        if (e.clientX > 750) {
             taskCompleteList[key].classList.add('activate')
         }
     })

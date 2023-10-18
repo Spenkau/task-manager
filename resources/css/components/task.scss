@@ -9,6 +9,9 @@
     @include icon(26px, 26px, 'delete')
 }
 
+.icon-tag{
+    @include icon(15px, 15px, 'tag')
+}
 
 .item-task {
     display: flex;
@@ -101,7 +104,7 @@
     align-items: center;
     margin-top: 25px;
     margin-bottom: 25px;
-    gap: 120px;
+    gap: 300px;
 
     h3 {
         a {
@@ -193,4 +196,10 @@
         background-color: $green;
         color: $white;
     }
+}
+
+.task-card-tag{
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
