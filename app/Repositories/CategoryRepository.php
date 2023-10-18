@@ -10,6 +10,10 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function allOrParent(string $relation)
     {
+        if ($relation === 'all') {
+            return Category::all()->toArray();
+        }
+
         return Category::whereParentId(null)->with($relation)->get()->toArray();
     }
 
