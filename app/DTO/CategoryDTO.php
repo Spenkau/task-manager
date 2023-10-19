@@ -9,8 +9,8 @@ class CategoryDTO
 {
     public string $name;
 
-    public function __construct($name)
+    public function __construct($data)
     {
-        $this->name = $name;
+        $this->name = $data['name'];
     }
 }

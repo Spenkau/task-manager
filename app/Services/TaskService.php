@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
@@ -19,19 +20,19 @@ class TaskService
 
     public function allOrParent(string $relation)
     {
-        return $this->taskRepo->allOrParent($relation);
+        return new TaskResourceCollection($this->taskRepo->allOrParent($relation));
     }
 
     public function show(int $taskId)
     {
-        return $this->taskRepo->show($taskId);
+        return new TaskResource($this->taskRepo->show($taskId));
     }
 
     public function showByCategory(string $slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        return $this->taskRepo->showByCategory($category->id);
+        return new TaskResourceCollection($this->taskRepo->showByCategory($category->id));
     }
 
     public function store(mixed $data)

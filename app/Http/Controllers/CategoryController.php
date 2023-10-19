@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\CategoryDTO;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Category;
@@ -36,9 +37,12 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
 
+//        dump($data['name']);
+
         try {
+//            dump((new CategoryDTO($data))->name);
             $this->categoryService->store($data);
-            return back();
+            return back()->with(['message' => 'Category created!']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update: ' . $e]);
         }

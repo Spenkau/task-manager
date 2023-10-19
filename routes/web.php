@@ -9,15 +9,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MainPageController::class, 'index'])->name('main_page.index');
 /**************************** TASKS *************************/
 Route::prefix('tasks')->group(function () {
-    Route::get('', [TaskController::class, 'index'])->name('tasks.index');
-    Route::post('', [TaskController::class, 'store'])->name('tasks.store');
-    Route::get('{slug}', [TaskController::class, 'showByCategory'])->where('slug', '[a-z]+')->name('tasks.showByCategory');
-    Route::get('{task}', [TaskController::class, 'show'])->where('task', '[0-9]+')->name('tasks.show');
+    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
+    Route::post('/', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('{task}', [TaskController::class, 'show'])->name('tasks.show');
     Route::patch('{task}', [TaskController::class, 'update'])->name('tasks.update');
     Route::delete('{task}', [TaskController::class, 'softDelete'])->name('tasks.delete');
 });
 
+Route::get('/tasks/category/{slug}', [TaskController::class, 'showByCategory']);
+
 /**************************** END TASKS *************************/
+
+
 
 /**************************** CATEGORIES *************************/
 Route::prefix('categories')->group(function () {
@@ -25,8 +28,8 @@ Route::prefix('categories')->group(function () {
     Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
     Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
 });
-
 /**************************** END CATEGORIES *************************/
+
 
 
 /**************************** AUTH *************************/
