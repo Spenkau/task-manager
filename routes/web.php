@@ -17,6 +17,7 @@ Route::prefix('tasks')->group(function () {
 });
 
 Route::get('/tasks/category/{slug}', [TaskController::class, 'showByCategory']);
+Route::get('/tasks/tag/{slug}', [TaskController::class, 'showByTag']);
 
 /**************************** END TASKS *************************/
 

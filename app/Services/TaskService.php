@@ -5,17 +5,21 @@ namespace App\Services;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Task;
+use App\Repositories\CategoryRepository;
 use App\Repositories\TaskRepository;
 use Exception;
 
 class TaskService
 {
     protected $taskRepo;
+    protected $categoryRepo;
 
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(TaskRepository $taskRepo, CategoryRepository $categoryRepo)
     {
-        $this->taskRepo = $taskRepository;
+        $this->taskRepo = $taskRepo;
+        $this->categoryRepo = $categoryRepo;
     }
 
     public function allOrParent(string $relation)
@@ -30,9 +34,14 @@ class TaskService
 
     public function showByCategory(string $slug)
     {
-        $category = Category::where('slug', $slug)->firstOrFail();
+        $category = $this->categoryRepo->findOne($slug);
 
         return new TaskResourceCollection($this->taskRepo->showByCategory($category->id));
+    }
+
+    public function showByTags(Tag $tag)
+    {
+        // TODO сделать получение тегов
     }
 
     public function store(mixed $data)
@@ -49,4 +58,5 @@ class TaskService
     {
         $this->taskRepo->softDelete($task);
     }
+
 }

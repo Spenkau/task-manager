@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,5 +12,11 @@ class Tag extends Model
 
     protected $table = 'tags';
 
-    protected $fillable = 'name';
+    public $timestamps = false;
+    protected $fillable = ['name', 'slug'];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

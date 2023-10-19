@@ -22,12 +22,17 @@ class Task extends Model
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id')
-                ->with('children');
+            ->with('children');
     }
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
     }
 
     public function user()

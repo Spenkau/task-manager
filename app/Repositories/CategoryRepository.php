@@ -32,4 +32,9 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         $category->delete();
     }
+
+    public function findOne(string $slug)
+    {
+        return Category::where('slug', $slug)->firstOrFail();
+    }
 }
