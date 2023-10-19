@@ -10,10 +10,12 @@
     @vite('resources/css/style.scss')
 </head>
 <body>
+
 <section class="main">
-    @yield('main')
     @include('UIcomponents.loader')
+    @yield('main')
     @yield('personal_area')
+    @yield('task')
 </section>
 @vite('resources/js/UI/script.ts')
 @vite('resources/js/UI/personalArea.ts')
