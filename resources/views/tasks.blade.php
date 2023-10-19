@@ -20,8 +20,8 @@
                 <a href="{{ route('tasks.show', $task['id'])}}">
                     {{ $task['title'] }}
                 </a>
-                @if(isset($task['parentId']))
-                    --- PARENT: {{ $task['parentId'] }}
+                @if($task['parent_id'])
+                    --- PARENT: {{ $task['parent_id'] }}
                 @endif
             </p>
             <p>CONTENT: {{ $task['content'] }}</p>

@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Category;
-use App\Models\Task;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
 class CategoryRepository implements CategoryRepositoryInterface
@@ -11,10 +10,12 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function allOrParent(string $relation)
     {
         if ($relation === 'all') {
-            return Category::all()->toArray();
+            return Category::all();
         }
 
-        return Category::whereParentId(null)->with($relation)->get()->toArray();
+        return Category::whereParentId(null)
+            ->with($relation)
+            ->get();
     }
 
     public function store(mixed $data)
