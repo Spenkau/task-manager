@@ -21,7 +21,7 @@
             </div>
             <div class="category-group custom-select">
                 <span class="selected-option selected-category"><i class="icon-arrow-down">иконка вниз</i>Категория</span>
-                <ul class="options options-category options_hidden">
+                <ul class="options options-category-list options_hidden">
                     @foreach($allCategories as $category)
                         <li data-value="{{ $category['id'] }}">
                             <i class="icon-category">иконка категории</i>

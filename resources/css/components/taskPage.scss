@@ -1,27 +1,27 @@
 @import "../general";
 
 
-.icon-arrow-back{
+.icon-arrow-back {
     @include icon(25px, 25px, "arrow-back");
 }
 
-.link-back{
+.link-back {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-.task-page{
+.task-page {
     min-height: 760px;
     font-size: 18px;
     display: flex;
     justify-content: center;
     padding: 50px 90px;
-    background:$white url("/public/images/bg/circle.svg") repeat 1370px -150px;
+    background: $white url("/public/images/bg/circle.svg") repeat 1370px -150px;
     background-size: 25%;
 }
 
-.task-name{
+.task-name {
     font-size: 48px;
     font-weight: 700;
     margin: 32px 0 10px 0;
@@ -29,7 +29,7 @@
 }
 
 
-.task-content{
+.task-content {
     max-width: 920px;
     font-size: 22px;
     line-height: 35px;
@@ -37,42 +37,42 @@
 }
 
 
-
-
-.icon-process{
+.icon-process {
     @include icon(32px, 32px, 'process')
 }
 
-.task-status{
+.task-status {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 
-.task-category{
+.task-category {
     text-align: center;
     opacity: 0.4;
     margin-bottom: 70px;
 }
 
 
-.task-priority{
+.task-priority {
     display: flex;
     gap: 10px;
     align-items: center;
-    i{
+
+    i {
         width: 21px;
         height: 30px;
     }
 }
 
-.task-options{
+.task-options {
     display: flex;
     justify-content: space-around;
     margin-bottom: 30px;
     align-items: center;
-    .task-date{
+
+    .task-date {
         opacity: 0.4;
         margin-bottom: 0;
         padding-bottom: 0;
@@ -81,7 +81,7 @@
 }
 
 
-.task-page-complete,.task-page-delete{
+.task-page-complete, .task-page-delete {
     position: fixed;
     display: flex;
     align-items: center;
@@ -89,109 +89,128 @@
     padding: 25px;
     bottom: 0;
     transition: padding 200ms ease-in-out;
-    &:hover{
+
+    &:hover {
         padding: 35px;
     }
 
 }
 
-.task-page-delete{
+.task-page-delete {
     left: 0;
     background-color: $red;
     border-top-right-radius: 25px;
 }
 
-.task-page-complete{
+.task-page-complete {
     right: 0;
     background-color: $green;
     border-top-left-radius: 25px;
 }
 
-.task-settings{
+.task-settings {
     margin-top: 45px;
     display: flex;
     justify-content: space-around;
-    button{
+
+    button {
         display: flex;
         gap: 10px;
     }
 }
 
 
-.task-comments{
+.task-comments {
     margin-top: 60px;
     width: 920px;
-    img{width: 64px; height: 64px}
+
+    img {
+        width: 64px;
+        height: 64px
+    }
 }
 
-.comment-list{
+.comment-list {
     display: block;
 
 
-
-    li{
+    li {
         width: min-content;
         margin-bottom: 45px;
-        &:nth-child(even){
-            .user-comment{
+
+        &:nth-child(even) {
+            .user-comment {
                 display: flex;
                 flex-direction: row-reverse;
                 justify-content: space-between;
             }
+
             margin-left: auto;
+
             .comment {
                 order: 1;
             }
+
             img {
                 order: 0;
             }
-            .user-name{
+
+            .user-name {
                 justify-content: flex-end;
             }
         }
     }
 }
 
-.user-comment{
+.user-comment {
     display: flex;
     gap: 20px;
     align-items: flex-start;
 }
 
-.user-name{
+.user-name {
     margin-bottom: 10px;
 }
 
-.comment-text{
+.comment-text {
     width: 450px;
     line-height: 23px;
     text-align: justify;
     opacity: 0.8;
 }
 
-.write-comment{
+.input-page {
+    &::placeholder {
+        color: $black;
+        opacity: 0.4;
+    }
+
+    display: block;
+    width: 100%;
+    padding: 0 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid $black;
+    line-height: 40px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-family: $main-font;
+
+    &:focus {
+        border-bottom: 2px solid transparent;
+    }
+
+    &:invalid {
+        border: 1px solid $red;
+    }
+
+}
+
+.write-comment {
     margin-top: 80px;
     width: 100%;
-    input[type="text"]{
-        &::placeholder {
-            color: $black;
-            opacity: 0.4;
-        }
-        display: block;
-        width: 100%;
-        padding: 0 20px;
-        background: transparent;
-        border: none;
-        border-bottom: 2px solid $black;
-        line-height: 40px;
-        margin-bottom: 5px;
-        font-size: 16px;
-        font-family: $main-font;
-        &:focus{
-            border-bottom:2px solid transparent;
-        }
-    }
-    input[type="submit"]{
+
+    input[type="submit"] {
         margin-left: 90%;
         padding: 8px;
         border: none;
@@ -200,7 +219,8 @@
         font-family: $main-font;
         border-radius: 15px;
         cursor: pointer;
-        &:hover{
+
+        &:hover {
             opacity: 1;
             background-color: $green;
             color: $abs-white;

@@ -25,8 +25,28 @@
             </p>
             <p class="task-card-tag">
                 <i class="icon-tag">иконка тега</i>
-                <span>Тег</span>
+                <a href="/tags"><span>Тег</span></a>
             </p>
+            <div class="task-card-reaction">
+                <div class="reaction-content">
+                    <a href="/user/1">
+                        <img src="/images/reaction/reaction_13.png" alt="реакция">
+                    </a>
+                    <span>3</span>
+                </div>
+                <div class="reaction-content">
+                    <a href="/user/1">
+                        <img src="/images/reaction/reaction_14.png" alt="реакция">
+                    </a>
+                    <span>6</span>
+                </div>
+                <div class="reaction-content">
+                    <a href="/user/1">
+                        <img src="/images/reaction/reaction_10.png" alt="реакция">
+                    </a>
+                    <span>2</span>
+                </div>
+            </div>
         </div>
         <div class="task-body">
             <h3><a href="{{ route('tasks.show', $task['id']) }}">{{$task['title']}}</a></h3>
