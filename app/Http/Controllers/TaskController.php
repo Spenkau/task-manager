@@ -7,6 +7,7 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
 use App\Services\TaskService;
@@ -49,31 +50,41 @@ class TaskController extends Controller
 
     public function showByCategory()
     {
-        $tasks = $this->taskService->showByCategory('red');
+        $tasks = $this->taskService->showByCategory('salmon');
 
-        dump($tasks);
+        dump($tasks);dd($tasks);
 
-        return view('tasks_by_slug', ['tasks' => $tasks]);
+
+        return response()->view('filtered_tasks', ['tasks' => $tasks]);
 //        return view('tasksBySlug');
 //        try {
-//            return response()->view('tasks', ['tasks' => $tasks]);
+//            return response()->view('filtered_tasks', ['tasks' => $tasks]);
 //        } catch (Exception $e) {
-//            return response()->json(['error' => 'Failed to show your tasks: ' . $e]);
+//            return back()->with(['error' => 'Failed to show your tasks: ' . $e]);
 //        }
+    }
+
+    public function showByTags(Tag $tag)
+    {
+        try {
+            $tasks = $this->taskService->showByTags($tag);
+            return response()->view('filtered_tasks', ['tasks' => $tasks]);
+        } catch (Exception $e) {
+            return back()->with(['error' => 'Failed to show your tasks: ' . $e]);
+        }
     }
 
     // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
     public function store(StoreRequest $request)
     {
-
         $data = $request->validated();
         $data['user_id'] = 1;
 
         try {
             $this->taskService->store($data);
-//            return back()->with(['success' => true, 'data' => $data]);
+            return back()->with(['success' => true, 'message' => 'Task successfully created!']);
         } catch (Exception $e) {
-//            return back()->with(['success' => false, 'error' => 'Failed to store data: ' . $e]);
+            return back()->with(['success' => false, 'error' => 'Failed to store data: ' . $e]);
         }
     }
 
@@ -83,9 +94,9 @@ class TaskController extends Controller
 
         try {
             $this->taskService->update($task, $data);
-            return redirect()->route('tasks');
+            return back()->with(['success' => true, 'message' => 'Task successfully updated!']);
         } catch (Exception $e) {
-            return redirect()->route('tasks')->with(['error' => 'Failed to update task: ' . $e]);
+            return back()->with(['error' => 'Failed to update task: ' . $e]);
         }
     }
 
@@ -93,11 +104,10 @@ class TaskController extends Controller
     {
         try {
             $this->taskService->softDelete($task);
-            Session::flash('message', 'Task deleted successfully');
+            return back()->with(['success' => true, 'message' => 'Task successfully deleted!']);
         } catch (NotFoundHttpException $e) {
-            Session::flash('message', $e->getMessage());
+            return back()->with(['error' => 'Failed to delete task: ' . $e]);
+//            Session::flash('message', $e->getMessage());
         }
-
-        return back();
     }
 }
