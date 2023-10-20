@@ -11,6 +11,9 @@
                 @foreach($tasks as $task)
                     <li>
                         <x-taskCard :task="$task"></x-taskCard>
+                        @if(count($task["children"]) > 0)
+                            <x-taskCard :task="$task"></x-taskCard>
+                        @endif
                     </li>
                 @endforeach
             </ul>

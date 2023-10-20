@@ -20,7 +20,7 @@
 }
 
 .task-card {
-    width: 600px;
+    width: 700px;
     padding: 20px;
     background-color: $bg-white;
     border-radius: 10px;
@@ -154,9 +154,7 @@
 
 
 .task-list {
-    background-color: $white;
-    padding: 50px;
-    box-shadow: 0 0 73px -27px rgb(33, 32, 33);
+    padding:0 50px;
     border-radius: 8px;
 
     .list-header {
@@ -209,3 +207,24 @@
     border-radius: 5px;
 
 }
+
+.task-card-reaction{
+    display: flex;
+    gap: 10px;
+    img{
+        width: 41px;
+        height: 36px;
+
+    }
+
+    .reaction-content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        span{
+            color: hsl(206, 100%, 40%);
+        }
+    }
+}
+

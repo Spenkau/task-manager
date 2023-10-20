@@ -16,9 +16,11 @@
     @yield('main')
     @yield('personal_area')
     @yield('task')
+    @yield('tags')
 </section>
 @vite('resources/js/UI/script.ts')
 @vite('resources/js/UI/personalArea.ts')
+@vite('resources/js/UI/taskPage.ts')
 {{--@vite('resources/js/jquery/tools.js')--}}
 </body>
 </html>

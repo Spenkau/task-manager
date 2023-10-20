@@ -67,8 +67,8 @@
             @endif
             <div class="write-comment">
                 <form action="" method="post">
-                    <input type="text" name="comment" placeholder="Оставьте комментарий для задачи...">
-                    <input type="submit" value="Отправить">
+                    <input class="input-commit input-page" type="text" name="comment" minlength="10" placeholder="Оставьте комментарий для задачи...">
+                    <input type="submit" value="Отправить" class="input-submit-commit disabled">
                 </form>
             </div>
             <div class="task-comments">
@@ -88,7 +88,7 @@
                         <div class="user-comment">
                             <img src="/images/avatar.png" alt="user avatar">
                             <div class="comment">
-                                <p class="user-name">Maxim</p>
+                                <p class="user-name">Alex</p>
                                 <p class="comment-text">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
@@ -99,7 +99,7 @@
                         <div class="user-comment">
                             <img src="/images/avatar.png" alt="user avatar">
                             <div class="comment">
-                                <p class="user-name">Maxim</p>
+                                <p class="user-name">Andry</p>
                                 <p class="comment-text">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
@@ -110,7 +110,7 @@
                         <div class="user-comment">
                             <img src="/images/avatar.png" alt="user avatar">
                             <div class="comment">
-                                <p class="user-name">Maxim</p>
+                                <p class="user-name">CJ</p>
                                 <p class="comment-text">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
@@ -121,7 +121,7 @@
                         <div class="user-comment">
                             <img src="/images/avatar.png" alt="user avatar">
                             <div class="comment">
-                                <p class="user-name">Maxim</p>
+                                <p class="user-name">Cebastian</p>
                                 <p class="comment-text">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
@@ -132,7 +132,7 @@
                         <div class="user-comment">
                             <img src="/images/avatar.png" alt="user avatar">
                             <div class="comment">
-                                <p class="user-name">Maxim</p>
+                                <p class="user-name">Dolly</p>
                                 <p class="comment-text">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>

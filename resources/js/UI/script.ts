@@ -30,11 +30,46 @@ const colorModeIcon: HTMLElement = document.querySelector('.button__change-color
 const selectPriority: HTMLDivElement = document.querySelector('.custom-select');
 const selectedOptionPriority: HTMLSpanElement = document.querySelector('.selected-option');
 const optionsPriority: HTMLLIElement = document.querySelector('.options');
+const selectCategory = document.querySelector('.custom-select.category');
+const optionsCategory = selectCategory.querySelector('.options-category');
+const hiddenCategoryInput = selectCategory.querySelector('.input-category');
 const hiddenInputPriority = document.querySelector('#selected-value') as HTMLInputElement;
 const taskCards: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-card');
 const taskDeleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
 const taskCompleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
 const buttonOpenSettingsModal: HTMLButtonElement = document.querySelector('.open-settings-modal');
+
+// Общий обработчик для селектов
+function handleSelect(select, options, hiddenInput) {
+    select.addEventListener('click', () => {
+        if (select.classList.contains('custom-select-active')) {
+            select.classList.remove('custom-select-active');
+            options.classList.add('options_hidden');
+        } else {
+            select.classList.add('custom-select-active');
+            options.classList.remove('options_hidden');
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!select.contains(e.target)) {
+            select.classList.remove('custom-select-active');
+            options.classList.add('options_hidden');
+        }
+    });
+
+    options.addEventListener('click', (e) => {
+        if (e.target.tagName === 'LI') {
+            select.querySelector('.selected-option').innerHTML = e.target.innerHTML;
+            hiddenInput.value = e.target.getAttribute('data-value');
+            select.classList.remove('custom-select-active');
+            options.classList.add('options_hidden');
+        }
+    });
+}
+
+handleSelect(selectPriority, optionsPriority, hiddenInputPriority);
+handleSelect(selectCategory, optionsCategory, hiddenCategoryInput);
 
 
 buttonOpenModal.addEventListener('click', () => {
@@ -144,37 +179,6 @@ const updateDateAndTime = () => {
 updateDateAndTime()
 setInterval(updateDateAndTime, 1000);
 
-const selectCategory = document.querySelector('.category-group')
-const optionCategory = document.querySelector('.options-category')
-const selectOptionCategory = document.querySelector('.selected-category')
-const hiddenCategoryInput = document.querySelector('.input-category') as HTMLInputElement
-
-selectPriority.addEventListener('click', () => {
-    selectPriority.classList.add('custom-select-active');
-    optionsPriority.classList.remove('options_hidden');
-});
-
-selectCategory.addEventListener('click', () => {
-    selectCategory.classList.add('custom-select-active');
-    optionCategory.classList.remove('options_hidden');
-})
-
-optionCategory.addEventListener('click', (e)=>{
-    if ((e.target as HTMLLIElement).tagName === 'LI'){
-        selectOptionCategory.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
-        hiddenCategoryInput.value = (e.target as HTMLLIElement).getAttribute('data-value');
-        selectCategory.classList.remove('custom-select-active')
-        optionCategory.classList.add('disabled-option')
-    }
-})
-
-optionsPriority.addEventListener('click', (e) => {
-    if ((e.target as HTMLLIElement).tagName === 'LI') {
-        selectedOptionPriority.innerHTML = `${(e.target as HTMLLIElement).innerHTML}`;
-        hiddenInputPriority.value = (e.target as HTMLLIElement).getAttribute('data-value');
-        selectPriority.classList.remove('custom-select-active')
-    }
-});
 
 
 taskCards.forEach((taskCard, key) => {
