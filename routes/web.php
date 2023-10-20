@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainPageController::class, 'index'])->name('main_page.index');
 
+// TODO задачи: сделать общий репозиторий, изменить подход с контроллером для множественных данных, добавить енумов, перенести
+// ресурсы в репу либо контроллер
+
 /**************************** TASKS *************************/
 Route::prefix('tasks')->group(function () {
     Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
