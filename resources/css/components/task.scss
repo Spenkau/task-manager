@@ -168,32 +168,35 @@
 
 .pagination-tasks{
     display: flex;
-    justify-content: center;
-    ul{
+    margin: 0 auto;
+    background-color: $abs-white;
+    border: 1px solid rgba(41, 161, 156, 0.3);
+    width: min-content;
+    border-radius: 5px;
+    font-size: 18px;
+    nav{
         display: flex;
-        box-shadow: 0 0 17px -12px rgb(33, 32, 33);
-        background-color: $bg-white;
-        padding: 10px 15px;
-        gap: 20px;
-        border-radius: 10px;
-    }
-    li{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 13px;
-        width: 25px;
-        height: 25px;
-        border-radius: 3px;
-    }
+        svg{
+            width: 25px;
+        }
 
-    li:not(.active-page,.ellipses):hover{
-        background-color: #EAEBEB;
-    }
+        .flex{
+            display: none;
+        }
 
-    .active-page{
-        background-color: $green;
-        color: $white;
+        p.text-sm{
+            display: none;
+        }
+        span.relative{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: $black;
+        }
+
+        span.cursor-default{
+            opacity: .4;
+        }
     }
 }
 
@@ -228,3 +231,6 @@
     }
 }
 
+.child{
+    padding-left: 90px;
+}

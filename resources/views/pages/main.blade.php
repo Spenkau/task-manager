@@ -12,22 +12,17 @@
                     <li>
                         <x-taskCard :task="$task"></x-taskCard>
                         @if(count($task["children"]) > 0)
-                            <x-taskCard :task="$task"></x-taskCard>
+                            <div class="child">
+                                @foreach($task["children"] as $child)
+                                    <x-taskCard :task="$child"></x-taskCard>
+                                @endforeach
+                            </div>
                         @endif
                     </li>
                 @endforeach
             </ul>
             <div class="pagination-tasks">
                 {{ $tasks->links() }}
-{{--                <ul>--}}
-{{--                    <li class="arrow-back"><</li>--}}
-{{--                    <li class="active-page">1</li>--}}
-{{--                    <li>2</li>--}}
-{{--                    <li>3</li>--}}
-{{--                    <li class="ellipses">...</li>--}}
-{{--                    <li>6</li>--}}
-{{--                    <li class="arrow-next">></li>--}}
-{{--                </ul>--}}
             </div>
         </div>
         <div>

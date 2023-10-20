@@ -4,7 +4,7 @@ const loader: HTMLDivElement = document.querySelector('.spinner-wrapper');
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         loader.classList.remove('spinner-active')
-    }, 1);
+    }, 1700);
 
 })
 
@@ -31,45 +31,45 @@ const selectPriority: HTMLDivElement = document.querySelector('.custom-select');
 const selectedOptionPriority: HTMLSpanElement = document.querySelector('.selected-option');
 const optionsPriority: HTMLLIElement = document.querySelector('.options');
 const selectCategory = document.querySelector('.custom-select.category');
-const optionsCategory = selectCategory.querySelector('.options-category');
-const hiddenCategoryInput = selectCategory.querySelector('.input-category');
+const optionsCategory = document.querySelector('.options-category-list');
+const hiddenCategoryInput = document.querySelector('.input-category');
 const hiddenInputPriority = document.querySelector('#selected-value') as HTMLInputElement;
 const taskCards: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-card');
 const taskDeleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
 const taskCompleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
 const buttonOpenSettingsModal: HTMLButtonElement = document.querySelector('.open-settings-modal');
 
-// Общий обработчик для селектов
-function handleSelect(select, options, hiddenInput) {
-    select.addEventListener('click', () => {
-        if (select.classList.contains('custom-select-active')) {
-            select.classList.remove('custom-select-active');
-            options.classList.add('options_hidden');
-        } else {
-            select.classList.add('custom-select-active');
-            options.classList.remove('options_hidden');
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!select.contains(e.target)) {
-            select.classList.remove('custom-select-active');
-            options.classList.add('options_hidden');
-        }
-    });
-
-    options.addEventListener('click', (e) => {
-        if (e.target.tagName === 'LI') {
-            select.querySelector('.selected-option').innerHTML = e.target.innerHTML;
-            hiddenInput.value = e.target.getAttribute('data-value');
-            select.classList.remove('custom-select-active');
-            options.classList.add('options_hidden');
-        }
-    });
-}
-
-handleSelect(selectPriority, optionsPriority, hiddenInputPriority);
-handleSelect(selectCategory, optionsCategory, hiddenCategoryInput);
+// // Общий обработчик для селектов
+// function handleSelect(select, options, hiddenInput) {
+//     select.addEventListener('click', () => {
+//         if (select.classList.contains('custom-select-active')) {
+//             select.classList.remove('custom-select-active');
+//             options.classList.add('options_hidden');
+//         } else {
+//             select.classList.add('custom-select-active');
+//             options.classList.remove('options_hidden');
+//         }
+//     });
+//
+//     document.addEventListener('click', (e) => {
+//         if (!select.contains(e.target)) {
+//             select.classList.remove('custom-select-active');
+//             options.classList.add('options_hidden');
+//         }
+//     });
+//
+//     options.addEventListener('click', (e) => {
+//         if (e.target.tagName === 'LI') {
+//             select.querySelector('.selected-option').innerHTML = e.target.innerHTML;
+//             hiddenInput.value = e.target.getAttribute('data-value');
+//             select.classList.remove('custom-select-active');
+//             options.classList.add('options_hidden');
+//         }
+//     });
+// }
+//
+// handleSelect(selectPriority, optionsPriority, hiddenInputPriority);
+// handleSelect(selectCategory, optionsCategory, hiddenCategoryInput);
 
 
 buttonOpenModal.addEventListener('click', () => {
