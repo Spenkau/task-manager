@@ -50,11 +50,12 @@ class TaskController extends Controller
 
     public function showByCategory()
     {
-        $tasks = $this->taskService->showByCategory('red');
+        $tasks = $this->taskService->showByCategory('salmon');
 
-        dump($tasks);
+        dump($tasks);dd($tasks);
 
-        return view('filtered_tasks', ['tasks' => $tasks]);
+
+        return response()->view('filtered_tasks', ['tasks' => $tasks]);
 //        return view('tasksBySlug');
 //        try {
 //            return response()->view('filtered_tasks', ['tasks' => $tasks]);

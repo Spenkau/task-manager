@@ -7,19 +7,22 @@ use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainPageController::class, 'index'])->name('main_page.index');
+
 /**************************** TASKS *************************/
 Route::prefix('tasks')->group(function () {
     Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
     Route::post('/', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/category/{slug}', [TaskController::class, 'showByCategory']);
+    Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
     Route::get('{task}', [TaskController::class, 'show'])->name('tasks.show');
     Route::patch('{task}', [TaskController::class, 'update'])->name('tasks.update');
     Route::delete('{task}', [TaskController::class, 'softDelete'])->name('tasks.delete');
 });
-
-Route::get('/tasks/category/{slug}', [TaskController::class, 'showByCategory']);
-Route::get('/tasks/tag/{slug}', [TaskController::class, 'showByTag']);
-
 /**************************** END TASKS *************************/
+
+/**************************** START TAGS *************************/
+Route::get('tags', [TaskController::class, 'index']);
+/**************************** END TAGS *************************/
 
 
 
