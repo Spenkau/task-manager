@@ -36,12 +36,6 @@ class TaskRepository implements TaskRepositoryInterface
         }
     }
 
-    public function paginate(int $perPage = 15, array $columns = ['*'],
-                             string $pageName = 'page', ?int $page = null): LengthAwarePaginator
-    {
-        return $this->newQuery()->toBase()->paginate($perPage, $columns, $pageName, $page);
-    }
-
     public function store(mixed $data)
     {
         Task::create($data);
