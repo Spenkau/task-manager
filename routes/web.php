@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ Route::prefix('tasks')->group(function () {
 /**************************** END TASKS *************************/
 
 /**************************** START TAGS *************************/
-Route::get('tags', [TaskController::class, 'index']);
+Route::get('tags', [TagController::class, 'index'])->name('tags.index');
 /**************************** END TAGS *************************/
 
 
