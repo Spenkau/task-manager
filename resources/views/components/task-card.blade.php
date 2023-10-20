@@ -6,6 +6,9 @@
     </div>
     <div class="task-card">
         <div class="task-header">
+            <p>
+                {{ $task['id'] }}
+            </p>
             <p class="task-card-date">
                 @if($task['started_at'] && $task['finished_at'])
                     C

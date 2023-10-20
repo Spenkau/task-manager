@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-//            CategorySeeder::class,
-//            UserSeeder::class,
-//            TaskSeeder::class,
-            TagSeeder::class
+            CategorySeeder::class,
+            UserSeeder::class,
+            TagSeeder::class,
+            TaskSeeder::class,
         ]);
         $this->command->info('бд заполнена');
     }

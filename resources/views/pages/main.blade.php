@@ -15,15 +15,16 @@
                 @endforeach
             </ul>
             <div class="pagination-tasks">
-                <ul>
-                    <li class="arrow-back"><</li>
-                    <li class="active-page">1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li class="ellipses">...</li>
-                    <li>6</li>
-                    <li class="arrow-next">></li>
-                </ul>
+                {{ $tasks->links() }}
+{{--                <ul>--}}
+{{--                    <li class="arrow-back"><</li>--}}
+{{--                    <li class="active-page">1</li>--}}
+{{--                    <li>2</li>--}}
+{{--                    <li>3</li>--}}
+{{--                    <li class="ellipses">...</li>--}}
+{{--                    <li>6</li>--}}
+{{--                    <li class="arrow-next">></li>--}}
+{{--                </ul>--}}
             </div>
         </div>
         <div>
