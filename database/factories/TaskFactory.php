@@ -38,6 +38,7 @@ class TaskFactory extends Factory
 
                 return null;
             },
+            'tag_id' => fake()->unique()->numberBetween(1, 20),
         ];
     }
 }

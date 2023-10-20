@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use App\Services\CategoryService;
 use App\Services\TaskService;
 use Exception;
