@@ -32,4 +32,9 @@ class TagService
     {
         return new TaskResourceCollection($this->taskRepo->index());
     }
+
+    public function showTasks(array $tags)
+    {
+        return $this->tagRepo->showTasks($tags);
+    }
 }

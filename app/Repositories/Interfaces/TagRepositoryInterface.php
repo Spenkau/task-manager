@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 interface TagRepositoryInterface
 {
     public function index();
-
+    public function showTasks(array $tags);
 }

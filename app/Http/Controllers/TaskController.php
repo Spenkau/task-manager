@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTO\TaskDTO;
+use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
@@ -63,17 +64,21 @@ class TaskController extends Controller
     }
 
     // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $taskRequest, StoreTagRequest $tagRequest)
     {
-        $data = $request->validated();
+        $data = $taskRequest->validated();
         $data['user_id'] = 1;
 
-        try {
-            $this->taskService->store($data);
-            return back()->with(['success' => true, 'message' => 'Task successfully created!']);
-        } catch (Exception $e) {
-            return back()->with(['success' => false, 'error' => 'Failed to store data: ' . $e]);
-        }
+        $tags = $tagRequest->input('tags');
+
+        dump($tags);
+
+//        try {
+//            $this->taskService->store($data);
+//            return back()->with(['success' => true, 'message' => 'Task successfully created!']);
+//        } catch (Exception $e) {
+//            return back()->with(['success' => false, 'error' => 'Failed to store data: ' . $e]);
+//        }
     }
 
     public function update(UpdateRequest $request, Task $task)
