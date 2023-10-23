@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('status_id')->unsigned()->default(1);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->unsignedBigInteger('tag_id')->nullable();
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
@@ -33,7 +32,6 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
 
