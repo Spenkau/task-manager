@@ -64,6 +64,9 @@
             <button><i class="icon-rewrite"></i> редактировать</button>
             <button><i class="icon-share"></i> поделиться</button>
             <button><i class="icon-postpone"></i> отложить</button>
+            @if(count($task["children"]))
+               <button><i class="icon-show-all"></i><span>{{count($task["children"])}}</span> подзадач</button>
+            @endif
         </div>
     </div>
     <div class="task-complete">

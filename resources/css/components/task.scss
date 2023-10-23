@@ -9,7 +9,7 @@
     @include icon(26px, 26px, 'delete')
 }
 
-.icon-tag{
+.icon-tag {
     @include icon(15px, 15px, 'tag')
 }
 
@@ -152,9 +152,12 @@
     @include icon(20px, 20px, 'share');
 }
 
+.icon-show-all {
+    @include icon(20px, 20px, 'show_all')
+}
 
 .task-list {
-    padding:0 50px;
+    padding: 0 50px;
     border-radius: 8px;
 
     .list-header {
@@ -166,7 +169,7 @@
 
 }
 
-.pagination-tasks{
+.pagination-tasks {
     display: flex;
     margin: 0 auto;
     background-color: $abs-white;
@@ -174,63 +177,78 @@
     width: min-content;
     border-radius: 5px;
     font-size: 18px;
-    nav{
+
+    nav {
         display: flex;
-        svg{
+
+        svg {
             width: 25px;
         }
 
-        .flex{
+        .flex {
             display: none;
         }
 
-        p.text-sm{
+        p.text-sm {
             display: none;
         }
-        span.relative{
+
+        span.relative {
             display: flex;
             align-items: center;
             gap: 10px;
             color: $black;
         }
 
-        span.cursor-default{
+        span.cursor-default {
             opacity: .4;
         }
     }
 }
 
-.task-card-tag{
+.task-card-tag {
     display: flex;
     align-items: center;
-    gap:10px;
+    gap: 10px;
     color: hsl(206, 100%, 40%);
-    background-color: hsl(206,96%,90%);
+    background-color: hsl(206, 96%, 90%);
     padding: 5px 7px;
     border-radius: 5px;
 
 }
 
-.task-card-reaction{
+.task-card-reaction {
     display: flex;
     gap: 10px;
-    img{
+
+    img {
         width: 41px;
         height: 36px;
 
     }
 
-    .reaction-content{
+    .reaction-content {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 5px;
-        span{
+
+        span {
             color: hsl(206, 100%, 40%);
         }
     }
 }
 
-.child{
+.child {
     padding-left: 90px;
+
+    .task-card {
+        width: 90%;
+    }
+
+    .task-header {
+        gap: 27px;
+    }
 }
+
+

@@ -12,11 +12,7 @@
                     <li>
                         <x-taskCard :task="$task"></x-taskCard>
                         @if(count($task["children"]) > 0)
-                            <div class="child">
-                                @foreach($task["children"] as $child)
-                                    <x-taskCard :task="$child"></x-taskCard>
-                                @endforeach
-                            </div>
+                            @include("UIcomponents.taskChild", ['children' => $task["children"]])
                         @endif
                     </li>
                 @endforeach
