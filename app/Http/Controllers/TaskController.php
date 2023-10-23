@@ -50,11 +50,9 @@ class TaskController extends Controller
 
     public function showByCategory()
     {
-        $tasks = $this->taskService->showByCategory('salmon');
+        $tasks = $this->taskService->showByCategory('purple');
 
-        dump($tasks);dd($tasks);
-
-
+        dump($tasks);
         return response()->view('filtered_tasks', ['tasks' => $tasks]);
 //        return view('tasksBySlug');
 //        try {
@@ -62,16 +60,6 @@ class TaskController extends Controller
 //        } catch (Exception $e) {
 //            return back()->with(['error' => 'Failed to show your tasks: ' . $e]);
 //        }
-    }
-
-    public function showByTags(Tag $tag)
-    {
-        try {
-            $tasks = $this->taskService->showByTags($tag);
-            return response()->view('filtered_tasks', ['tasks' => $tasks]);
-        } catch (Exception $e) {
-            return back()->with(['error' => 'Failed to show your tasks: ' . $e]);
-        }
     }
 
     // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект

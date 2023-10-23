@@ -11,15 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('task_tag', function (Blueprint $table) {
-            $table->unsignedBigInteger('task_id');
-            $table->unsignedBigInteger('tag_id');
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug');
             $table->timestamps();
+        });
+
+        Schema::create('tag_task', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('task_id')->index();
+            $table->unsignedBigInteger('tag_id')->index();
 
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
 
-            $table->primary(['task_id', 'tag_id']);
+            $table->timestamps();
         });
     }
 
@@ -28,6 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('tags');
         Schema::dropIfExists('task_tag');
     }
 };

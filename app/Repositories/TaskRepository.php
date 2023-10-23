@@ -6,6 +6,7 @@ use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\DTO\TaskDTO;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskRepository implements TaskRepositoryInterface
@@ -13,18 +14,8 @@ class TaskRepository implements TaskRepositoryInterface
         // TODO Изменить решение получения тасков с именем категории
     public function allOrParent(string $relation)
     {
-//        if ($relation === 'all') {
-//            return Task::all();
-//        }
-//
-//        return Task::whereParentId(null)
-//            ->with($relation)
-//            ->with('category')
-//            ->get();
-
-
         if ($relation === 'all') {
-            return Task::all()->paginate(5);
+            return Task::paginate(5);
         } else {
             $tasks = Task::whereNull('parent_id')->paginate(5);
 
@@ -36,40 +27,33 @@ class TaskRepository implements TaskRepositoryInterface
         }
     }
 
-    public function paginate(int $perPage = 15, array $columns = ['*'],
-                             string $pageName = 'page', ?int $page = null): LengthAwarePaginator
-    {
-        return $this->newQuery()->toBase()->paginate($perPage, $columns, $pageName, $page);
-    }
-
-    public function store(mixed $data)
+    public function store(mixed $data): void
     {
         Task::create($data);
     }
 
-    public function show(int $taskId)
+    public function show(int $taskId): Builder
     {
         return Task::find($taskId);
     }
 
-    public function showByCategory($categoryId)
+    public function showByCategory($categoryId): Builder
     {
         return Task::where('category_id', $categoryId)
             ->get();
     }
 
-    public function showByTags(string $selectedTags)
+    public function index()
     {
-        return Task::where('tag_id', $selectedTags)
-            ->get();
+        return Task::with('tags')->get();
     }
 
-    public function update(Task $task, $data)
+    public function update(Task $task, $data): void
     {
         $task->update($data);
     }
 
-    public function softDelete(Task $task)
+    public function softDelete(Task $task): void
     {
         $task->delete();
     }

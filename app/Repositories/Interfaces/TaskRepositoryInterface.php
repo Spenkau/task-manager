@@ -9,7 +9,7 @@ interface TaskRepositoryInterface
     public function store(mixed $data);
     public function show(int $taskId);
     public function showByCategory($categoryId);
-    public function showByTags(string $selectedTags);
+    public function index();
     public function update(Task $task, $data);
     public function softDelete(Task $task);
     public function getByUser(Task $task);
