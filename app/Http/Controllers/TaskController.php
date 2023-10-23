@@ -62,16 +62,6 @@ class TaskController extends Controller
 //        }
     }
 
-    public function showByTags(Tag $tag)
-    {
-        try {
-            $tasks = $this->taskService->showByTags($tag);
-            return response()->view('filtered_tasks', ['tasks' => $tasks]);
-        } catch (Exception $e) {
-            return back()->with(['error' => 'Failed to show your tasks: ' . $e]);
-        }
-    }
-
     // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
     public function store(StoreRequest $request)
     {
