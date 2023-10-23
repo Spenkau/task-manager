@@ -42,7 +42,7 @@
                     <input type="datetime-local" name="finished_at" required>
                 </label>
             </div>
-            <input type="text" maxlength="16" name="tag" placeholder="Введите тег задачи(необезательно)...">
+            <input type="text" name="tag" placeholder="Введите тег задачи (необезательно)...">
             <input type="submit" value="Отправить">
         </div>
     </form>

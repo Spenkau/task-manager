@@ -16,7 +16,6 @@ class TagResourceCollection extends ResourceCollection
     {
         return [
             'name' => $this->name,
-            'slug' => $this->slug,
         ];
     }
 }
