@@ -8,7 +8,6 @@ use App\Http\Controllers\MainPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('api')->group(function () {
-    Route::get('/', [MainPageController::class, 'index'])->name('main_page.index');
 
     // TODO задачи: сделать общий репозиторий, изменить подход с контроллером для множественных данных, добавить енумов, перенести
     // ресурсы в репу либо контроллер
@@ -16,8 +15,8 @@ Route::prefix('api')->group(function () {
     /**************************** TASKS *************************/
     Route::prefix('tasks')->group(function () {
         Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
-        Route::post('/', [TaskController::class, 'store'])->name('tasks.store');
-        Route::get('/category/{slug}', [TaskController::class, 'showByCategory']);
+        Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
+        Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
         Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
         Route::get('{task}', [TaskController::class, 'show'])->name('tasks.show');
         Route::patch('{task}', [TaskController::class, 'update'])->name('tasks.update');
@@ -29,11 +28,9 @@ Route::prefix('api')->group(function () {
     Route::get('tags', [TagController::class, 'index'])->name('tags.index');
     /**************************** END TAGS *************************/
 
-
-
     /**************************** CATEGORIES *************************/
     Route::prefix('categories')->group(function () {
-    //    Route::get('', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('', [CategoryController::class, 'index'])->name('categories.index');
         Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
         Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
     });

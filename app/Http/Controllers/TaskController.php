@@ -33,9 +33,9 @@ class TaskController extends Controller
         $tasks = $this->taskService->allOrParent('all');
 
         try {
-            return response()->json(['success' => true, 'tasks' => $tasks]);
+            return response()->json(['tasks' => $tasks], 418);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to show your tasks: ' . $e]);
+            return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
         }
     }
 
@@ -44,9 +44,9 @@ class TaskController extends Controller
         $task = $this->taskService->show($task->id);
 
         try {
-            return response()->json(['success' => true, 'tasks' => $task]);
+            return response()->json(['tasks' => $task]);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to show your task: ' . $e]);
+            return response()->json(['error' => 'Failed to show your task: ' . $e]);
         }
     }
 
@@ -56,9 +56,9 @@ class TaskController extends Controller
 
         dump($tasks);
         try {
-            return response()->json(['success' => true, 'tasks' => $tasks]);
+            return response()->json(['tasks' => $tasks]);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to show your task: ' . $e]);
+            return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
         }
     }
 
@@ -74,9 +74,9 @@ class TaskController extends Controller
 
         try {
             $this->taskService->store($data);
-            return response()->json(['success' => true, 'message' => 'Task successfully stored!']);
+            return response()->json(['message' => 'Task successfully stored!']);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to store your task: ' . $e]);
+            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
     }
 
@@ -86,9 +86,9 @@ class TaskController extends Controller
 
         try {
             $this->taskService->update($task, $data);
-            return response()->json(['success' => true, 'message' => 'Task successfully updated!']);
+            return response()->json(['message' => 'Task successfully updated!']);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to store your task: ' . $e]);
+            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
     }
 
@@ -96,9 +96,9 @@ class TaskController extends Controller
     {
         try {
             $this->taskService->softDelete($task);
-            return response()->json(['success' => true, 'message' => 'Task successfully deleted!']);
+            return response()->json(['message' => 'Task successfully deleted!']);
         } catch (NotFoundHttpException $e) {
-            return response()->json(['success' => false,'error' => 'Failed to delete task: ' . $e]);
+            return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
         }
     }
 }
