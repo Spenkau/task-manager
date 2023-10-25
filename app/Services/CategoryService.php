@@ -18,7 +18,8 @@ class CategoryService
 
     public function allOrParent(string $relation)
     {
-        return CategoryResource::collection($this->categoryRepo->allOrParent($relation));
+//        return CategoryResource::collection($this->categoryRepo->allOrParent($relation));
+        return $this->categoryRepo->allOrParent($relation);
     }
 
     public function update(Category $category, $data)

@@ -14,7 +14,7 @@ Route::prefix('api')->group(function () {
 
     /**************************** TASKS *************************/
     Route::prefix('tasks')->group(function () {
-        Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
+        Route::get('', [TaskController::class, 'index'])->name('tasks.index');
         Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
         Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
         Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
@@ -30,7 +30,8 @@ Route::prefix('api')->group(function () {
 
     /**************************** CATEGORIES *************************/
     Route::prefix('categories')->group(function () {
-        Route::get('', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('all', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('with_children', [CategoryController::class, 'withChildren'])->name('categories.withChildren');
         Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
         Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
     });

@@ -24,7 +24,8 @@ class TaskService
 
     public function allOrParent(string $relation)
     {
-        return TaskResource::collection($this->taskRepo->allOrParent($relation));
+//        return TaskResource::collection($this->taskRepo->allOrParent($relation));
+        return $this->taskRepo->allOrParent($relation);
     }
 
     public function show(int $taskId)

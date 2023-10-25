@@ -8,10 +8,15 @@ abstract class BaseRepository
 {
     public $sortBy = 'created_at';
     public $sortOrder = 'asc';
-    public function all()
+
+    public function all(string $relation)
     {
-        return $this->model
-            ->orderBy($this->sortBy, $this->sortOrder)
+        if ($relation === 'all' | $relation === '') {
+            return $this->model->all();
+        }
+
+        return $this->model->orderBy($this->sortBy, $this->sortOrder)
+            ->with($relation)
             ->get();
     }
 
@@ -23,31 +28,27 @@ abstract class BaseRepository
             ->paginate($paginate);
     }
 
-    public function create($input)
-    {
-        $model = $this->model;
-        $model->fill($input);
-        $model->save();
-
-        return $model;
-    }
-
     public function find($id)
     {
-        return $this->model->where('id', $id)->first();
+        return $this->model->find($id);
     }
 
-    public function destroy($id)
+    public function create(array $field, mixed $data)
     {
-        return $this->find($id)->delete();
+        $model = $this->model;
+
+        $model->firstOrCreate($field, $data);
+//        return $model;
     }
 
-    public function update($id, array $input)
+    public function update(Model $model, mixed $data)
     {
-        $model = $this->find($id);
-        $model->fill($input);
-        $model->save();
+        $model->update($data);
+//        return $model;
+    }
 
-        return $model;
+    public function destroy(Model $model)
+    {
+        return $model->delete();
     }
 }
