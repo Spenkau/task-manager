@@ -28,7 +28,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         $category->update($data);
     }
 
-    public function softDelete(Category $category)
+    public function delete(Category $category)
     {
         $category->delete();
     }

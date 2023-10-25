@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
 use App\Services\TagService;
 use App\Services\TaskService;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class TagController extends Controller

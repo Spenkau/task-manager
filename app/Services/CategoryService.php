@@ -31,8 +31,8 @@ class CategoryService
         $this->categoryRepo->store($data);
     }
 
-    public function softDelete(Category $category)
+    public function delete(Category $category)
     {
-        $this->categoryRepo->softDelete($category);
+        $this->categoryRepo->delete($category);
     }
 }
