@@ -11,5 +11,5 @@ interface CategoryRepositoryInterface
 
     public function update(Category $category, $data);
 
-    public function softDelete(Category $category);
+    public function delete(Category $category);
 }
