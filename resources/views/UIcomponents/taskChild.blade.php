@@ -1,4 +1,4 @@
-<ul class="child">
+<ul class="child task-child-list disabled">
     @foreach($children as $child)
         <li class="child-item">
             <x-taskCard :task="$child"></x-taskCard>

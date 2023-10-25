@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 //header script
-if(document.querySelector('.header')){
+if (document.querySelector('.header')) {
     const overlay: HTMLDivElement = document.querySelector('.header__overlay');
     const modal: HTMLDivElement = document.querySelector('.overlay__modal');
     const buttonOpenModal: HTMLButtonElement = document.querySelector('.container-button');
@@ -23,7 +23,15 @@ if(document.querySelector('.header')){
     const observationButton = document.querySelector('.observation-button');
     const newTaskModal = document.getElementById('overlay-task')
     const bodyMainPage = document.querySelector('body')
-    const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i')
+    const colorModeIcon: HTMLElement = document.querySelector('.button__change-color-mode > i');
+    const selectPriority: HTMLDivElement = document.querySelector('.custom-select');
+    const selectedOptionPriority: HTMLSpanElement = document.querySelector('.selected-option');
+    const optionsPriority: HTMLLIElement = document.querySelector('.options');
+    const selectCategory = document.querySelector('.custom-select-category');
+    const selectedOptionCategory = document.querySelector('.category-group .selected-option')
+    const optionsCategory = document.querySelector('.options-category-list');
+    const hiddenCategoryInput = document.querySelector('.input-category') as HTMLInputElement;
+    const hiddenInputPriority = document.querySelector('#selected-value') as HTMLInputElement;
 
     buttonOpenModal.addEventListener('click', () => {
         overlay.classList.replace("disabled", "active")
@@ -86,11 +94,37 @@ if(document.querySelector('.header')){
         newTaskModal.classList.replace('modal-category_disabled', 'modal-category_active');
         newTaskContainer.classList.replace('modal-category_disabled', 'modal-category_active');
     })
+
+    selectedOptionPriority.addEventListener('click', e => {
+        optionsPriority.classList.remove('options_hidden');
+        selectPriority.classList.add('custom-select-active');
+
+        optionsPriority.addEventListener('click', e => {
+            hiddenInputPriority.value = (e.target as HTMLLIElement).getAttribute('data-value')
+            optionsPriority.classList.add('options_hidden');
+            selectPriority.classList.remove('custom-select-active')
+            selectedOptionPriority.innerHTML = (e.target as HTMLLIElement).innerHTML
+        })
+
+    })
+
+    selectedOptionCategory.addEventListener('click', e => {
+        optionsCategory.classList.remove('options_hidden');
+        selectCategory.classList.add('custom-select-active');
+
+        optionsCategory.addEventListener('click', e => {
+            hiddenCategoryInput.value = (e.target as HTMLLIElement).getAttribute('data-value')
+            optionsCategory.classList.add('options_hidden');
+            selectCategory.classList.remove('custom-select-active')
+            selectedOptionCategory.innerHTML = (e.target as HTMLLIElement).innerHTML
+        })
+
+    })
 }
 
 
 //sidebar script
-if(sidebar){
+if (sidebar) {
     const buttonNewCategory: HTMLButtonElement = document.querySelector('.list__new-category > button');
     const newCategoryModal = document.getElementById('overlay-category');
     const newCategoryContainer: HTMLDivElement = document.querySelector('.modal-category_container')
@@ -125,14 +159,10 @@ if(sidebar){
     })
 
 
-
-
 }
 
 
-
-
-if(timeElement && dateElement){
+if (timeElement && dateElement) {
     //time-date-section
     const updateDateAndTime = () => {
         const nowDate: Date = new Date();
@@ -152,20 +182,7 @@ if(timeElement && dateElement){
 }
 
 
-
-const selectPriority: HTMLDivElement = document.querySelector('.custom-select');
-const selectedOptionPriority: HTMLSpanElement = document.querySelector('.selected-option');
-const optionsPriority: HTMLLIElement = document.querySelector('.options');
-const selectCategory = document.querySelector('.custom-select.category');
-const optionsCategory = document.querySelector('.options-category-list');
-const hiddenCategoryInput = document.querySelector('.input-category');
-const hiddenInputPriority = document.querySelector('#selected-value') as HTMLInputElement;
-
-
-
-
-
-if(taskCards){
+if (taskCards) {
     const taskDeleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-delete');
     const taskCompleteList: NodeListOf<HTMLDivElement> = document.querySelectorAll('.task-complete');
     taskCards.forEach((taskCard, key) => {
@@ -191,42 +208,32 @@ if(taskCards){
         })
     })
 }
-// // Общий обработчик для селектов
-// function handleSelect(select, options, hiddenInput) {
-//     select.addEventListener('click', () => {
-//         if (select.classList.contains('custom-select-active')) {
-//             select.classList.remove('custom-select-active');
-//             options.classList.add('options_hidden');
-//         } else {
-//             select.classList.add('custom-select-active');
-//             options.classList.remove('options_hidden');
-//         }
-//     });
-//
-//     document.addEventListener('click', (e) => {
-//         if (!select.contains(e.target)) {
-//             select.classList.remove('custom-select-active');
-//             options.classList.add('options_hidden');
-//         }
-//     });
-//
-//     options.addEventListener('click', (e) => {
-//         if (e.target.tagName === 'LI') {
-//             select.querySelector('.selected-option').innerHTML = e.target.innerHTML;
-//             hiddenInput.value = e.target.getAttribute('data-value');
-//             select.classList.remove('custom-select-active');
-//             options.classList.add('options_hidden');
-//         }
-//     });
-// }
-//
-// handleSelect(selectPriority, optionsPriority, hiddenInputPriority);
-// handleSelect(selectCategory, optionsCategory, hiddenCategoryInput);
 
+const toggleShowChildTask: HTMLButtonElement | null = document.querySelector('.toggle-show-child');
+//tasks child list
+if (toggleShowChildTask) {
+    const countClid = Number(toggleShowChildTask.querySelector('.count-child').textContent);
+    const tasksContainer: HTMLDivElement = document.querySelector('.tasks-container');
+    const childList: HTMLUListElement = tasksContainer.querySelector('.task-child-list');
+    let regStr: string = `${countClid}`
+    if (countClid === 1) {
+        regStr += ' подзадача'
+    } else if (
+        //@ts-ignore
+        [2, 3, 4].includes(countClid)
+    ) {
+        regStr += ' подзадачи'
+    } else {
+        regStr += ' подзадач'
+    }
+    toggleShowChildTask.textContent = regStr
 
+    toggleShowChildTask.addEventListener('click', e => {
+        tasksContainer.classList.toggle('full-task-card')
+        childList.classList.toggle('disabled')
+    })
+}
 
-
-//user settings modal
 
 
 

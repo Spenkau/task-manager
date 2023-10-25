@@ -13,74 +13,6 @@
 .icon-category{
     @include icon(5px, 5px, "category")
 }
-.sidebar {
-    position: fixed;
-    z-index: 5;
-    top: 0;
-    height: 100%;
-    overflow-y: scroll;
-    &::-webkit-scrollbar{
-        width: 0;
-
-    }
-
-    background-color: $abs-white;
-    min-width: 300px;
-    padding: 20px 0 20px 20px;
-    transition: left 350ms ease;
-
-    h2 {
-        color: $green;
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 30px;
-        line-height: 26px;
-    }
-
-    a {
-        display: flex;
-        margin-top: 100%;
-        align-items: center;
-        gap: 5px;
-        color: $black;
-
-        i {
-            transform: rotate(180deg);
-        }
-    }
-}
-
-.sidebar__logo {
-    margin-bottom: 50px;
-    display: flex;
-    align-items: center;
-    img{
-        margin-top: 20px;
-        width: 156px;
-        height: 65px;
-    }
-}
-
-.active-category {
-    background: url("/public/images/icons/active.svg") right no-repeat;
-}
-
-.sidebar__list {
-    padding-right: 20px;
-    li {
-
-        button {
-            display: flex;
-            align-items: center;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            font-size: 16px;
-            gap: 5px;
-
-        }
-    }
-}
 
 .sidebar_hide {
     left: -5000px;
@@ -93,6 +25,7 @@
     @include icon(20px,20px,"square-plus");
 }
 .list__new-category{
+    margin-top: 30px;
     button{
         color: $green;
     }

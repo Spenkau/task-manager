@@ -75,3 +75,4 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
 
 /**************************** END ADMIN *************************/
 
+Route::get('{any?}', fn () => view('app'))->where('any','.*');
