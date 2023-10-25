@@ -15,7 +15,6 @@ class TaskResourceCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
             'category_id' => $this->category_id,
