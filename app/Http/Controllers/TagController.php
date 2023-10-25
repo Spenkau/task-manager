@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\TagService;
 use App\Services\TaskService;
+use Exception;
 use Illuminate\Routing\Controller;
 
 class TagController extends Controller
@@ -23,12 +24,11 @@ class TagController extends Controller
 
         $tasks = $this->tagService->showAllTasks();
 
-        return response()->json(['success' => true,
-            'data' => [
-                'tags' => $tags,
-                'tasks' => $tasks
-            ]
-        ]);
+        try {
+            return response()->json(['data' => ['tags' => $tags, 'tasks' => $tasks]], 500);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show tags: ' . $e]);
+        }
     }
 
 //    public function showTasks($tags)
