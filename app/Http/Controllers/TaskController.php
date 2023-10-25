@@ -7,7 +7,6 @@ use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
-use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Task;
@@ -30,7 +29,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = $this->taskService->allOrParent('all');
+        $tasks = $this->taskService->allOrParent('children');
 
         try {
             return response()->json(['tasks' => $tasks], 418);
@@ -41,13 +40,16 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        $task = $this->taskService->show($task->id);
+        $task = $this->model->firstOrCreate(['a' => 'b']);
 
-        try {
-            return response()->json(['tasks' => $task]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show your task: ' . $e]);
-        }
+        return $task;
+//        $task = $this->taskService->show($task->id);
+//
+//        try {
+//            return response()->json(['tasks' => $task]);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'Failed to show your task: ' . $e]);
+//        }
     }
 
     public function showByCategory()
