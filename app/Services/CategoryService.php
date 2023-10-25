@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CategoryResourceCollection;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
@@ -17,7 +18,7 @@ class CategoryService
 
     public function allOrParent(string $relation)
     {
-        return new CategoryResourceCollection($this->categoryRepo->allOrParent($relation));
+        return CategoryResource::collection($this->categoryRepo->allOrParent($relation));
     }
 
     public function update(Category $category, $data)

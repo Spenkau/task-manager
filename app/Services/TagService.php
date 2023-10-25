@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\TagResource;
 use App\Http\Resources\TagResourceCollection;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
@@ -25,12 +26,12 @@ class TagService
 
     public function index()
     {
-        return new TagResourceCollection($this->tagRepo->index());
+        return TagResource::collection($this->tagRepo->index());
     }
 
     public function showAllTasks()
     {
-        return new TaskResourceCollection($this->taskRepo->index());
+        return TaskResource::collection($this->taskRepo->index());
     }
 
     public function showTasks(array $tags)

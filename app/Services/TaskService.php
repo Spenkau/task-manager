@@ -24,7 +24,7 @@ class TaskService
 
     public function allOrParent(string $relation)
     {
-        return new TaskResourceCollection($this->taskRepo->allOrParent($relation));
+        return TaskResource::collection($this->taskRepo->allOrParent($relation));
     }
 
     public function show(int $taskId)
@@ -36,7 +36,7 @@ class TaskService
     {
         $category = $this->categoryRepo->findOne($slug);
 
-        return new TaskResourceCollection($this->taskRepo->showByCategory($category->id));
+        return TaskResource::collection($this->taskRepo->showByCategory($category->id));
     }
 
     public function showByTags(Tag $tag)

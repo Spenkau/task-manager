@@ -15,7 +15,7 @@ class TaskRepository implements TaskRepositoryInterface
     public function allOrParent(string $relation)
     {
         if ($relation === 'all') {
-            return Task::paginate(5);
+            return Task::paginate(5); //
         } else {
             $tasks = Task::whereNull('parent_id')->paginate(5);
 
