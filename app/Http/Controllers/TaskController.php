@@ -32,7 +32,7 @@ class TaskController extends Controller
         $tasks = $this->taskService->allOrParent('children');
 
         try {
-            return response()->json(['tasks' => $tasks], 418);
+            return response()->json(['tasks' => $tasks]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
         }
