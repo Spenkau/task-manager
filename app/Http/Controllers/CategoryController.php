@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\CategoryDTO;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Exception;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Session;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends Controller
 {
@@ -37,14 +34,12 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
 
-//        dump($data['name']);
-
         try {
 //            dump((new CategoryDTO($data))->name);
             $this->categoryService->store($data);
-            return back()->with(['message' => 'Category created!']);
+            return response()->json(['success' => true, 'message' => 'Category successfully stored!']);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to update: ' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to store category: ' . $e]);
         }
     }
 
@@ -54,21 +49,19 @@ class CategoryController extends Controller
 
         try {
             $this->categoryService->update($category, $data);
-            return redirect()->route('categories');
+            return response()->json(['success' => true, 'message' => 'Category successfully stored!']);
         } catch (Exception $e) {
-            return redirect()->route('categories')->with(['error' => 'Failed to update categories: ' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to update category: ' . $e]);
         }
     }
 
-    public function softDelete(Category $category)
+    public function delete(Category $category)
     {
         try {
-            $this->categoryService->softDelete($category);
-            Session::flash('message', 'Task deleted successfully');
-        } catch (NotFoundHttpException $e) {
-            Session::flash('message', $e->getMessage());
+            $this->categoryService->delete($category);
+            return response()->json(['success' => true, 'message' => 'Category successfully deleted!']);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => 'Failed to delete category: ' . $e]);
         }
-
-        return back();
     }
 }
