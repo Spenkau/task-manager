@@ -25,10 +25,20 @@ class TagController extends Controller
 
         $tasks = $this->tagService->showAllTasks();
 
-        dump($tasks);
-        return response()->view('filtered_tasks', ['tags' => $tags, 'tasks' => $tasks]);
+        return response()->json(['success' => true,
+            'data' => [
+                'tags' => $tags,
+                'tasks' => $tasks
+            ]
+        ]);
     }
 
+//    public function showTasks($tags)
+//    {
+//        $tasks = $this->tagService->showTasksByTags($tags);
+//
+//        return response()->view('filtered_tasks')
+//    }
 //    public function showByTags(Tag $tag)
 //    {
 //        try {

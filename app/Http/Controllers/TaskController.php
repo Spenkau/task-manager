@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTO\TaskDTO;
+use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
 use App\Models\Tag;
 use App\Models\Task;
@@ -31,9 +33,9 @@ class TaskController extends Controller
         $tasks = $this->taskService->allOrParent('all');
 
         try {
-            return response()->view('tasks', ['tasks' => $tasks]);
+            return response()->json(['success' => true, 'tasks' => $tasks]);
         } catch (Exception $e) {
-            return response()->view('tasks', ['error' => 'Failed to show your tasks: ' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to show your tasks: ' . $e]);
         }
     }
 
@@ -42,9 +44,9 @@ class TaskController extends Controller
         $task = $this->taskService->show($task->id);
 
         try {
-            return response()->view('task', ['task' => $task]);
+            return response()->json(['success' => true, 'tasks' => $task]);
         } catch (Exception $e) {
-            return response()->view('task', ['error' => 'Failed to show your tasks: ' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to show your task: ' . $e]);
         }
     }
 
@@ -53,26 +55,28 @@ class TaskController extends Controller
         $tasks = $this->taskService->showByCategory('purple');
 
         dump($tasks);
-        return response()->view('filtered_tasks', ['tasks' => $tasks]);
-//        return view('tasksBySlug');
-//        try {
-//            return response()->view('filtered_tasks', ['tasks' => $tasks]);
-//        } catch (Exception $e) {
-//            return back()->with(['error' => 'Failed to show your tasks: ' . $e]);
-//        }
+        try {
+            return response()->json(['success' => true, 'tasks' => $tasks]);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => 'Failed to show your task: ' . $e]);
+        }
     }
 
     // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $taskRequest, StoreTagRequest $tagRequest)
     {
-        $data = $request->validated();
+        $data = $taskRequest->validated();
         $data['user_id'] = 1;
+
+        $tags = $tagRequest->input('tags');
+
+        dump($tags);
 
         try {
             $this->taskService->store($data);
-            return back()->with(['success' => true, 'message' => 'Task successfully created!']);
+            return response()->json(['success' => true, 'message' => 'Task successfully stored!']);
         } catch (Exception $e) {
-            return back()->with(['success' => false, 'error' => 'Failed to store data: ' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to store your task: ' . $e]);
         }
     }
 
@@ -82,9 +86,9 @@ class TaskController extends Controller
 
         try {
             $this->taskService->update($task, $data);
-            return back()->with(['success' => true, 'message' => 'Task successfully updated!']);
+            return response()->json(['success' => true, 'message' => 'Task successfully updated!']);
         } catch (Exception $e) {
-            return back()->with(['error' => 'Failed to update task: ' . $e]);
+            return response()->json(['success' => false, 'error' => 'Failed to store your task: ' . $e]);
         }
     }
 
@@ -92,10 +96,9 @@ class TaskController extends Controller
     {
         try {
             $this->taskService->softDelete($task);
-            return back()->with(['success' => true, 'message' => 'Task successfully deleted!']);
+            return response()->json(['success' => true, 'message' => 'Task successfully deleted!']);
         } catch (NotFoundHttpException $e) {
-            return back()->with(['error' => 'Failed to delete task: ' . $e]);
-//            Session::flash('message', $e->getMessage());
+            return response()->json(['success' => false,'error' => 'Failed to delete task: ' . $e]);
         }
     }
 }

@@ -15,7 +15,7 @@ class TaskRepository implements TaskRepositoryInterface
     public function allOrParent(string $relation)
     {
         if ($relation === 'all') {
-            return Task::paginate(5);
+            return Task::paginate(5); //
         } else {
             $tasks = Task::whereNull('parent_id')->paginate(5);
 
@@ -27,17 +27,17 @@ class TaskRepository implements TaskRepositoryInterface
         }
     }
 
-    public function store(mixed $data): void
+    public function store(mixed $data)
     {
         Task::create($data);
     }
 
-    public function show(int $taskId): Builder
+    public function show(int $taskId)
     {
         return Task::find($taskId);
     }
 
-    public function showByCategory($categoryId): Builder
+    public function showByCategory($categoryId)
     {
         return Task::where('category_id', $categoryId)
             ->get();
@@ -48,12 +48,12 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::with('tags')->get();
     }
 
-    public function update(Task $task, $data): void
+    public function update(Task $task, $data)
     {
         $task->update($data);
     }
 
-    public function softDelete(Task $task): void
+    public function softDelete(Task $task)
     {
         $task->delete();
     }
