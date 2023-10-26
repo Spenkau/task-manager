@@ -8,20 +8,11 @@
                     <input class="input-page" type="text" name="tag" placeholder="Введите тег...">
                 </form>
             </div>
-            @include('UIcomponents.tagsList')
+            @include('UIcomponents.tagsList', ['tags' => $tags])
             <ul class="search-task-list">
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
-                @include('UIcomponents.searchTaskCard')
+                @foreach($tasks as $task)
+                    @include('UIcomponents.searchTaskCard', ['task'=> $task])
+                @endforeach
             </ul>
         </div>
     </div>

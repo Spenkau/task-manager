@@ -16,7 +16,9 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "jquery": "^3.7.1",
-        "semantic-ui-dropdown": "^2.5.0"
+        "@vitejs/plugin-vue": "^4.4.0",
+        "vue": "^3.2.36",
+        "vue-query": "^1.26.0",
+        "vue-router": "^4.2.5"
     }
 }

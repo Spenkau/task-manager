@@ -1,7 +1,7 @@
 <li class="search-task-list-item">
     <div class="search-task">
         <div class="search-task-header">
-            <h3><a href="/task/[id]">Mr.</a></h3>
+            <h3><a href="/task/[id]">{{$task['title']}}</a></h3>
             <p class="task-card-tag">
                 <i class="icon-tag">иконка тега</i>
                 <span>Тег</span>

@@ -1,35 +1,106 @@
-@import "../general";
+<template>
+    <Transition name="fade">
+        <div>
+            <slot></slot>
+            <div class="modal-task_container">
+                <form id="task" class="decor" method="POST" action="{{ route('tasks.store')  }}">
+                    <div class="form-left-decoration"></div>
+                    <div class="form-right-decoration"></div>
+                    <div class="circle"></div>
+                    <div class="form-inner">
+                        <h3>Создать Задачу</h3>
+                        <div class="name-status-group">
+                            <input type="text" placeholder="Название задачи..." name="title" required>
+                            <div class="custom-select">
+                                <p class="selected-option"><i class="icon-arrow-down"> стрелка
+                                    вниз</i><span>Приоритет</span>
+                                </p>
+                                <ul class="options options_hidden">
+                                    <li data-value="1"><i class="icon-priority_low">иконка приоритета</i> Низкий</li>
+                                    <li data-value="2"><i class="icon-priority_medium">иконка приоритета</i> Средний
+                                    </li>
+                                    <li data-value="3"><i class="icon-priority_high">иконка приоритета</i> Высокий</li>
+                                </ul>
+                                <input type="hidden" id="selected-value" name="priority_id">
+                            </div>
+                        </div>
+                        <div class="category-group custom-select custom-select-category">
+                            <span class="selected-option selected-category"><i class="icon-arrow-down">иконка вниз</i>Категория</span>
+                            <ul class="options options-category-list options_hidden">
+                                <li>категория 1</li>
+                                <li>категория 2</li>
+                            </ul>
+                            <input type="hidden" name="category_id" class="input-category">
+                        </div>
+                        <textarea placeholder="Описание задачи..." rows="3" name="content" required></textarea>
+                        <div class="task-date">
+                            <label for="started_at">
+                                Дата начала
+                                <input type="datetime-local" min="2023-10-18" id="started_at" name="started_at"
+                                       required>
+                            </label>
+                            <label for="finished_at">
+                                Дата завершения
+                                <input type="datetime-local" id="finished_at" name="finished_at" required>
+                            </label>
+                        </div>
+                        <input type="text" maxlength="16" name="tag" placeholder="Введите тег задачи(необезательно)...">
+                        <input type="submit" value="Отправить">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </Transition>
+</template>
 
+<script lang="ts">
+export default {
+    name: "NewTaskModal",
 
-.modal-category__overlay {
-    display: block;
-    position: fixed;
-    background-color: rgb(40, 40, 70, .2);
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 6;
-    font-size: 0;
+}
+
+</script>
+
+<style lang="scss">
+@import "../../../../css/general";
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 
 
 
-
-.modal-category_container {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 7;
-
+.modal-task_container {
     form {
-        min-width: 500px;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 600px;
         background-color: $white;
-        border-radius: 15px;
+        z-index: 155;
+    }
+
+    .form-right-decoration {
+        top: 380px;
+    }
+
+    .form-left-decoration {
+        bottom: 0;
+        top: 60px;
+    }
+
+    .circle {
+        bottom: 0;
+        top: 80px;
     }
 }
-
 
 .decor {
     position: relative;
@@ -111,10 +182,12 @@
     margin-bottom: 25px;
     transition: .2s ease all;
     outline: 1px solid transparent;
-    &:focus{
+
+    &:focus {
         outline: 1px solid $green;
     }
-    &::placeholder{
+
+    &::placeholder {
         color: $black;
         opacity: 0.7;
     }
@@ -171,7 +244,6 @@
 }
 
 
-
 .modal-category_disabled {
     display: none;
 }
@@ -200,7 +272,8 @@
     cursor: pointer;
     background-color: #E9EFF6;
     height: 40px;
-    .selected-option{
+
+    .selected-option {
         padding-left: 0;
     }
 }
@@ -210,11 +283,13 @@
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-    .selected-option{
+
+    .selected-option {
         justify-content: left;
         padding-left: 40px;
     }
-    .options li{
+
+    .options li {
         justify-content: left;
         padding-left: 40px;
     }
@@ -233,7 +308,7 @@
     color: $black;
 }
 
-.custom-select-active{
+.custom-select-active {
     border-radius: 20px 20px 0 0;
 }
 
@@ -249,15 +324,15 @@
     background-color: #E9EFF6;
     width: 100%;
     z-index: 20;
-    top:40px;
+    top: 40px;
     max-height: 240px;
     overflow-y: scroll;
-    &::-webkit-scrollbar{
+
+    &::-webkit-scrollbar {
         width: 0;
 
     }
 }
-
 
 
 .options li {
@@ -266,24 +341,29 @@
     gap: 15px;
     align-items: center;
     padding: 10px;
-    &:hover{
+
+    &:hover {
         background-color: #f0f0f0;
     }
 }
-.options-category{
+
+.options-category {
     height: 300px;
     overflow-y: scroll;
     border-radius: 15px;
     //border: 2px solid $black;
     box-shadow: 0 0 73px -27px rgb(33, 32, 33);
     border-right: none;
-    ::-webkit-scrollbar-track{
+
+    ::-webkit-scrollbar-track {
         background: #E9EFF6;
     }
-    ::-webkit-scrollbar-thumb{
+
+    ::-webkit-scrollbar-thumb {
         background-color: #E9EFF6;
     }
-    li{
+
+    li {
         justify-content: center;
         gap: 10px;
     }
@@ -299,22 +379,25 @@
     justify-content: space-around;
     padding-bottom: 20px;
     text-align: center;
-    label{
+
+    label {
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
-    input{
+
+    input {
         font-family: "Roboto", sans-serif;
         color: $black;
         opacity: 0.7;
     }
 }
 
-.options_hidden{
+.options_hidden {
     display: none;
 }
 
-.disabled-option{
+.disabled-option {
     display: none;
 }
+</style>
