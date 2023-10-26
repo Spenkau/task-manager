@@ -23,34 +23,37 @@ import Sidebar from "../components/sidebar/Sidebar.vue";
 import DateTimePanel from "../components/DateTimePanel.vue";
 import CategoryList from "../components/sidebar/СategoryList.vue";
 import TaskList from "../components/TaskList/TaskList.vue";
+import {onMounted, ref} from "vue";
 
 export default {
     name: "Home",
     components: {TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
-    data() {
-        return {
-            showSidebar: false,
-            categories:[]
-        }
-    },
-    methods: {
-        async getCategories() {
+    setup() {
+        const showSidebar = ref(false)
+        const categories = ref([])
+
+        const getCategories = async () => {
             try {
                 const res = await fetch('http://127.0.0.1:8000/api/categories');
                 if (res.ok) {
                     const data = await res.json();
-                    this.categories = data.data.with_children
+                    categories.value = data.data.with_children
 
                 }
             } catch (e) {
                 console.error('Ошибка получения данных:', e);
             }
         }
-    },
-    mounted() {
-        this.getCategories()
-    }
 
+        onMounted(()=>{
+            getCategories()
+        })
+
+        return {
+            showSidebar,
+            categories
+        }
+    },
 
 }
 </script>
@@ -65,7 +68,7 @@ export default {
     margin-bottom: 15px;
 }
 
-.main{
+.main {
     display: flex;
     gap: 40px;
     justify-content: space-between;
