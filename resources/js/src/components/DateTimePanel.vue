@@ -5,7 +5,7 @@
             <div>
                 <ul class="time-list">
                     <li>На часах у нас</li>
-                    <li><i class="icon-time"> иконка часов </i> <span class="time"> {{ currentTime }} </span></li>
+                    <li><i class="icon-time"> иконка часов </i> <span class="time"> {{ currentTime}} </span></li>
                 </ul>
                 <ul class="date-list">
                     <li> А сегодня у нас</li>
@@ -16,33 +16,24 @@
     </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import {ref, onMounted} from "vue"
-export default {
-    name: "DateTimePanel",
-    setup(){
-        const currentTime = ref( new Date().toLocaleTimeString())
-        const currentDate = ref( new Date().toLocaleDateString(
-            ["by","ru"],
-            {year: 'numeric', month: 'long', day: 'numeric'}
-        ))
 
-        const updateTime = ()=>{
-            setInterval(() => {
-                currentTime.value = new Date().toLocaleTimeString()
-            }, 100)
-        }
+const currentTime = ref( new Date().toLocaleTimeString())
+const currentDate = ref( new Date().toLocaleDateString(
+    ["by","ru"],
+    {year: 'numeric', month: 'long', day: 'numeric'}
+))
 
-        onMounted(()=>{
-            updateTime()
-        })
-
-        return {
-            currentTime,
-            currentDate
-        }
-    }
+const updateTime = ()=>{
+    setInterval(() => {
+        currentTime.value = new Date().toLocaleTimeString()
+    }, 100)
 }
+
+onMounted(()=>{
+    updateTime()
+})
 </script>
 
 <style scoped lang="scss">

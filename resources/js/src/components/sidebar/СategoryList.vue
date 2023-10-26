@@ -14,15 +14,23 @@
 
 <script lang="ts">
 import {WithChildren} from "../../interfaces/interfaces";
+import {ref, toRefs} from "vue";
 
 export default {
     name: "CategoryList",
-    data() {
-        return {
-            categoryList: this.categories as WithChildren[] | [],
-        }
+    props:{
+        categories:Array
     },
-    props:["categories"],
+
+    setup(props) {
+        const {categories} = toRefs(props)
+
+        const categoryList = ref<WithChildren[]>(categories.value)
+
+        return{
+            categoryList
+        }
+    }
 }
 
 </script>

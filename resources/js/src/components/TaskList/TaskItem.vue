@@ -9,27 +9,27 @@
             <div class="task-card">
                 <div class="task-header">
                     <p>
-                        {{taskItem.id}}
+                        {{ taskItem.id }}
                     </p>
                     <p class="task-card-date">
                         <span v-if="dateIsNull">
                             Дата не указана
                         </span>
                         <template v-else>
-                            <span>{{taskItem.started_at}}</span>
+                            <span>{{ taskItem.started_at }}</span>
                             по
-                            <span>{{taskItem.finished_at}}</span>
+                            <span>{{ taskItem.finished_at }}</span>
                         </template>
                     </p>
                     <p class="task-card-category">
                         <i class="icon-category">иконка категории</i>
-                        <span>{{ "категория" }}</span>
+                        <span>{{ taskItem.category_id }}</span>
                     </p>
                     <div class="task-card-tag">
                         <ul>
                             <li>
                                 <i class="icon-tag">иконка тега</i>
-                                <a href="/tags"><span>{{ "тег" }}</span></a>
+                                <a href="/tags"><span>{{ taskItem.tag_id }}</span></a>
                             </li>
                         </ul>
                     </div>
@@ -79,21 +79,24 @@
 
 <script lang="ts">
 import {ITask} from "../../interfaces/interfaces";
+import {ref, toRefs, computed, reactive} from "vue";
 
 export default {
     name: "TaskItem",
-    props:["task"],
-    setup(){
+    props: {
+        task: Object
+    },
+    setup(props) {
+        const {task} = toRefs<ITask>(props)
+        const taskItem = ref<ITask>(task.value)
 
-    },
-    data(){
-        return{
-            taskItem: this.task as ITask[] | []
-        }
-    },
-    computed:{
-        dateIsNull(){
-            return this.taskItem.started_at === null && this.taskItem.finished_at === null
+        const dateIsNull = computed(() => {
+            return taskItem.value.started_at === null && taskItem.value.finished_at === null
+        })
+
+        return {
+            taskItem,
+            dateIsNull
         }
     }
 }
@@ -136,18 +139,19 @@ export default {
     height: 100%;
     justify-content: center;
     align-items: center;
-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    color: $white;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        color: $white;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
 
 }
 
@@ -157,9 +161,9 @@ button {
     border-radius: 10px;
     transition: left 200ms ease;
 
-button {
-    border-radius: 10px 0 0 10px;
-}
+    button {
+        border-radius: 10px 0 0 10px;
+    }
 
 }
 
@@ -171,17 +175,17 @@ button {
     border-radius: 10px;
     transition: right 200ms ease;
 
-button {
-    border-radius: 0 10px 10px 0;
-}
+    button {
+        border-radius: 0 10px 10px 0;
+    }
 }
 
 
 @keyframes filling {
-    0%{
+    0% {
         width: 0;
     }
-    100%{
+    100% {
         width: 100%;
     }
 
@@ -203,10 +207,10 @@ button {
     align-items: center;
     gap: 7px;
 
-i {
-    width: 13px;
-    height: 13px;
-}
+    i {
+        width: 13px;
+        height: 13px;
+    }
 }
 
 .task-body {
@@ -217,40 +221,41 @@ i {
     margin-bottom: 25px;
     gap: 300px;
 
-h3 {
-a {
-    color: $black;
-    font-size: 20px;
+    h3 {
+        a {
+            color: $black;
+            font-size: 20px;
 
-&:hover {
-     color: rgba(40, 40, 70, 0.7);
- }
-}
-}
+            &:hover {
+                color: rgba(40, 40, 70, 0.7);
+            }
+        }
+    }
 
-i {
-    width: 13px;
-    height: 18px;
-}
+    i {
+        width: 13px;
+        height: 18px;
+    }
 }
 
 .task-footer {
     display: flex;
     justify-content: space-around;
 
-button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 10px;
-    color: rgba(40, 40, 70, 0.7);
-    background-color: transparent;
-    border: none;
-}
-.toggle-show-child{
-    font-size: 14px;
+    button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 10px;
+        color: rgba(40, 40, 70, 0.7);
+        background-color: transparent;
+        border: none;
+    }
 
-}
+    .toggle-show-child {
+        font-size: 14px;
+
+    }
 }
 
 
@@ -274,12 +279,12 @@ button {
     padding: 0 50px;
     border-radius: 8px;
 
-.list-header {
-    color: $green;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
+    .list-header {
+        color: $green;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
 
 }
 
@@ -292,32 +297,32 @@ button {
     border-radius: 5px;
     font-size: 18px;
 
-nav {
-    display: flex;
+    nav {
+        display: flex;
 
-svg {
-    width: 25px;
-}
+        svg {
+            width: 25px;
+        }
 
-.flex {
-    display: none;
-}
+        .flex {
+            display: none;
+        }
 
-p.text-sm {
-    display: none;
-}
+        p.text-sm {
+            display: none;
+        }
 
-span.relative {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: $black;
-}
+        span.relative {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: $black;
+        }
 
-span.cursor-default {
-    opacity: .4;
-}
-}
+        span.cursor-default {
+            opacity: .4;
+        }
+    }
 }
 
 .task-card-tag {
@@ -335,54 +340,57 @@ span.cursor-default {
     display: flex;
     gap: 10px;
 
-img {
-    width: 41px;
-    height: 36px;
+    img {
+        width: 41px;
+        height: 36px;
 
-}
+    }
 
-.reaction-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+    .reaction-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
 
-span {
-    color: hsl(206, 100%, 40%);
-}
-}
+        span {
+            color: hsl(206, 100%, 40%);
+        }
+    }
 }
 
 .child {
     padding-left: 90px;
 
-.task-card {
-    width: 90%;
+    .task-card {
+        width: 90%;
+    }
+
+    .task-header {
+        gap: 27px;
+    }
 }
 
-.task-header {
-    gap: 27px;
-}
-}
 
-
-.full-task-card{
+.full-task-card {
     border: 1px solid rgba(41, 161, 156, 0.3);
     border-radius: 10px;
     padding-bottom: 30px;
     margin-bottom: 30px;
-.task-card{
-    border: none;
-}
-.child{
-.full-task-card{
-    border: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
-.task-card{
-    border: 1px solid rgba(41, 161, 156, 0.3)
-}
-}
+
+    .task-card {
+        border: none;
+    }
+
+    .child {
+        .full-task-card {
+            border: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .task-card {
+            border: 1px solid rgba(41, 161, 156, 0.3)
+        }
+    }
 }
 </style>

@@ -76,14 +76,18 @@
 <script>
 import NewTaskModal from "./NewTaskModal.vue";
 import UserSettingsModal from "./UserSettingsModal.vue";
+import {ref} from "vue";
 
 export default {
     name: "TheHeader",
     components: {UserSettingsModal, NewTaskModal},
-    data() {
-        return {
-            newTaskModalShow: false,
-            userToolsModalShow:false
+    setup(){
+        const newTaskModalShow = ref(false);
+        const userToolsModalShow = ref(false);
+
+        return{
+            newTaskModalShow,
+            userToolsModalShow
         }
     }
 

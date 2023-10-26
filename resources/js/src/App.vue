@@ -2,13 +2,8 @@
     <RouterView/>
 </template>
 
-<script lang="ts">
-import { useQueryProvider } from "vue-query";
+<script setup lang="ts">
 
-useQueryProvider();
-export default {
-    name: "App",
-}
 </script>
 
 <style scoped lang="scss">
