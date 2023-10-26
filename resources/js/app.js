@@ -18,8 +18,8 @@ document.querySelector('#submit-button').addEventListener(
 
 Echo.channel('public-channel')
     // Listen for the event called "button.clicked"
-    .listen('ButtonClicked', (e) => {
+    .listen('ButtonClickedController', (e) => {
 
         // Display the "message" in an alert box
-        console.log('faf')
+        alert('faf')
     });

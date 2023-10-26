@@ -15,8 +15,11 @@ class ButtonClickedController extends Controller
     {
         $message = 'test';
 
-        broadcast(new ButtonClicked($message))->toOthers();
+        ButtonClicked::dispatch($message);
 
-        return response()->view('filtered_tasks', ['success' => true]);
+
+//        broadcast(new ButtonClicked($message))->toOthers();
+        return 'sent';
+//        return response()->view('filtered_tasks', ['success' => true]);
     }
 }
