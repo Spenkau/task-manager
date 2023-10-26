@@ -4,12 +4,13 @@
     </TheHeader>
     <div class="body-main">
         <div class="left" @mousemove="showSidebar=true"></div>
-        <Sidebar v-if="showSidebar">
-            <div class="sidebar"></div>
+        <Sidebar v-if="showSidebar" @mouseleave="showSidebar=false">
+            <CategoryList :categories="categories"/>
         </Sidebar>
         <section class="main">
             <div class="active-task">
-                <h2>Активные задачи</h2>
+                <h2 class="list-header">Активные задачи</h2>
+                <TaskList/>
             </div>
             <DateTimePanel/>
         </section>
@@ -20,15 +21,35 @@
 import TheHeader from "../components/header/TheHeader.vue";
 import Sidebar from "../components/sidebar/Sidebar.vue";
 import DateTimePanel from "../components/DateTimePanel.vue";
+import CategoryList from "../components/sidebar/СategoryList.vue";
+import TaskList from "../components/TaskList/TaskList.vue";
 
 export default {
     name: "Home",
-    components: {DateTimePanel, Sidebar, TheHeader},
+    components: {TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
     data() {
         return {
-            showSidebar: false
+            showSidebar: false,
+            categories:[]
         }
     },
+    methods: {
+        async getCategories() {
+            try {
+                const res = await fetch('http://127.0.0.1:8000/api/categories');
+                if (res.ok) {
+                    const data = await res.json();
+                    this.categories = data.data.with_children
+
+                }
+            } catch (e) {
+                console.error('Ошибка получения данных:', e);
+            }
+        }
+    },
+    mounted() {
+        this.getCategories()
+    }
 
 
 }
@@ -37,17 +58,17 @@ export default {
 <style scoped lang="scss">
 @import "../../../css/general";
 
-.sidebar {
-    position: fixed;
-    z-index: 5;
-    top: 0;
-    left: 0;
-    height: 100%;
-    overflow-y: scroll;
+.list-header {
+    color: $green;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
 
-    &::-webkit-scrollbar {
-        width: 0;
-    }
+.main{
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
 }
 
 .icon-sidebar-open {

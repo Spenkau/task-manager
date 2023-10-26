@@ -1,29 +1,41 @@
 <template>
-    <slot>
+    <div class="sidebar">
         <div class="sidebar__logo">
             <img src="images/icons/logo.svg" alt="logo">
         </div>
         <h2>Категории</h2>
-        <CategoryList/>
+        <slot></slot>
         <a class="logout" href="/signin"><i class="icon-logout">иконка выхода</i> Выйти</a>
-    </slot>
+    </div>
 </template>
 
 <script>
 import CategoryList from "./СategoryList.vue";
+
 export default {
-name: "Sidebar",
+    name: "Sidebar",
     components: {CategoryList},
 }
 </script>
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
 .sidebar {
     background-color: $abs-white;
     min-width: 300px;
     padding: 20px 0 20px 20px;
     transition: left 350ms ease;
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
 
     h2 {
         color: $green;
@@ -50,7 +62,8 @@ name: "Sidebar",
     margin-bottom: 50px;
     display: flex;
     align-items: center;
-    img{
+
+    img {
         margin-top: 20px;
         width: 156px;
         height: 65px;
@@ -61,21 +74,6 @@ name: "Sidebar",
     background: url("/public/images/icons/active.svg") right no-repeat;
 }
 
-.sidebar__list {
-    padding-right: 20px;
-    li {
 
-        button {
-            display: flex;
-            align-items: center;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            font-size: 16px;
-            gap: 5px;
-
-        }
-    }
-}
 
 </style>

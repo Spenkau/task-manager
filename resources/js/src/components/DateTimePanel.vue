@@ -17,26 +17,30 @@
 </template>
 
 <script>
+import {ref, onMounted} from "vue"
 export default {
     name: "DateTimePanel",
-    data() {
-        return {
-            currentTime: new Date().toLocaleTimeString(),
-            currentDate: new Date().toLocaleDateString(
-                ["by","ru"],
-                {year: 'numeric', month: 'long', day: 'numeric'}
-                )
-        }
-    },
-    methods: {
-        updateTime() {
+    setup(){
+        const currentTime = ref( new Date().toLocaleTimeString())
+        const currentDate = ref( new Date().toLocaleDateString(
+            ["by","ru"],
+            {year: 'numeric', month: 'long', day: 'numeric'}
+        ))
+
+        const updateTime = ()=>{
             setInterval(() => {
-                this.currentTime = new Date().toLocaleTimeString()
+                currentTime.value = new Date().toLocaleTimeString()
             }, 100)
         }
-    },
-    mounted() {
-        this.updateTime()
+
+        onMounted(()=>{
+            updateTime()
+        })
+
+        return {
+            currentTime,
+            currentDate
+        }
     }
 }
 </script>
@@ -46,6 +50,7 @@ export default {
 
 .time-date-section {
     width: 500px;
+    max-height: 160px;
     padding: 30px;
     background-color: $abs-white;
     border-radius: 10px;

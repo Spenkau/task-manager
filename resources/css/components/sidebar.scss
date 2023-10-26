@@ -10,9 +10,7 @@
     }
 }
 
-.icon-category{
-    @include icon(5px, 5px, "category")
-}
+
 
 .sidebar_hide {
     left: -5000px;
@@ -21,12 +19,5 @@
 .sidebar_active {
     left: 0;
 }
-.icon-square-plus{
-    @include icon(20px,20px,"square-plus");
-}
-.list__new-category{
-    margin-top: 30px;
-    button{
-        color: $green;
-    }
-}
+
+
