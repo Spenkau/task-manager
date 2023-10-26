@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Exception;
-use Illuminate\Routing\Controller;
 
 class CategoryController extends Controller
 {

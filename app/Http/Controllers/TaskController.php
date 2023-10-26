@@ -2,21 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\TaskDTO;
 use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
-use App\Http\Resources\TaskResource;
-use App\Models\Category;
-use App\Models\Tag;
 use App\Models\Task;
-use App\Models\User;
 use App\Services\TaskService;
 use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Session;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TaskController extends Controller
 {
@@ -99,7 +90,7 @@ class TaskController extends Controller
         try {
             $this->taskService->softDelete($task);
             return response()->json(['message' => 'Task successfully deleted!']);
-        } catch (NotFoundHttpException $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
         }
     }

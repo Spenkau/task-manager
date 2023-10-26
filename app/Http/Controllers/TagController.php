@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\TagService;
 use App\Services\TaskService;
 use Exception;
-use Illuminate\Routing\Controller;
 
 class TagController extends Controller
 {
