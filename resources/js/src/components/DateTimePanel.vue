@@ -34,6 +34,7 @@ const updateTime = ()=>{
 onMounted(()=>{
     updateTime()
 })
+
 </script>
 
 <style scoped lang="scss">
