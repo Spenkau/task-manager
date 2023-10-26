@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\CategoryService;
 use App\Services\TaskService;
 use Exception;
-use Illuminate\Routing\Controller;
 
 class MainPageController extends Controller
 {
@@ -26,7 +25,7 @@ class MainPageController extends Controller
         $allCategories = $this->categoryService->allOrParent('all');
 
         try {
-            return response()->json(['success' => true,
+            return response()->view('filtered_tasks', ['success' => true,
                 'data' => [
                     'categories' => $withChildCategories,
                     'allCategories' => $allCategories,
@@ -34,7 +33,7 @@ class MainPageController extends Controller
                 ]
             ]);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to show categories or tasks: ' . $e]);
+            return response()->view('filtered_tasks', ['success' => false, 'error' => 'Failed to show categories or tasks: ' . $e]);
         }
     }
 }

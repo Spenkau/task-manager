@@ -1,19 +1,18 @@
-@extends('layouts.layout')
-@section('tags')
-    <div class="tags-page">
-        <div class="tags-page-container">
-            <h2>Поиск по вашим тегам :)</h2>
-            <div class="find-form">
-                <form action="" method="post">
-                    <input class="input-page" type="text" name="tag" placeholder="Введите тег...">
-                </form>
-            </div>
-            @include('UIcomponents.tagsList', ['tags' => $tags])
-            <ul class="search-task-list">
-                @foreach($tasks as $task)
-                    @include('UIcomponents.searchTaskCard', ['task'=> $task])
-                @endforeach
-            </ul>
-        </div>
-    </div>
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WebSockets Test</title>
+
+    @vite('resources/js/app.js')
+</head>
+
+<body>
+<button id="submit-button" type="button">
+    @csrf
+    Press Me!
+</button>
+</body>
+</html>
