@@ -1,18 +1,15 @@
 export interface ICategories {
-    data: Data
+    data: ICategory[]
 }
 
-interface Data {
-    with_children: WithChildren[]
-    all_categories: AllCategory[]
-}
-
-export interface WithChildren {
+export interface ICategory {
+    id: number
     name: string
-}
-
-export interface AllCategory {
-    name: string
+    slug: string
+    parent_id: null | number
+    created_at: string
+    updated_at: string
+    children: [] | ICategory[]
 }
 
 
