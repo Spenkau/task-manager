@@ -5,8 +5,11 @@ import {VueQueryPlugin} from 'vue-query';
 import './bootstrap.js';
 
 
+
 const app = createApp(App)
 
 app.use(router)
    .use(VueQueryPlugin)
    .mount('#app')
+
+
