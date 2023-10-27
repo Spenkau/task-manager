@@ -1,6 +1,6 @@
 <template>
     <ul v-if="!isLoading">
-        <li v-for="task in tasks" :key="task.id">
+        <li v-for="(task,key) in tasks" :key="key">
             <TaskItem :task="task"/>
         </li>
     </ul>
@@ -19,18 +19,9 @@ export default {
     name: "TaskList",
     components: {TaskItem},
     setup() {
-        const tasks = ref<ITasks | []>([])
-
         const {data, isLoading, isError} = useTasksQuery()
-
-        onMounted(()=>{
-            if (!isLoading.value && !isError.value) {
-                tasks.value = data.value.tasks;
-            }
-        })
-
         return {
-            tasks,
+            tasks:data.value.tasks,
             isLoading
         }
 

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import {WithChildren} from "../../interfaces/interfaces";
+import {ICategories} from "../../interfaces/interfaces";
 import {ref, toRefs} from "vue";
 
 export default {
@@ -25,7 +25,7 @@ export default {
     setup(props) {
         const {categories} = toRefs(props)
 
-        const categoryList = ref<WithChildren[]>(categories.value)
+        const categoryList = ref<ICategories>(categories.value)
 
         return{
             categoryList
