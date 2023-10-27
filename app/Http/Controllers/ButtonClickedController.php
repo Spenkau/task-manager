@@ -20,6 +20,5 @@ class ButtonClickedController extends Controller
 
 //        broadcast(new ButtonClicked($message))->toOthers();
         return 'sent';
-//        return response()->view('filtered_tasks', ['success' => true]);
     }
 }
