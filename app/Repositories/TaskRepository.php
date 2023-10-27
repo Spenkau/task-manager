@@ -15,13 +15,14 @@ class TaskRepository implements TaskRepositoryInterface
     public function allOrParent(string $relation)
     {
         if ($relation === 'all') {
-            return Task::paginate(5); //
+            return Task::paginate(5);
         } else {
-            $tasks = Task::whereNull('parent_id')->paginate(5);
-
-            foreach ($tasks as $task) {
-                $task->load($relation);
-            }
+//            $tasks = Task::with('tags')->whereNull('parent_id')->paginate(5);
+//
+//            foreach ($tasks as $task) {
+//                $task->load($relation);
+//            }
+            $tasks = Task::with(['tags', 'children'])->paginate(5);
 
             return $tasks;
         }

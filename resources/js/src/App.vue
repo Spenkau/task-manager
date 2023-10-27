@@ -7,14 +7,11 @@
 console.log(import.meta.env.VITE_APP_NAME)
 export default {
     name: 'App',
-    mounted() {
-        console.log('e');
-        // to connect the public channel
-        window.Echo.channel('public').listen('Hello', (e) => {
-            console.log('go public');
-            //code for displaying the serve data
-            console.log(e); // the data from the server
-        })
+    created() {
+      window.Echo.private('testchannel')
+          .listen('Test', (e) => {
+            console.log('test successful ' + e)
+          })
     }
 }
 </script>
