@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Task\TaskCreateEvent;
 use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
@@ -67,6 +68,9 @@ class TaskController extends Controller
 
         try {
             $this->taskService->store($data);
+
+            broadcast(new TaskCreateEvent($data));
+
             return response()->json(['message' => 'Task successfully stored!']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
