@@ -4,7 +4,6 @@ import router from "./src/router/router";
 import {VueQueryPlugin} from 'vue-query';
 import './bootstrap.js';
 
-
 const app = createApp(App)
 
 app.use(router)
