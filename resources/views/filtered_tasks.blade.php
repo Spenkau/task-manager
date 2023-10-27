@@ -10,9 +10,8 @@
 </head>
 
 <body>
-<button id="submit-button" type="button">
-    @csrf
-    Press Me!
-</button>
+@if($message)
+    {{ $message }}
+@endif
 </body>
 </html>

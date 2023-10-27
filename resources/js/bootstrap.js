@@ -28,5 +28,10 @@ window.Echo = new Echo({
     wsPort: 6001,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
     forceTLS: false,
-    disableStats: true,
+    disableStats: true
 });
+
+
+// to connect the public channel
+
+

@@ -50,10 +50,10 @@ class ButtonClicked implements ShouldBroadcast
      *
      * @return bool
      */
-    public function broadcastWhen()
-    {
-        return strlen($this->message) > 3;
-    }
+//    public function broadcastWhen()
+//    {
+//        return strlen($this->message) > 3;
+//    }
 
     /**
      * Return event channel
@@ -63,7 +63,7 @@ class ButtonClicked implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('public-channel'),
+            new Channel('public'),
         ];
     }
 }

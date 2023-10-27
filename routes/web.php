@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Route;
 Route::post('/', ButtonClickedController::class);
 Route::get('/', ButtonClickedController::class);
 
+Route::get('/broadcast',function(){
+
+    $message = 'HELLO WORRDL';
+
+    broadcast(new \App\Events\ButtonClicked($message));
+    return view('filtered_tasks', ['message' => $message]);
+});
+
 Route::prefix('api')->group(function () {
 
     // TODO задачи: сделать общий репозиторий, изменить подход с контроллером для множественных данных, добавить енумов, перенести
