@@ -10,7 +10,10 @@
         <section class="main">
             <div class="active-task">
                 <h2 class="list-header">Активные задачи</h2>
-                <TaskList/>
+<!--                <TaskList/>-->
+                <p v-for="message in messages">
+                    {{message}}
+                </p>
             </div>
             <DateTimePanel/>
         </section>
@@ -31,6 +34,8 @@ export default {
     setup() {
         const showSidebar = ref(false)
         const categories = ref([])
+        const messages = ref([])
+
 
         const getCategories = async () => {
             try {
@@ -47,11 +52,32 @@ export default {
 
         onMounted(()=>{
             getCategories()
+            console.log('e')
+            try{
+
+                window.Echo.channel('public')
+                    .listen('.button.clicked', (e) => {
+                        console.log('go public');
+                        //code for displaying the serve data
+                        console.log(e); // the data from the server
+                    })
+                    .listen('.message', (e) => {
+                        console.log('go public');
+                        messages.value.push(e.message)
+                    })
+                    .error((error)=>{
+                        console.error('Error:', error);
+                    })
+
+            } catch (e) {
+                console.error(e)
+            }
         })
 
         return {
             showSidebar,
-            categories
+            categories,
+            messages
         }
     },
 

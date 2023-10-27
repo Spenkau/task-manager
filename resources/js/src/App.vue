@@ -2,20 +2,20 @@
     <RouterView/>
 </template>
 
+
 <script lang="ts">
 
-console.log(import.meta.env.VITE_APP_NAME)
+import {onMounted} from "vue";
+
 export default {
     name: 'App',
-    created() {
-      window.Echo.private('testchannel')
-          .listen('Test', (e) => {
-            console.log('test successful ' + e)
-          })
+
+    setup(){
     }
 }
+
 </script>
 
 <style scoped lang="scss">
-
+@import "node_modules/vue-select/dist/vue-select.css";
 </style>
