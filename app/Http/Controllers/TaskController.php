@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Task\TaskCreateEvent;
+use App\Events\Task\CommentCreateEvent;
 use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
@@ -32,16 +32,13 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        $task = $this->model->firstOrCreate(['a' => 'b']);
+        $task = $this->taskService->show($task->id);
 
-        return $task;
-//        $task = $this->taskService->show($task->id);
-//
-//        try {
-//            return response()->json(['tasks' => $task]);
-//        } catch (Exception $e) {
-//            return response()->json(['error' => 'Failed to show your task: ' . $e]);
-//        }
+        try {
+            return response()->json(['tasks' => $task]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your task: ' . $e]);
+        }
     }
 
     public function showByCategory()
@@ -57,24 +54,22 @@ class TaskController extends Controller
     }
 
     // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
-    public function store(StoreRequest $taskRequest, StoreTagRequest $tagRequest)
+    public function store(StoreRequest $taskRequest)
     {
         $data = $taskRequest->validated();
         $data['user_id'] = 1;
 
-        $tags = $tagRequest->input('tags');
+        return $data;
 
-        dump($tags);
-
-        try {
-            $this->taskService->store($data);
-
-            broadcast(new TaskCreateEvent($data));
-
-            return response()->json(['message' => 'Task successfully stored!']);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
-        }
+//        try {
+//            $this->taskService->store($data);
+//
+//            broadcast(new CommentCreateEvent($data));
+//
+//            return response()->json(['message' => 'Task successfully stored!']);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
+//        }
     }
 
     public function update(UpdateRequest $request, Task $task)

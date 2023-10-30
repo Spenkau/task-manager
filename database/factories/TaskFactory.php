@@ -12,7 +12,7 @@ class TaskFactory extends Factory
 {
     public function generateRand(): ?int
     {
-        return random_int(0, 1) ? 1 : null;
+        return random_int(1, 3) ? 1 : null;
 
     }
 
