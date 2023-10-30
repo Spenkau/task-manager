@@ -7,7 +7,7 @@ use App\Services\UserService;
 
 class UserController extends Controller
 {
-    public $userService;
+    public UserService $userService;
 
     public function __construct(UserService $userService)
     {

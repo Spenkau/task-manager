@@ -12,7 +12,7 @@ use Exception;
 
 class TaskController extends Controller
 {
-    protected $taskService;
+    protected TaskService $taskService;
 
     public function __construct(TaskService $taskService)
     {
