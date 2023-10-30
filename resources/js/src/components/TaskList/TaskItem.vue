@@ -77,29 +77,19 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {ITask} from "../../interfaces/interfaces";
 import {ref, toRefs, computed, reactive} from "vue";
 
-export default {
-    name: "TaskItem",
-    props: {
-        task: Object
-    },
-    setup(props) {
-        const {task} = toRefs<ITask>(props)
-        const taskItem = ref<ITask>(task.value)
 
-        const dateIsNull = computed(() => {
-            return taskItem.value.started_at === null && taskItem.value.finished_at === null
-        })
+const task = defineProps(['task'])
+const taskItem = ref<ITask>(task as ITask)
 
-        return {
-            taskItem,
-            dateIsNull
-        }
-    }
-}
+const dateIsNull = computed(() => {
+    return taskItem.value.started_at === null && taskItem.value.finished_at === null
+})
+
+
 </script>
 
 <style scoped lang="scss">

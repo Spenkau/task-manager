@@ -10,7 +10,7 @@
         <section class="main">
             <div class="active-task">
                 <h2 class="list-header">Активные задачи</h2>
-<!--                <TaskList/>-->
+                <TaskList/>
                 <p v-for="message in messages">
                     {{message}}
                 </p>

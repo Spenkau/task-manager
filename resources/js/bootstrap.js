@@ -5,6 +5,7 @@
  */
 
 import axios from 'axios';
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -19,6 +20,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import Echo from 'laravel-echo';
 
 import Pusher from 'pusher-js';
+
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
@@ -26,12 +28,15 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
     wsPort: 6001,
+    wssPort: 6001,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+    encrypted: true,
     forceTLS: false,
-    disableStats: true
+    disableStats: true,
+    enabledTransports: ['ws', 'wss']
 });
 
 
-// to connect the public channel
+
 
 

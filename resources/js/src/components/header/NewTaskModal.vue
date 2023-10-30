@@ -10,8 +10,14 @@
                     <div class="form-inner">
                         <h3>Создать Задачу</h3>
                         <div class="name-status-group">
-                            <input type="text" placeholder="Название задачи..." name="title" class="custom_input"
-                                   required>
+                            <v-text-field
+                                type="text"
+                                label="Название задачи..."
+                                hide-details="auto"
+                                name="title"
+                                variant="outlined"
+                                clearable
+                            ></v-text-field>
                             <v-select
                                 clearable
                                 label="Приоритет"
@@ -28,9 +34,14 @@
                             variant="outlined"
                             name="category"
                         ></v-select>
-
-                        <textarea placeholder="Описание задачи..." rows="3" name="content" class="custom_input"
-                                  required></textarea>
+                        <v-text-field
+                            type="text"
+                            label="Описание задачи..."
+                            hide-details="auto"
+                            name="content"
+                            variant="outlined"
+                            clearable
+                        ></v-text-field>
                         <div class="task-date">
                             <label for="started_at">
                                 Дата начала
@@ -64,12 +75,13 @@ const submitForm = async () => {
     try {
         const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
         const jsonData = formDataToJSON(formData.value);
-        console.log(jsonData)
+
+
         const options = {
-            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            method: 'POST',
             body: jsonData,
         };
 
@@ -86,6 +98,7 @@ const submitForm = async () => {
             .catch(error => {
                 console.error('Произошла ошибка:', error);
             });
+
     } catch (e) {
         console.error('Ошибка формы', e);
     }
@@ -211,28 +224,6 @@ const formDataToJSON = (formData) => {
     padding: 50px;
 }
 
-.form-inner .custom_input {
-    display: block;
-    width: 100%;
-    padding: 0 20px;
-    background: #E9EFF6;
-    line-height: 40px;
-    border-width: 0;
-    border-radius: 20px;
-    font-family: 'Roboto', sans-serif;
-    margin-bottom: 25px;
-    transition: .2s ease all;
-    outline: 1px solid transparent;
-
-    &:focus {
-        outline: 1px solid $green;
-    }
-
-    &::placeholder {
-        color: $black;
-        opacity: 0.7;
-    }
-}
 
 .form-inner {
     input[type="submit"] {
@@ -257,13 +248,6 @@ const formDataToJSON = (formData) => {
 }
 
 
-.form-inner textarea {
-    &::placeholder {
-        padding-top: 10px;
-    }
-
-    resize: none;
-}
 
 .form-inner h3 {
     margin-top: 0;
@@ -306,18 +290,6 @@ const formDataToJSON = (formData) => {
     @include icon(11px, 20px, 'priority_low')
 }
 
-.custom-select {
-    position: relative;
-    width: 200px;
-    border-radius: 20px;
-    cursor: pointer;
-    background-color: #E9EFF6;
-    height: 40px;
-
-    .selected-option {
-        padding-left: 0;
-    }
-}
 
 .category-group {
     width: 100%;
@@ -376,17 +348,6 @@ const formDataToJSON = (formData) => {
 }
 
 
-.options li {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
-    padding: 10px;
-
-    &:hover {
-        background-color: #f0f0f0;
-    }
-}
 
 .options-category {
     height: 300px;
@@ -434,11 +395,4 @@ const formDataToJSON = (formData) => {
     }
 }
 
-.options_hidden {
-    display: none;
-}
-
-.disabled-option {
-    display: none;
-}
 </style>

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Task;
 
+use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,18 +11,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TaskInteraction implements ShouldBroadcast
+class TaskCreateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    private Task $task;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(
-        private readonly string $msg
-    )
+    public function __construct(Task $task)
     {
-        //
+        $this->task = $task;
     }
 
     /**
@@ -32,7 +33,7 @@ class TaskInteraction implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('channel-name'),
+            new Channel('task-channel'),
         ];
     }
 }
