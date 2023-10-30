@@ -38,7 +38,7 @@ class StoreRequest extends FormRequest
     {
         $this->merge([
             'title' => trim($this->title),
-            'task_content' => trim($this->task_content),
+            'content' => trim($this->content),
         ]);
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Task;
+namespace App\Events\Comment;
 
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentUpdateEvent implements ShouldBroadcast
+class CommentDeleteEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -38,7 +38,7 @@ class CommentUpdateEvent implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, Channel>
+     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
     public function broadcastOn(): array
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Task;
+namespace App\Events\Comment;
 
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentUpdateEvent implements ShouldBroadcast
+class CommentCreateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -43,7 +43,7 @@ class CommentUpdateEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('task-channel'),
+            new Channel('task-channel'),
         ];
     }
 }
