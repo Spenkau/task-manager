@@ -56,7 +56,7 @@
                 </div>
                 <div class="task-body">
                     <h3>
-                        <RouterLink :to="'/task/' + taskItem.id">{{ taskItem.title }}</RouterLink>
+                        <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
                     <i v-if="taskItem.priority_id === 1" class="icon-priority_low">иконка приоритета</i>
                     <i v-else-if="taskItem.priority_id === 2" class="icon-priority_medium">иконка приоритета</i>
@@ -83,7 +83,7 @@ import {ref, toRefs, computed, reactive} from "vue";
 
 
 const task = defineProps(['task'])
-const taskItem = ref<ITask>(task as ITask)
+const taskItem = ref<ITask>(task.task as ITask)
 
 const dateIsNull = computed(() => {
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
@@ -96,17 +96,7 @@ const dateIsNull = computed(() => {
 @import "../../../../css/general";
 
 
-.icon-complete {
-    @include icon(26px, 26px, 'complete')
-}
 
-.icon-delete {
-    @include icon(26px, 26px, 'delete')
-}
-
-.icon-tag {
-    @include icon(15px, 15px, 'tag')
-}
 
 .item-task {
     display: flex;
@@ -249,21 +239,6 @@ const dateIsNull = computed(() => {
 }
 
 
-.icon-rewrite {
-    @include icon(20px, 20px, 'rewrite');
-}
-
-.icon-postpone {
-    @include icon(20px, 20px, 'postpone');
-}
-
-.icon-share {
-    @include icon(20px, 20px, 'share');
-}
-
-.icon-show-all {
-    @include icon(20px, 20px, 'show_all')
-}
 
 .task-list {
     padding: 0 50px;

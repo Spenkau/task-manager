@@ -26,7 +26,34 @@
 }
 
 
+.icon-complete {
+    @include icon(26px, 26px, 'complete')
+}
 
+.icon-delete {
+    @include icon(26px, 26px, 'delete')
+}
 
+.icon-tag {
+    @include icon(15px, 15px, 'tag')
+}
 
+.icon-category{
+    @include icon(13px, 13px, 'category-1')
+}
 
+.icon-rewrite {
+    @include icon(20px, 20px, 'rewrite');
+}
+
+.icon-postpone {
+    @include icon(20px, 20px, 'postpone');
+}
+
+.icon-share {
+    @include icon(20px, 20px, 'share');
+}
+
+.icon-show-all {
+    @include icon(20px, 20px, 'show_all')
+}

@@ -21,18 +21,18 @@
                             <v-select
                                 clearable
                                 label="Приоритет"
-                                :items="['Низский','Обычный', 'Высокий']"
+                                :items="[1,2, 3]"
                                 variant="outlined"
-                                name="priority"
+                                name="priority_id"
                             ></v-select>
                         </div>
 
                         <v-select
                             clearable
                             label="Категория"
-                            :items="['Дом', 'Работа', 'Дети', 'Фронт', 'Бек', 'Драка']"
+                            :items="[1, 2, 3, 3, 5, 10]"
                             variant="outlined"
-                            name="category"
+                            name="category_id"
                         ></v-select>
                         <v-text-field
                             type="text"
@@ -57,6 +57,8 @@
                         </div>
 <!--                        <input type="text" maxlength="16" name="tag" class="custom_input"-->
 <!--                               placeholder="Введите тег задачи(необезательно)...">-->
+                        <input type="hidden" name="status_id" value="1">
+                        <input type="hidden" name="user_id" value="1">
                         <input type="submit" class="custom_input" value="Отправить">
                     </div>
                 </form>
@@ -75,7 +77,7 @@ const submitForm = async () => {
     try {
         const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
         const jsonData = formDataToJSON(formData.value);
-
+        console.log(jsonData)
 
         const options = {
             headers: {

@@ -21,7 +21,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = $this->taskService->allOrParent('children');
+        $tasks = $this->taskService->allOrParent('all');
 
         try {
             return response()->json(['tasks' => $tasks]);
