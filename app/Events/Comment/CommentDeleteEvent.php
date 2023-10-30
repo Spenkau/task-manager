@@ -2,11 +2,10 @@
 
 namespace App\Events\Comment;
 
+use App\Models\Comment;
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -15,14 +14,14 @@ class CommentDeleteEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private Task $task;
+    private Comment $comment;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Task $task)
+    public function __construct(Comment $comment)
     {
-        $this->task = $task;
+        $this->comment = $comment;
     }
 
     /**
@@ -43,7 +42,7 @@ class CommentDeleteEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('task-channel'),
+            new Channel('task-channel'),
         ];
     }
 }

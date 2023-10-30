@@ -40,7 +40,8 @@ return [
                 'encrypted' => true,
                 'host' => env('PUSHER_HOST'),
                 'port' => 6001,
-                'scheme' => 'http'
+                'scheme' => env('PUSHER_SCHEME', 'http'),
+                'useTLS' => true,
             ],
         ],
 //
@@ -52,7 +53,7 @@ return [
 //            'options' => [
 //                'cluster' => env('PUSHER_APP_CLUSTER'),
 //                'host' => env('PUSHER_HOST') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'mt1').'.pusher.com',
-////                'port' => env('PUSHER_PORT', 443),
+////              'port' => env('PUSHER_PORT', 443),
 //                'port' => 6001,
 //                'scheme' => env('PUSHER_SCHEME', 'http'),
 //                'encrypted' => true,
