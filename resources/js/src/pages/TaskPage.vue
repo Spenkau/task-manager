@@ -2,7 +2,7 @@
     <div class="task-page">
         <div class="task-page-container">
             <RouterLink to="/main"><i class="icon-arrow-back">иконка назад</i> Вернуться</RouterLink>
-            <h1 class="task-name">ИМЯ ЗАДАЧИ</h1>
+            <h1 class="task-name">{{task.title}}</h1>
             <h2 class="task-category">категория 1</h2>
             <div class="task-options">
                 <p class="task-status">
@@ -28,7 +28,8 @@
             <button class="task-page-complete"><i class="icon-complete"> иконка завершить</i></button>
             <div class="write-comment">
                 <form action="" method="post">
-                    <input class="input-commit input-page" type="text" name="comment" minlength="10" placeholder="Оставьте комментарий для задачи...">
+                    <input class="input-commit input-page" type="text" name="comment" minlength="10"
+                           placeholder="Оставьте комментарий для задачи...">
                     <input type="submit" value="Отправить" class="input-submit-commit disabled">
                 </form>
             </div>
@@ -40,7 +41,9 @@
                             <div class="comment">
                                 <p class="user-name">Maxim</p>
                                 <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
+                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
+                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
                             </div>
                         </div>
@@ -51,7 +54,9 @@
                             <div class="comment">
                                 <p class="user-name">Alex</p>
                                 <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
+                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
+                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
                             </div>
                         </div>
@@ -62,7 +67,9 @@
                             <div class="comment">
                                 <p class="user-name">Andry</p>
                                 <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
+                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
+                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
                             </div>
                         </div>
@@ -73,7 +80,9 @@
                             <div class="comment">
                                 <p class="user-name">CJ</p>
                                 <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
+                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
+                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
                             </div>
                         </div>
@@ -84,7 +93,9 @@
                             <div class="comment">
                                 <p class="user-name">Cebastian</p>
                                 <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
+                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
+                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
                             </div>
                         </div>
@@ -95,7 +106,9 @@
                             <div class="comment">
                                 <p class="user-name">Dolly</p>
                                 <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
+                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
+                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
                                 </p>
                             </div>
                         </div>
@@ -108,17 +121,24 @@
 
 <script setup lang="ts">
 
-import {useRoute} from "vue-router";
-import {ref, onBeforeMount} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {ref, onBeforeMount, reactive} from "vue";
+import {ITask} from "../interfaces/interfaces";
+
 
 const route = useRoute();
-const taskId = ref(route.params.id)
+const taskId = route.params.id
+const router = useRouter()
+const task = ref<ITask | {}>({})
 
 onBeforeMount(async () => {
-    const data = await fetch(`http://127.0.0.1:8000/api/tasks/${taskId}`).then(res => res.json())
-    if(!data){
-
+    const res = await fetch(`http://127.0.0.1:8000/api/tasks/${taskId}`)
+    if (res.status === 404) {
+        router.replace({name: "NotFoundPage"})
+    } else {
+        task.value = await res.json().tasks
     }
+
 })
 
 

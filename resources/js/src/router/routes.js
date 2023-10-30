@@ -23,6 +23,11 @@ const routes = [
     },
     {
         component: NotFoundPage,
+        path: "/404",
+        name: "NotFoundPage",
+    },
+    {
+        redirect: { name: "NotFoundPage" },
         path: "/:catchAll(.*)"
     }
 ]
