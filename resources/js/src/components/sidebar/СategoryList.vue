@@ -27,6 +27,7 @@ export default {
 
         const categoryList = ref<ICategories>(categories.value)
 
+
         return{
             categoryList
         }

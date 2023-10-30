@@ -19,6 +19,12 @@ Broadcast::channel('public', function () {
     return true;
 });
 
+
+Broadcast::channel('public', function () {
+    return true;
+});
+
 Broadcast::channel('chat', ChatChannel::class);
 
 Broadcast::channel('task-channel', TaskChannel::class);
+

@@ -3,49 +3,50 @@
         <div>
             <slot></slot>
             <div class="modal-task_container">
-                <form id="task" class="decor" method="POST" action="{{ route('tasks.store')  }}">
+                <form id="task" class="decor" method="POST" @submit.prevent="submitForm">
                     <div class="form-left-decoration"></div>
                     <div class="form-right-decoration"></div>
                     <div class="circle"></div>
                     <div class="form-inner">
                         <h3>Создать Задачу</h3>
                         <div class="name-status-group">
-                            <input type="text" placeholder="Название задачи..." name="title" required>
-                            <div class="custom-select">
-                                <p class="selected-option"><i class="icon-arrow-down"> стрелка
-                                    вниз</i><span>Приоритет</span>
-                                </p>
-                                <ul class="options options_hidden">
-                                    <li data-value="1"><i class="icon-priority_low">иконка приоритета</i> Низкий</li>
-                                    <li data-value="2"><i class="icon-priority_medium">иконка приоритета</i> Средний
-                                    </li>
-                                    <li data-value="3"><i class="icon-priority_high">иконка приоритета</i> Высокий</li>
-                                </ul>
-                                <input type="hidden" id="selected-value" name="priority_id">
-                            </div>
+                            <input type="text" placeholder="Название задачи..." name="title" class="custom_input"
+                                   required>
+                            <v-select
+                                clearable
+                                label="Приоритет"
+                                :items="['Низский','Обычный', 'Высокий']"
+                                variant="outlined"
+                                name="priority"
+                            ></v-select>
                         </div>
-                        <div class="category-group custom-select custom-select-category">
-                            <span class="selected-option selected-category"><i class="icon-arrow-down">иконка вниз</i>Категория</span>
-                            <ul class="options options-category-list options_hidden">
-                                <li>категория 1</li>
-                                <li>категория 2</li>
-                            </ul>
-                            <input type="hidden" name="category_id" class="input-category">
-                        </div>
-                        <textarea placeholder="Описание задачи..." rows="3" name="content" required></textarea>
+
+                        <v-select
+                            clearable
+                            label="Категория"
+                            :items="['Дом', 'Работа', 'Дети', 'Фронт', 'Бек', 'Драка']"
+                            variant="outlined"
+                            name="category"
+                        ></v-select>
+
+                        <textarea placeholder="Описание задачи..." rows="3" name="content" class="custom_input"
+                                  required></textarea>
                         <div class="task-date">
                             <label for="started_at">
                                 Дата начала
                                 <input type="datetime-local" min="2023-10-18" id="started_at" name="started_at"
+                                       class="custom_input"
                                        required>
                             </label>
                             <label for="finished_at">
                                 Дата завершения
-                                <input type="datetime-local" id="finished_at" name="finished_at" required>
+                                <input type="datetime-local" id="finished_at" name="finished_at" class="custom_input"
+                                       required>
                             </label>
                         </div>
-                        <input type="text" maxlength="16" name="tag" placeholder="Введите тег задачи(необезательно)...">
-                        <input type="submit" value="Отправить">
+<!--                        <input type="text" maxlength="16" name="tag" class="custom_input"-->
+<!--                               placeholder="Введите тег задачи(необезательно)...">-->
+                        <input type="submit" class="custom_input" value="Отправить">
                     </div>
                 </form>
             </div>
@@ -53,11 +54,52 @@
     </Transition>
 </template>
 
-<script lang="ts">
-export default {
-    name: "NewTaskModal",
+<script setup lang="ts">
+import {ref} from 'vue';
 
+
+
+const submitForm = async () => {
+
+    try {
+        const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
+        const jsonData = formDataToJSON(formData.value);
+        console.log(jsonData)
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: jsonData,
+        };
+
+        fetch('http://127.0.0.1:8000/api/tasks/store',options)
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сети или сервера');
+            }
+            return response.json();
+            })
+            .then(data => {
+                console.log('Ответ от сервера:', data);
+            })
+            .catch(error => {
+                console.error('Произошла ошибка:', error);
+            });
+    } catch (e) {
+        console.error('Ошибка формы', e);
+    }
 }
+
+const formDataToJSON = (formData) => {
+    const jsonObject = {};
+    formData.forEach((value, key) => {
+        jsonObject[key] = value;
+    });
+    return JSON.stringify(jsonObject);
+}
+
+
 
 </script>
 
@@ -73,7 +115,6 @@ export default {
 .fade-leave-to {
     opacity: 0;
 }
-
 
 
 .modal-task_container {
@@ -170,7 +211,7 @@ export default {
     padding: 50px;
 }
 
-.form-inner input, .form-inner textarea {
+.form-inner .custom_input {
     display: block;
     width: 100%;
     padding: 0 20px;
