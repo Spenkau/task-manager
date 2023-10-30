@@ -7,6 +7,7 @@ use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -39,9 +40,9 @@ class TaskController extends Controller
         }
     }
 
-    public function showByCategory()
+    public function showByCategory(string $slug)
     {
-        $tasks = $this->taskService->showByCategory('purple');
+        $tasks = $this->taskService->showByCategory($slug);
 
         dump($tasks);
         try {
@@ -62,7 +63,7 @@ class TaskController extends Controller
 //        try {
 //            $this->taskService->store($data);
 //
-//            broadcast(new CommentCreateEvent($data));
+//            broadcast(new TaskCreateEvent($data));
 //
 //            return response()->json(['message' => 'Task successfully stored!']);
 //        } catch (Exception $e) {

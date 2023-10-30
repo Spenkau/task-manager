@@ -39,3 +39,5 @@ Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () 
     Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
     Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
 });
+
+Route::get('test', [\App\Http\Controllers\TestController::class, 'index']);
