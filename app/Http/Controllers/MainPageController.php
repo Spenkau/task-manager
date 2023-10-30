@@ -8,8 +8,8 @@ use Exception;
 
 class MainPageController extends Controller
 {
-    protected $categoryService;
-    protected $taskService;
+    protected CategoryService $categoryService;
+    protected TaskService $taskService;
 
     public function __construct(CategoryService $categoryService, TaskService $taskService)
     {
