@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/', [MainPageController::class, 'index']);
@@ -17,38 +18,6 @@ use Illuminate\Support\Facades\Route;
 //    broadcast(new \App\Events\ButtonClicked($message));
 ////    return view('filtered_tasks', ['message' => $message]);
 //});
-
-Route::prefix('api')->group(function () {
-
-    // TODO задачи: сделать общий репозиторий, изменить подход с контроллером для множественных данных, добавить енумов, перенести
-    // ресурсы в репу либо контроллер
-
-    /**************************** TASKS *************************/
-    Route::prefix('tasks')->group(function () {
-        Route::get('', [TaskController::class, 'index'])->name('tasks.index');
-        Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
-        Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
-        Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
-        Route::get('{task}', [TaskController::class, 'show'])->name('tasks.show');
-        Route::patch('{task}', [TaskController::class, 'update'])->name('tasks.update');
-        Route::delete('{task}', [TaskController::class, 'softDelete'])->name('tasks.delete');
-    });
-    /**************************** END TASKS *************************/
-
-    /**************************** START TAGS *************************/
-    Route::get('tags', [TagController::class, 'index'])->name('tags.index');
-    /**************************** END TAGS *************************/
-
-    /**************************** CATEGORIES *************************/
-    Route::prefix('categories')->group(function () {
-        Route::get('all', [CategoryController::class, 'index'])->name('categories.index');
-        Route::get('with_children', [CategoryController::class, 'withChildren'])->name('categories.withChildren');
-        Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
-        Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
-    });
-    /**************************** END CATEGORIES *************************/
-});
-
 
 /**************************** AUTH *************************/
 // TODO: для роутов админки создать отдельный файл
@@ -72,11 +41,6 @@ Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function (
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-Route::get('/personal-area', function () {
-    return view('pages.personalArea');
-});
 
 /**************************** ADMIN *************************/
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function () {

@@ -26,6 +26,16 @@ class TaskDeleteEvent implements ShouldBroadcast
     }
 
     /**
+     * Return data received from params
+     *
+     * @return Task[]
+     */
+    public function broadcastWith(): array
+    {
+        return ['task' => $this->task];
+    }
+
+    /**
      * Get the channels the event should broadcast on.
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>

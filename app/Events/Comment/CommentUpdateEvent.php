@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Task;
+namespace App\Events\Comment;
 
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
