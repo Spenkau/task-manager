@@ -17,14 +17,7 @@ class TaskRepository implements TaskRepositoryInterface
         if ($relation === 'all') {
             return Task::paginate(5);
         } else {
-//            $tasks = Task::with('tags')->whereNull('parent_id')->paginate(5);
-//
-//            foreach ($tasks as $task) {
-//                $task->load($relation);
-//            }
-            $tasks = Task::with(['tags', 'children'])->paginate(5);
-
-            return $tasks;
+            return Task::with(['children', 'tags'])->paginate(5);
         }
     }
 

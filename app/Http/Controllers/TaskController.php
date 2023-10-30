@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Task\CommentCreateEvent;
-use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
