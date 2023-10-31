@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Task\TaskCreateEvent;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -39,9 +41,9 @@ class TaskController extends Controller
         }
     }
 
-    public function showByCategory()
+    public function showByCategory(string $slug)
     {
-        $tasks = $this->taskService->showByCategory('purple');
+        $tasks = $this->taskService->showByCategory($slug);
 
         dump($tasks);
         try {
@@ -57,17 +59,15 @@ class TaskController extends Controller
         $data = $taskRequest->validated();
         $data['user_id'] = 1;
 
-        return $data;
+        try {
+            $this->taskService->store($data);
 
-//        try {
-//            $this->taskService->store($data);
-//
-//            broadcast(new CommentCreateEvent($data));
-//
-//            return response()->json(['message' => 'Task successfully stored!']);
-//        } catch (Exception $e) {
-//            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
-//        }
+            broadcast(new TaskCreateEvent($data));
+
+            return response()->json(['message' => 'Task successfully stored!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
+        }
     }
 
     public function update(UpdateRequest $request, Task $task)

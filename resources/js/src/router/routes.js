@@ -3,6 +3,8 @@ import ProfilePage from "../pages/ProfilePage.vue";
 import TagsPage from "../pages/TagsPage.vue";
 import TaskPage from "../pages/TaskPage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
+import TestPage from "../pages/TestPage.vue";
+
 
 const routes = [
     {
@@ -27,8 +29,12 @@ const routes = [
         name: "NotFoundPage",
     },
     {
-        redirect: { name: "NotFoundPage" },
+        redirect: {name: "NotFoundPage"},
         path: "/:catchAll(.*)"
+    },
+    {
+        component: TestPage,
+        path: '/test'
     }
 ]
 
