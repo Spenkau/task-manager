@@ -25,19 +25,29 @@ class CommentDeleteEvent implements ShouldBroadcast
     }
 
     /**
+     * Return name of broadcast event
+     *
+     * @return string
+     */
+    public function broadcastAs(): string
+    {
+        return 'comment.deleted';
+    }
+
+    /**
      * Return data received from params
      *
-     * @return Task[]
+     * @return Comment[]
      */
     public function broadcastWith(): array
     {
-        return ['task' => $this->task];
+        return ['comment' => $this->comment];
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
+     * @return array<int, Channel>
      */
     public function broadcastOn(): array
     {
