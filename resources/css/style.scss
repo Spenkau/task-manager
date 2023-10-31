@@ -57,3 +57,15 @@
 .icon-show-all {
     @include icon(20px, 20px, 'show_all')
 }
+
+.icon-priority_1 {
+    @include icon(11px, 20px, 'priority_high')
+}
+
+.icon-priority_2 {
+    @include icon(11px, 20px, 'priority_medium')
+}
+
+.icon-priority_3 {
+    @include icon(11px, 20px, 'priority_low')
+}

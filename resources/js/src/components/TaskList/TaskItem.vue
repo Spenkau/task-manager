@@ -58,9 +58,9 @@
                     <h3>
                         <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
-                    <i v-if="taskItem.priority_id === 1" class="icon-priority_low">иконка приоритета</i>
-                    <i v-else-if="taskItem.priority_id === 2" class="icon-priority_medium">иконка приоритета</i>
-                    <i v-else class="icon-priority_high">иконка приоритета</i>
+                    <i v-if="taskItem.priority_id === 1" class="icon-priority_1">иконка приоритета</i>
+                    <i v-else-if="taskItem.priority_id === 2" class="icon-priority_2">иконка приоритета</i>
+                    <i v-else class="icon-priority_3">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <button><i class="icon-rewrite"></i> редактировать</button>

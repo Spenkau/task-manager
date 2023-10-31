@@ -13,7 +13,9 @@
                 <Suspense>
                     <TaskList/>
                     <template #fallback>
-                        <p>ОЖИДАНИЕ ДАННЫХ</p>
+                        <p>
+                            ожидание
+                        </p>
                     </template>
                 </Suspense>
 

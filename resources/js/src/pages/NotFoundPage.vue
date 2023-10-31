@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1>404 - Страница не найдена</h1>
-        <p>Извините, запрашиваемая страница не существует.</p>
+        <h1><span>404</span> - Страница не найдена</h1>
+        <RouterLink to="/main"> вернуться на главную </RouterLink>
     </div>
 </template>
 
@@ -11,6 +11,26 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    div{
+        min-height: 765px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    span{
+        font-size: 256px;
+        font-weight: 900;
+    }
+    h1{
+        font-size: 32px;
+    }
+    a{
+        margin-top: 10px;
+        text-decoration-line: underline;
+        &:hover{
+            opacity: .8;
+        }
+    }
 </style>

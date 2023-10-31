@@ -3,19 +3,19 @@
         <div class="task-page-container">
             <RouterLink to="/main"><i class="icon-arrow-back">иконка назад</i> Вернуться</RouterLink>
             <h1 class="task-name">{{task.title}}</h1>
-            <h2 class="task-category">категория 1</h2>
+            <h2 class="task-category">категория {{task.category_id}}</h2>
             <div class="task-options">
                 <p class="task-status">
-                    Отложенно
+                   {{statusTask}}
                 </p>
                 <p class="task-priority"> Приоритет
-                    ОБЫЧНЫЙ
+                    <i :class="'icon-priority_' + task.priority_id" >иконка приоритета</i>
                 </p>
                 <p class="task-date">
-                    ДАТА НЕ УКАЗАНА
+                    {{dateTask}}
                 </p>
             </div>
-            <p class="task-content">КОНТЕНТ</p>
+            <p class="task-content">{{task.content}}</p>
             <div class="task-settings">
                 <button><i class="icon-rewrite"></i> редатктировать</button>
 
@@ -28,8 +28,7 @@
             <button class="task-page-complete"><i class="icon-complete"> иконка завершить</i></button>
             <div class="write-comment">
                 <form action="" method="post">
-                    <input class="input-commit input-page" type="text" name="comment" minlength="10"
-                           placeholder="Оставьте комментарий для задачи...">
+                    <v-text-field clearable type="text" label="Оставьте комментарий для задачи.." name="comment"  variant="underlined"></v-text-field>
                     <input type="submit" value="Отправить" class="input-submit-commit disabled">
                 </form>
             </div>
@@ -122,7 +121,7 @@
 <script setup lang="ts">
 
 import {useRoute, useRouter} from "vue-router";
-import {ref, onBeforeMount, reactive} from "vue";
+import {ref, onBeforeMount, reactive, computed} from "vue";
 import {ITask} from "../interfaces/interfaces";
 
 
@@ -134,11 +133,34 @@ const task = ref<ITask | {}>({})
 onBeforeMount(async () => {
     const res = await fetch(`http://127.0.0.1:8000/api/tasks/${taskId}`)
     if (res.status === 404) {
-        router.replace({name: "NotFoundPage"})
+        router.replace({name: 'NotFoundPage'})
     } else {
-        task.value = await res.json().tasks
+        const {tasks} = await res.json()
+
+        task.value = await tasks
     }
 
+})
+
+const dateTask = computed(()=>{
+    if (task.value.started_at && task.value.finished_at){
+        return `с ${task.value.started_at} по ${task.value.finished_at}`
+    } else {
+        return 'Дата не указана'
+    }
+})
+
+const statusTask = computed(()=>{
+    switch (task.value.status_id){
+        case 0:
+            return "Заброшенно"
+        case 1:
+            return "В процессе"
+        case 2:
+            return "Отложенно"
+        case 4:
+            return "Выполенно"
+    }
 })
 
 

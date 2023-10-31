@@ -34,32 +34,39 @@
                             variant="outlined"
                             name="category_id"
                         ></v-select>
-                        <v-text-field
+                        <v-textarea
                             type="text"
                             label="Описание задачи..."
                             hide-details="auto"
                             name="content"
                             variant="outlined"
                             clearable
-                        ></v-text-field>
+                            class="textarea"
+                        ></v-textarea>
                         <div class="task-date">
-                            <label for="started_at">
-                                Дата начала
-                                <input type="datetime-local" min="2023-10-18" id="started_at" name="started_at"
-                                       class="custom_input"
-                                       required>
-                            </label>
-                            <label for="finished_at">
-                                Дата завершения
-                                <input type="datetime-local" id="finished_at" name="finished_at" class="custom_input"
-                                       required>
-                            </label>
+                            <v-text-field
+                                type="date"
+                                label="Дата начала"
+                                hide-details="auto"
+                                name="started_at"
+                                variant="outlined"
+                                clearable
+                            ></v-text-field>
+                            <v-text-field
+                                type="date"
+                                label="Дата завершения"
+                                hide-details="auto"
+                                name="finished_at"
+                                variant="outlined"
+                                clearable
+                            ></v-text-field>
+
                         </div>
-<!--                        <input type="text" maxlength="16" name="tag" class="custom_input"-->
-<!--                               placeholder="Введите тег задачи(необезательно)...">-->
+                        <!--                        <input type="text" maxlength="16" name="tag" class="custom_input"-->
+                        <!--                               placeholder="Введите тег задачи(необезательно)...">-->
                         <input type="hidden" name="status_id" value="1">
                         <input type="hidden" name="user_id" value="1">
-                        <input type="submit" class="custom_input" value="Отправить">
+                        <v-btn type="submit" variant="tonal" block text="Отправить"></v-btn>
                     </div>
                 </form>
             </div>
@@ -69,7 +76,6 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
-
 
 
 const submitForm = async () => {
@@ -87,12 +93,12 @@ const submitForm = async () => {
             body: jsonData,
         };
 
-        fetch('http://127.0.0.1:8000/api/tasks/store',options)
+        fetch('http://127.0.0.1:8000/api/tasks/store', options)
             .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети или сервера');
-            }
-            return response.json();
+                if (!response.ok) {
+                    throw new Error('Ошибка сети или сервера');
+                }
+                return response.json();
             })
             .then(data => {
                 console.log('Ответ от сервера:', data);
@@ -115,11 +121,11 @@ const formDataToJSON = (formData) => {
 }
 
 
-
 </script>
 
 <style lang="scss">
 @import "../../../../css/general";
+
 
 .fade-enter-active,
 .fade-leave-active {
@@ -131,7 +137,9 @@ const formDataToJSON = (formData) => {
     opacity: 0;
 }
 
-
+.textarea{
+    margin-bottom: 30px;
+}
 .modal-task_container {
     form {
         position: fixed;
@@ -250,7 +258,6 @@ const formDataToJSON = (formData) => {
 }
 
 
-
 .form-inner h3 {
     margin-top: 0;
     font-weight: 500;
@@ -277,19 +284,6 @@ const formDataToJSON = (formData) => {
 
 .modal-category_active {
     display: block;
-}
-
-
-.icon-priority_high {
-    @include icon(11px, 20px, 'priority_high')
-}
-
-.icon-priority_medium {
-    @include icon(11px, 20px, 'priority_medium')
-}
-
-.icon-priority_low {
-    @include icon(11px, 20px, 'priority_low')
 }
 
 
@@ -348,7 +342,6 @@ const formDataToJSON = (formData) => {
 
     }
 }
-
 
 
 .options-category {
