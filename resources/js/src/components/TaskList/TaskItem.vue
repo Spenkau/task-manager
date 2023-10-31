@@ -56,11 +56,11 @@
                 </div>
                 <div class="task-body">
                     <h3>
-                        <RouterLink :to="'/task/' + taskItem.id">{{ taskItem.title }}</RouterLink>
+                        <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
-                    <i v-if="taskItem.priority_id === 1" class="icon-priority_low">иконка приоритета</i>
-                    <i v-else-if="taskItem.priority_id === 2" class="icon-priority_medium">иконка приоритета</i>
-                    <i v-else class="icon-priority_high">иконка приоритета</i>
+                    <i v-if="taskItem.priority_id === 1" class="icon-priority_1">иконка приоритета</i>
+                    <i v-else-if="taskItem.priority_id === 2" class="icon-priority_2">иконка приоритета</i>
+                    <i v-else class="icon-priority_3">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <button><i class="icon-rewrite"></i> редактировать</button>
@@ -77,46 +77,26 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {ITask} from "../../interfaces/interfaces";
 import {ref, toRefs, computed, reactive} from "vue";
 
-export default {
-    name: "TaskItem",
-    props: {
-        task: Object
-    },
-    setup(props) {
-        const {task} = toRefs<ITask>(props)
-        const taskItem = ref<ITask>(task.value)
 
-        const dateIsNull = computed(() => {
-            return taskItem.value.started_at === null && taskItem.value.finished_at === null
-        })
+const task = defineProps(['task'])
+const taskItem = ref<ITask>(task.task as ITask)
 
-        return {
-            taskItem,
-            dateIsNull
-        }
-    }
-}
+const dateIsNull = computed(() => {
+    return taskItem.value.started_at === null && taskItem.value.finished_at === null
+})
+
+
 </script>
 
 <style scoped lang="scss">
 @import "../../../../css/general";
 
 
-.icon-complete {
-    @include icon(26px, 26px, 'complete')
-}
 
-.icon-delete {
-    @include icon(26px, 26px, 'delete')
-}
-
-.icon-tag {
-    @include icon(15px, 15px, 'tag')
-}
 
 .item-task {
     display: flex;
@@ -259,21 +239,6 @@ export default {
 }
 
 
-.icon-rewrite {
-    @include icon(20px, 20px, 'rewrite');
-}
-
-.icon-postpone {
-    @include icon(20px, 20px, 'postpone');
-}
-
-.icon-share {
-    @include icon(20px, 20px, 'share');
-}
-
-.icon-show-all {
-    @include icon(20px, 20px, 'show_all')
-}
 
 .task-list {
     padding: 0 50px;

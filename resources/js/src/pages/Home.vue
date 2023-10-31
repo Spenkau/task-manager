@@ -10,7 +10,15 @@
         <section class="main">
             <div class="active-task">
                 <h2 class="list-header">Активные задачи</h2>
-<!--                <TaskList/>-->
+                <Suspense>
+                    <TaskList/>
+                    <template #fallback>
+                        <p>
+                            ожидание
+                        </p>
+                    </template>
+                </Suspense>
+
                 <p v-for="message in messages">
                     {{message}}
                 </p>

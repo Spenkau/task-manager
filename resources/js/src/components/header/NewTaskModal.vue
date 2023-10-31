@@ -10,43 +10,63 @@
                     <div class="form-inner">
                         <h3>Создать Задачу</h3>
                         <div class="name-status-group">
-                            <input type="text" placeholder="Название задачи..." name="title" class="custom_input"
-                                   required>
+                            <v-text-field
+                                type="text"
+                                label="Название задачи..."
+                                hide-details="auto"
+                                name="title"
+                                variant="outlined"
+                                clearable
+                            ></v-text-field>
                             <v-select
                                 clearable
                                 label="Приоритет"
-                                :items="['Низский','Обычный', 'Высокий']"
+                                :items="[1,2, 3]"
                                 variant="outlined"
-                                name="priority"
+                                name="priority_id"
                             ></v-select>
                         </div>
 
                         <v-select
                             clearable
                             label="Категория"
-                            :items="['Дом', 'Работа', 'Дети', 'Фронт', 'Бек', 'Драка']"
+                            :items="[1, 2, 3, 3, 5, 10]"
                             variant="outlined"
-                            name="category"
+                            name="category_id"
                         ></v-select>
-
-                        <textarea placeholder="Описание задачи..." rows="3" name="content" class="custom_input"
-                                  required></textarea>
+                        <v-textarea
+                            type="text"
+                            label="Описание задачи..."
+                            hide-details="auto"
+                            name="content"
+                            variant="outlined"
+                            clearable
+                            class="textarea"
+                        ></v-textarea>
                         <div class="task-date">
-                            <label for="started_at">
-                                Дата начала
-                                <input type="datetime-local" min="2023-10-18" id="started_at" name="started_at"
-                                       class="custom_input"
-                                       required>
-                            </label>
-                            <label for="finished_at">
-                                Дата завершения
-                                <input type="datetime-local" id="finished_at" name="finished_at" class="custom_input"
-                                       required>
-                            </label>
+                            <v-text-field
+                                type="date"
+                                label="Дата начала"
+                                hide-details="auto"
+                                name="started_at"
+                                variant="outlined"
+                                clearable
+                            ></v-text-field>
+                            <v-text-field
+                                type="date"
+                                label="Дата завершения"
+                                hide-details="auto"
+                                name="finished_at"
+                                variant="outlined"
+                                clearable
+                            ></v-text-field>
+
                         </div>
-<!--                        <input type="text" maxlength="16" name="tag" class="custom_input"-->
-<!--                               placeholder="Введите тег задачи(необезательно)...">-->
-                        <input type="submit" class="custom_input" value="Отправить">
+                        <!--                        <input type="text" maxlength="16" name="tag" class="custom_input"-->
+                        <!--                               placeholder="Введите тег задачи(необезательно)...">-->
+                        <input type="hidden" name="status_id" value="1">
+                        <input type="hidden" name="user_id" value="1">
+                        <v-btn type="submit" variant="tonal" block text="Отправить"></v-btn>
                     </div>
                 </form>
             </div>
@@ -58,27 +78,27 @@
 import {ref} from 'vue';
 
 
-
 const submitForm = async () => {
 
     try {
         const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
         const jsonData = formDataToJSON(formData.value);
         console.log(jsonData)
+
         const options = {
-            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            method: 'POST',
             body: jsonData,
         };
 
-        fetch('http://127.0.0.1:8000/api/tasks/store',options)
+        fetch('http://127.0.0.1:8000/api/tasks/store', options)
             .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети или сервера');
-            }
-            return response.json();
+                if (!response.ok) {
+                    throw new Error('Ошибка сети или сервера');
+                }
+                return response.json();
             })
             .then(data => {
                 console.log('Ответ от сервера:', data);
@@ -86,6 +106,7 @@ const submitForm = async () => {
             .catch(error => {
                 console.error('Произошла ошибка:', error);
             });
+
     } catch (e) {
         console.error('Ошибка формы', e);
     }
@@ -100,11 +121,11 @@ const formDataToJSON = (formData) => {
 }
 
 
-
 </script>
 
 <style lang="scss">
 @import "../../../../css/general";
+
 
 .fade-enter-active,
 .fade-leave-active {
@@ -116,7 +137,9 @@ const formDataToJSON = (formData) => {
     opacity: 0;
 }
 
-
+.textarea{
+    margin-bottom: 30px;
+}
 .modal-task_container {
     form {
         position: fixed;
@@ -211,28 +234,6 @@ const formDataToJSON = (formData) => {
     padding: 50px;
 }
 
-.form-inner .custom_input {
-    display: block;
-    width: 100%;
-    padding: 0 20px;
-    background: #E9EFF6;
-    line-height: 40px;
-    border-width: 0;
-    border-radius: 20px;
-    font-family: 'Roboto', sans-serif;
-    margin-bottom: 25px;
-    transition: .2s ease all;
-    outline: 1px solid transparent;
-
-    &:focus {
-        outline: 1px solid $green;
-    }
-
-    &::placeholder {
-        color: $black;
-        opacity: 0.7;
-    }
-}
 
 .form-inner {
     input[type="submit"] {
@@ -256,14 +257,6 @@ const formDataToJSON = (formData) => {
     }
 }
 
-
-.form-inner textarea {
-    &::placeholder {
-        padding-top: 10px;
-    }
-
-    resize: none;
-}
 
 .form-inner h3 {
     margin-top: 0;
@@ -293,31 +286,6 @@ const formDataToJSON = (formData) => {
     display: block;
 }
 
-
-.icon-priority_high {
-    @include icon(11px, 20px, 'priority_high')
-}
-
-.icon-priority_medium {
-    @include icon(11px, 20px, 'priority_medium')
-}
-
-.icon-priority_low {
-    @include icon(11px, 20px, 'priority_low')
-}
-
-.custom-select {
-    position: relative;
-    width: 200px;
-    border-radius: 20px;
-    cursor: pointer;
-    background-color: #E9EFF6;
-    height: 40px;
-
-    .selected-option {
-        padding-left: 0;
-    }
-}
 
 .category-group {
     width: 100%;
@@ -376,18 +344,6 @@ const formDataToJSON = (formData) => {
 }
 
 
-.options li {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    align-items: center;
-    padding: 10px;
-
-    &:hover {
-        background-color: #f0f0f0;
-    }
-}
-
 .options-category {
     height: 300px;
     overflow-y: scroll;
@@ -434,11 +390,4 @@ const formDataToJSON = (formData) => {
     }
 }
 
-.options_hidden {
-    display: none;
-}
-
-.disabled-option {
-    display: none;
-}
 </style>

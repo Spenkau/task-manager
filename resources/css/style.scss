@@ -26,7 +26,46 @@
 }
 
 
+.icon-complete {
+    @include icon(26px, 26px, 'complete')
+}
 
+.icon-delete {
+    @include icon(26px, 26px, 'delete')
+}
 
+.icon-tag {
+    @include icon(15px, 15px, 'tag')
+}
 
+.icon-category{
+    @include icon(13px, 13px, 'category-1')
+}
 
+.icon-rewrite {
+    @include icon(20px, 20px, 'rewrite');
+}
+
+.icon-postpone {
+    @include icon(20px, 20px, 'postpone');
+}
+
+.icon-share {
+    @include icon(20px, 20px, 'share');
+}
+
+.icon-show-all {
+    @include icon(20px, 20px, 'show_all')
+}
+
+.icon-priority_1 {
+    @include icon(11px, 20px, 'priority_high')
+}
+
+.icon-priority_2 {
+    @include icon(11px, 20px, 'priority_medium')
+}
+
+.icon-priority_3 {
+    @include icon(11px, 20px, 'priority_low')
+}
