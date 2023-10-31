@@ -58,9 +58,7 @@
                     <h3>
                         <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
-                    <i v-if="taskItem.priority_id === 1" class="icon-priority_1">иконка приоритета</i>
-                    <i v-else-if="taskItem.priority_id === 2" class="icon-priority_2">иконка приоритета</i>
-                    <i v-else class="icon-priority_3">иконка приоритета</i>
+                    <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <button><i class="icon-rewrite"></i> редактировать</button>
@@ -83,9 +81,10 @@ import {ref, toRefs, computed, reactive} from "vue";
 
 
 const task = defineProps(['task'])
-const taskItem = ref<ITask>(task.task as ITask)
+const taskItem = computed(() => task.task as ITask);
 
 const dateIsNull = computed(() => {
+
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
 

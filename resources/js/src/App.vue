@@ -10,4 +10,5 @@
 
 <style scoped lang="scss">
 @import "node_modules/vue-select/dist/vue-select.css";
+
 </style>

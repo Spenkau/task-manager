@@ -17,7 +17,7 @@ const routes = [
     },
     {
         component: ProfilePage,
-        path: '/profile'
+        path: '/user'
     },
     {
         component: TaskPage,

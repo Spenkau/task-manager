@@ -9,10 +9,13 @@
             />
         </li>
         <li class="list__new-category">
-            <button type="button">
+            <button type="button" @click="showModal = true">
                 <i class="icon-square-plus">иконка добавить задачу</i>
                 Добавить
             </button>
+            <NewCategoryModal v-if="showModal">
+                <div class="modal-category__overlay" @click="showModal = false"/>
+            </NewCategoryModal>
         </li>
     </ul>
 </template>
@@ -21,22 +24,25 @@
 import {ICategories} from "../../interfaces/interfaces";
 import {computed, ref, toRefs} from "vue";
 import CategoryChildren from "./CategoryChildren.vue";
+import NewCategoryModal from "./NewCategoryModal.vue";
 
 export default {
     name: "CategoryList",
-    components: {CategoryChildren},
+    components: {NewCategoryModal, CategoryChildren},
     props: {
         categories: Array
     },
 
     setup(props) {
-        const {categories} = toRefs(props)
+        const {categories} = toRefs(props);
+        const showModal = ref(false)
 
         const categoryList = ref<ICategories>(categories.value)
 
 
         return {
-            categoryList
+            categoryList,
+            showModal
         }
     }
 }
@@ -45,6 +51,18 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.modal-category__overlay {
+    display: block;
+    position: fixed;
+    background-color: rgb(40, 40, 70, .2);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    font-size: 0;
+}
 
 .sidebar__list {
     padding-right: 7px;

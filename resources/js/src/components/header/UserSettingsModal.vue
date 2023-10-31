@@ -32,7 +32,7 @@
 
 <script>
 export default {
-name: "UserSettingsModal"
+    name: "UserSettingsModal"
 }
 </script>
 
@@ -53,39 +53,23 @@ name: "UserSettingsModal"
 
 }
 
-.icon-user {
-    @include icon(22px, 22px, "user")
-}
-
-.icon-moon {
-    @include icon(20px, 20px, "moon")
-}
-
-.icon-settings {
-    @include icon(20px, 20px, "settings")
-}
-
-.icon-logout {
-    @include icon(17px, 20px, "logout")
-}
-
 .modal__list {
     font-size: 14px;
 
-li:not(li:last-child) {
-    padding-bottom: 20px;
-}
+    li:not(li:last-child) {
+        padding-bottom: 20px;
+    }
 
-a, button{
-    color: $black;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    gap: 5px;
+    a, button {
+        color: $black;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        gap: 5px;
 
-&:hover {
-     color: $green;
- }
-}
+        &:hover {
+            color: $green;
+        }
+    }
 }
 </style>

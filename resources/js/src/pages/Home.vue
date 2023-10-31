@@ -23,7 +23,10 @@
                     {{message}}
                 </p>
             </div>
-            <DateTimePanel/>
+            <v-container>
+                <DateTimePanel/>
+                <UserObservation/>
+            </v-container>
         </section>
     </div>
 </template>
@@ -31,14 +34,15 @@
 <script>
 import TheHeader from "../components/header/TheHeader.vue";
 import Sidebar from "../components/sidebar/Sidebar.vue";
-import DateTimePanel from "../components/DateTimePanel.vue";
+import DateTimePanel from "../components/widgets/DateTimePanel.vue";
 import CategoryList from "../components/sidebar/СategoryList.vue";
 import TaskList from "../components/TaskList/TaskList.vue";
 import {onMounted, ref} from "vue";
+import UserObservation from "../components/widgets/UserObservation.vue";
 
 export default {
     name: "Home",
-    components: {TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
+    components: {UserObservation, TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
     setup() {
         const showSidebar = ref(false)
         const categories = ref([])
