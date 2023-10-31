@@ -25,13 +25,23 @@ class CommentCreateEvent implements ShouldBroadcast
     }
 
     /**
+     * Return name of broadcast event
+     *
+     * @return string
+     */
+    public function broadcastAs(): string
+    {
+        return 'comment.create';
+    }
+
+    /**
      * Return data received from params
      *
-     * @return Task[]
+     * @return Comment[]
      */
     public function broadcastWith(): array
     {
-        return ['task' => $this->task];
+        return ['comment' => $this->comment];
     }
 
     /**

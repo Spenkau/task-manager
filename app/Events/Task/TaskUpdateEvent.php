@@ -9,7 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentUpdateEvent implements ShouldBroadcast
+class TaskUpdateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,6 +21,16 @@ class CommentUpdateEvent implements ShouldBroadcast
     public function __construct(Task $task)
     {
         $this->task = $task;
+    }
+
+    /**
+     * Return name of broadcast event
+     *
+     * @return string
+     */
+    public function broadcastAs(): string
+    {
+        return 'task.updated';
     }
 
     /**

@@ -24,6 +24,16 @@ class TaskCreateEvent implements ShouldBroadcast
     }
 
     /**
+     * Return name of broadcast event
+     *
+     * @return string
+     */
+    public function broadcastAs(): string
+    {
+        return 'task.created';
+    }
+
+    /**
      * Return data received from params
      *
      * @return Task[]

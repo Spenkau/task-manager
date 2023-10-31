@@ -22,10 +22,6 @@ class TaskRepository implements TaskRepositoryInterface
         }
     }
 
-    public function store(mixed $data)
-    {
-        Task::create($data);
-    }
 
     public function show(int $taskId)
     {
@@ -41,6 +37,11 @@ class TaskRepository implements TaskRepositoryInterface
     public function index()
     {
         return Task::with('tags')->get();
+    }
+
+    public function store(mixed $data)
+    {
+        Task::create($data);
     }
 
     public function update(Task $task, $data)

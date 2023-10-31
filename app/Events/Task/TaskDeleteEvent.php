@@ -24,6 +24,16 @@ class TaskDeleteEvent implements ShouldBroadcast
     }
 
     /**
+     * Return name of broadcast event
+     *
+     * @return string
+     */
+    public function broadcastAs(): string
+    {
+        return 'task.deleted';
+    }
+
+    /**
      * Return data received from params
      *
      * @return Task[]
