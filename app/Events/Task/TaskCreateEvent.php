@@ -13,12 +13,12 @@ class TaskCreateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private Task $task;
+    private mixed $task;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Task $task)
+    public function __construct(mixed $task)
     {
         $this->task = $task;
     }

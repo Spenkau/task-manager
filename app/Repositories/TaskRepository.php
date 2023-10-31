@@ -8,6 +8,7 @@ use App\DTO\TaskDTO;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskRepository implements TaskRepositoryInterface
 {
@@ -60,5 +61,12 @@ class TaskRepository implements TaskRepositoryInterface
     public function getByCategory(Task $task)
     {
         return Task::with('category')->where('category_id' . $task->category_id)->toArray();
+    }
+
+    public function filterTasks(string $field)
+    {
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters('title')
+            ->get();
     }
 }

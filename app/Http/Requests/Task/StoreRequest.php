@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'category_id' => 'required|numeric|min:1',
             'priority_id' => 'required|numeric|min:1|max:3',
             'status_id' => 'numeric|min:1|max:3',
-//            'user_id' => 'numeric|min:1',
+            'user_id' => 'numeric|min:1',
             'started_at' => '',
             'finished_at' => '',
         ];
@@ -37,8 +37,8 @@ class StoreRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'title' => trim($this->title),
-            'content' => trim($this->content),
+            'title' => trim($this['title']),
+            'content' => trim($this['content']),
         ]);
     }
 

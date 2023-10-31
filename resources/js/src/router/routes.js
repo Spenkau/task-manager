@@ -4,6 +4,7 @@ import TagsPage from "../pages/TagsPage.vue";
 import TaskPage from "../pages/TaskPage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
 import TestPage from "../pages/TestPage.vue";
+import UserPage from "../pages/UserPage.vue";
 
 
 const routes = [
@@ -25,12 +26,16 @@ const routes = [
     },
     {
         component: NotFoundPage,
-        path: "/404",
-        name: "NotFoundPage",
+        path: '/404',
+        name: 'NotFoundPage',
     },
     {
-        redirect: {name: "NotFoundPage"},
-        path: "/:catchAll(.*)"
+        redirect: {name: 'NotFoundPage'},
+        path: '/:catchAll(.*)'
+    },
+    {
+        component: UserPage,
+        path: '/user/:username'
     },
     {
         component: TestPage,

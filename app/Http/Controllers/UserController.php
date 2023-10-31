@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\UserService;
+use Exception;
 
 class UserController extends Controller
 {
@@ -18,18 +19,21 @@ class UserController extends Controller
     {
         $users = $this->userService->getAllUsers();
 
-        dump($users);
+        try {
+            return response()->json(['users' => $users]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show users: ' . $e]);
+        }
     }
 
     public function show(User $user)
     {
-        $user = $this->userService->getUser($user->id);
+        $user = $this->userService->getUserData($user->name);
 
-        dump($user);
-    }
-
-    public function showUserTasks(User $user)
-    {
-        $userTasks = $this->userService->getUserTasks($user->name);
+        try {
+            return response()->json(['user' => $user]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'User is not found: ' . $e]);
+        }
     }
 }
