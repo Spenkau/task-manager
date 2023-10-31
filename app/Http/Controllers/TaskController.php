@@ -45,7 +45,6 @@ class TaskController extends Controller
     {
         $tasks = $this->taskService->showByCategory($slug);
 
-        dump($tasks);
         try {
             return response()->json(['tasks' => $tasks]);
         } catch (Exception $e) {
@@ -53,19 +52,23 @@ class TaskController extends Controller
         }
     }
 
-    // TODO реализация store временная. Позже добавлять настоящий user_id и сделать правильный редирект
+    // todo добавлять настоящий user_id
     public function store(StoreRequest $taskRequest)
     {
         $data = $taskRequest->validated();
-        $data['user_id'] = 1;
 
         try {
             $this->taskService->store($data);
 
-            broadcast(new TaskCreateEvent($data));
+//            TaskCreateEvent::dispatch($data);
+            broadcast(new TaskCreateEvent($data))->toOthers();
+
 
             return response()->json(['message' => 'Task successfully stored!']);
         } catch (Exception $e) {
+            if ($data->fails()) {
+                return response()->json(['errors' => $data->errors()], 422);
+            }
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
     }

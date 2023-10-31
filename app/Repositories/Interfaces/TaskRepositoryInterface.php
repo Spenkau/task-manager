@@ -14,4 +14,5 @@ interface TaskRepositoryInterface
     public function softDelete(Task $task);
     public function getByUser(Task $task);
     public function getByCategory(Task $task);
+    public function filterByTitle();
 }

@@ -7,23 +7,15 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function getAllUsers(): array
+    public function getAllUsers()
     {
-        return User::all()->toArray();
+        return User::all();
     }
 
-    public function getUser(int $taskId): array
-    {
-        return User::find($taskId)->toArray();
-    }
-
-    public function getUserTasks(string $userName): array
+    public function getUserData(string $userName)
     {
         return User::where('name', $userName)
             ->with('tasks')
-            ->get()
-            ->toArray();
+            ->get();
     }
-
-
 }

@@ -18,18 +18,13 @@ class UserService
         $this->userRepo = $userRepo;
     }
 
-    public function getAllUsers(): array
+    public function getAllUsers()
     {
         return $this->userRepo->getAllUsers();
     }
 
-    public function getUser(int $taskId): array
+    public function getUserData(string $username)
     {
-        return $this->userRepo->getUser($taskId);
-    }
-
-    public function getUserTasks(string $userName): array
-    {
-        return $this->userRepo->getUserTasks($userName);
+        return $this->userRepo->getUserData($username);
     }
 }
