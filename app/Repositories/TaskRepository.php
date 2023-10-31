@@ -66,7 +66,9 @@ class TaskRepository implements TaskRepositoryInterface
     public function filterTasks(string $field)
     {
         $tasks = QueryBuilder::for(Task::class)
-            ->allowedFilters('title')
+            ->allowedFilters($field)
             ->get();
+
+        return $tasks;
     }
 }
