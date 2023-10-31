@@ -8,7 +8,9 @@ use App\Http\Requests\Task\UpdateRequest;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
+use http\Client\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -93,5 +95,14 @@ class TaskController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
         }
+    }
+
+    public function filterTasks()
+    {
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters('title')
+            ->get();
+
+        return response()->json(['res' => '111']);
     }
 }

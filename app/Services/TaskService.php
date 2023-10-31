@@ -60,4 +60,9 @@ class TaskService
         $this->taskRepo->softDelete($task);
     }
 
+    public function filterTasks(string $field)
+    {
+        return $this->taskRepo->filterTasks($field);
+    }
+
 }

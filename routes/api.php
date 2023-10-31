@@ -24,21 +24,28 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
     Route::get('', [TaskController::class, 'index']);
-    Route::post('/store', [TaskController::class, 'store']);
+
     Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
     Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
     Route::get('{task}', [TaskController::class, 'show']);
+
+    Route::post('store', [TaskController::class, 'store']);
     Route::patch('{task}', [TaskController::class, 'update']);
     Route::delete('{task}', [TaskController::class, 'softDelete']);
+
+    Route::get('filter', [TaskController::class, 'filterTasks']);
 });
 
 Route::get('tags', [TagController::class, 'index']);
 
 Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
     Route::get('all', [CategoryController::class, 'index']);
+
     Route::get('with_children', [CategoryController::class, 'withChildren']);
+
     Route::post('create', [CategoryController::class, 'store']);
     Route::patch('update', [CategoryController::class, 'update']);
+    Route::delete('delete', [CategoryController::class, 'delete']);
 });
 
 Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
