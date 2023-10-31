@@ -18,10 +18,6 @@
                         </p>
                     </template>
                 </Suspense>
-
-                <p v-for="message in messages">
-                    {{message}}
-                </p>
             </div>
             <v-container>
                 <DateTimePanel/>
@@ -64,26 +60,6 @@ export default {
 
         onMounted(()=>{
             getCategories()
-            console.log('e')
-            try{
-
-                window.Echo.channel('public')
-                    .listen('.button.clicked', (e) => {
-                        console.log('go public');
-                        //code for displaying the serve data
-                        console.log(e); // the data from the server
-                    })
-                    .listen('.message', (e) => {
-                        console.log('go public');
-                        messages.value.push(e.message)
-                    })
-                    .error((error)=>{
-                        console.error('Error:', error);
-                    })
-
-            } catch (e) {
-                console.error(e)
-            }
         })
 
         return {

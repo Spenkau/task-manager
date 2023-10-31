@@ -41,16 +41,39 @@
                 </div>
             </form>
             <UserAchievements/>
+            <p v-for="message in messages">
+                {{message}}
+            </p>
         </div>
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import UserAchievements from "../components/widgets/UserAchievements.vue";
+import {onMounted, ref} from "vue";
+const messages = ref([])
+onMounted(()=>{
+    console.log('e')
+    try{
+        window.Echo.channel('public')
+            .listen('.button.clicked', (e) => {
+                console.log('go public');
+                //code for displaying the serve data
+                console.log(e); // the data from the server
+            })
+            .listen('.message', (e) => {
+                console.log('go public');
+                messages.value.push(e.message)
+            })
+            .error((error)=>{
+                console.error('Error:', error);
+            })
 
-export default {
-    components: {UserAchievements}
-}
+    } catch (e) {
+        console.error(e)
+    }
+})
+
 </script>
 
 <style scoped lang="scss">
