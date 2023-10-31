@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,22 +23,27 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
-    Route::get('', [TaskController::class, 'index'])->name('tasks.index');
-    Route::post('/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('', [TaskController::class, 'index']);
+    Route::post('/store', [TaskController::class, 'store']);
     Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
     Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
-    Route::get('{task}', [TaskController::class, 'show'])->name('tasks.show');
-    Route::patch('{task}', [TaskController::class, 'update'])->name('tasks.update');
-    Route::delete('{task}', [TaskController::class, 'softDelete'])->name('tasks.delete');
+    Route::get('{task}', [TaskController::class, 'show']);
+    Route::patch('{task}', [TaskController::class, 'update']);
+    Route::delete('{task}', [TaskController::class, 'softDelete']);
 });
 
-Route::get('tags', [TagController::class, 'index'])->name('tags.index');
+Route::get('tags', [TagController::class, 'index']);
 
 Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
-    Route::get('all', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('with_children', [CategoryController::class, 'withChildren'])->name('categories.withChildren');
-    Route::post('create', [CategoryController::class, 'store'])->name('categories.store');
-    Route::patch('update', [CategoryController::class, 'update'])->name('categories.update');
+    Route::get('all', [CategoryController::class, 'index']);
+    Route::get('with_children', [CategoryController::class, 'withChildren']);
+    Route::post('create', [CategoryController::class, 'store']);
+    Route::patch('update', [CategoryController::class, 'update']);
+});
+
+Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
+    Route::get('', [UserController::class, 'index']);
+    Route::get('{username}', [UserController::class, 'show']);
 });
 
 Route::get('test', [\App\Http\Controllers\TestController::class, 'index']);
