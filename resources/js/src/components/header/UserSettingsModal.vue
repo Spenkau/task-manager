@@ -3,16 +3,16 @@
     <div class="overlay__modal">
         <ul class="modal__list">
             <li>
-                <a href="/profile">
+                <a href="/user">
                     <i class="icon-user"> иконка личного кабинета </i>
                     Личный кабинет
                 </a>
             </li>
             <li>
-                <a href="">
+                <button>
                     <i class="icon-moon"> иконка смены цветового режима </i>
                     Темный режим
-                </a>
+                </button>
             </li>
             <li>
                 <button class="open-settings-modal">
@@ -30,10 +30,8 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: "UserSettingsModal"
-}
+<script setup lang="ts">
+
 </script>
 
 <style scoped lang="scss">

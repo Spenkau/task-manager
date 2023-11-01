@@ -22,7 +22,7 @@
                         </template>
                     </p>
                     <p class="task-card-category">
-                        <i class="icon-category">иконка категории</i>
+                        <v-icon color="success" icon="$vuetify" size="x-large"/>
                         <span>{{ taskItem.category_id }}</span>
                     </p>
                     <div class="task-card-tag">
@@ -93,8 +93,6 @@ const dateIsNull = computed(() => {
 
 <style scoped lang="scss">
 @import "../../../../css/general";
-
-
 
 
 .item-task {
@@ -297,7 +295,6 @@ const dateIsNull = computed(() => {
     background-color: hsl(206, 96%, 90%);
     padding: 5px 7px;
     border-radius: 5px;
-
 }
 
 .task-card-reaction {

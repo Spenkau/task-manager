@@ -1,25 +1,20 @@
 import {createApp} from "vue";
 import App from "./src/App.vue";
-import router from "./src/router/router";
+import router from "./src/dict/router/router";
 import {VueQueryPlugin} from "vue-query";
 import "./bootstrap.js";
+import "./src/dict/vuetify/vuetify"
+import "./src/dict/axios/axios"
+import vuetify from "./src/dict/vuetify/vuetify";
+import auth from "./src/dict/auth/auth";
 
-// Vuetify
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
 
-const vuetify = createVuetify({
-    components,
-    directives
-})
 
 const app = createApp(App)
 
 app
     .use(router)
+    .use(auth)
     .use(vuetify)
     .use(VueQueryPlugin)
     .mount('#app')

@@ -34,6 +34,14 @@ export const fetchTaskByPage = async (page:number|string) => {
 
 }
 
+export const formDataToJSON = (formData) => {
+    const jsonObject = {};
+    formData.forEach((value, key) => {
+        jsonObject[key] = value;
+    });
+    return JSON.stringify(jsonObject);
+}
+
 export const useTaskByIDQuery = () => useQuery("task_by_id", ()=>fetchTaskByID())
 export const useCategoriesQuery = () => useQuery("categories", () => fetchData("categories"));
 export const useTasksQuery = () => useQuery("tasks", () => fetchData("tasks"))

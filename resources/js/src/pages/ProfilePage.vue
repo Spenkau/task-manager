@@ -41,9 +41,11 @@
                 </div>
             </form>
             <UserAchievements/>
-            <p v-for="message in messages">
-                {{message}}
-            </p>
+            <ul class="user-task-list">
+                <li v-for="(userTask,key) in userTasks" :key="key">
+                    <MiniTaskCard :task="userTask"/>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -51,33 +53,46 @@
 <script setup lang="ts">
 import UserAchievements from "../components/widgets/UserAchievements.vue";
 import {onMounted, ref} from "vue";
-const messages = ref([])
-onMounted(()=>{
-    console.log('e')
-    try{
-        window.Echo.channel('public')
-            .listen('.button.clicked', (e) => {
-                console.log('go public');
-                //code for displaying the serve data
-                console.log(e); // the data from the server
+import {fetchTaskByPage} from "../contracts/сontracts";
+import MiniTaskCard from "../components/widgets/MiniTaskCard.vue";
+
+const userTasks = ref([])
+
+onMounted(async () => {
+    const tasksData = await fetchTaskByPage(1)
+    userTasks.value = tasksData.tasks.data
+})
+
+onMounted(() => {
+    try {
+        window.Echo.channel('task-channel')
+            .listen('.App\\Events\\Task\\TaskCreateEvent', (e) => {
+                console.log('welcome to task channel');
+                userTasks.value.unshift(e.task)
+
             })
-            .listen('.message', (e) => {
-                console.log('go public');
-                messages.value.push(e.message)
-            })
-            .error((error)=>{
+            .error((error) => {
                 console.error('Error:', error);
             })
-
     } catch (e) {
         console.error(e)
     }
 })
 
+
+
 </script>
 
 <style scoped lang="scss">
 @import "../../../css/general";
+
+.user-task-list{
+    margin-top: 60px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .icon-edit {
     @include icon(24px, 24px, 'edit');
@@ -87,63 +102,64 @@ onMounted(()=>{
     @include icon(24px, 24px, 'apply');
 }
 
-.icon-change{
+.icon-change {
     @include icon(32px, 32px, 'change')
 }
 
 .personal-area {
     display: flex;
 
-.icon-archive {
-    @include icon(25px, 25px, 'archive');
-}
+    .icon-archive {
+        @include icon(25px, 25px, 'archive');
+    }
 
-.icon-invite {
-    @include icon(25px, 25px, 'invite');
-}
+    .icon-invite {
+        @include icon(25px, 25px, 'invite');
+    }
 
-.icon-logout {
-    transform: rotate(180deg);
-}
+    .icon-logout {
+        transform: rotate(180deg);
+    }
 }
 
 
 .personal-area_nav {
+    position: absolute;
     background-color: $abs-white;
-    height: 100%;
     font-size: 18px;
     padding-right: 30px;
     padding-top: 30px;
     padding-left: 30px;
 
-li {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
+    li {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
 
-a {
-    color: $black;
-    display: block;
-    cursor: pointer;
-}
+    a {
+        color: $black;
+        display: block;
+        cursor: pointer;
+    }
 }
 
 
 .personal-area_body {
+    width: 100%;
     padding: 30px;
 }
 
 .personal-area_body-info {
     display: block;
 
-h2 {
-    font-size: 38px;
-}
+    h2 {
+        font-size: 38px;
+    }
 
-img {
-    width: 128px;
-}
+    img {
+        width: 128px;
+    }
 
 }
 
@@ -157,53 +173,55 @@ img {
 .user-name {
     display: flex;
 
-input[disabled="disabled"] {
-    background-color: transparent;
-    font-size: 38px;
-    font-style: normal;
-    padding: 0;
-    border: 1px solid transparent;
-}
+    input[disabled="disabled"] {
+        background-color: transparent;
+        font-size: 38px;
+        font-style: normal;
+        padding: 0;
+        border: 1px solid transparent;
+    }
 
-input {
-    font-size: 38px;
-    border: 1px solid $green;
-    padding: 0;
-    border-radius: 5px;
-    background-color: white;
-}
+    input {
+        font-size: 38px;
+        border: 1px solid $green;
+        padding: 0;
+        border-radius: 5px;
+        background-color: white;
+    }
 }
 
 .form-header {
     display: flex;
     gap: 30px;
     align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
 }
 
 .user-about {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     padding-top: 30px;
 
-textarea {
-    resize: none;
-    font-size: 19px;
-    font-family: $main-font;
-    background-color: $abs-white;
-    border:1px solid $green;
-    border-radius: 5px;
-    height: 150px;
+    textarea {
+        resize: none;
+        font-size: 19px;
+        font-family: $main-font;
+        background-color: $abs-white;
+        border: 1px solid $green;
+        border-radius: 5px;
+        height: 150px;
 
 
-}
+    }
 
-textarea[disabled="disabled"] {
-    background-color: transparent;
-    border: 1px solid transparent;
-}
+    textarea[disabled="disabled"] {
+        background-color: transparent;
+        border: 1px solid transparent;
+    }
 
-align-items: flex-start;
-gap: 150px;
+    align-items: flex-start;
+    gap: 150px;
 }
 
 
@@ -214,34 +232,34 @@ gap: 150px;
     position: relative;
     cursor: pointer;
 
-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
 }
 
-input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-}
-
-}
-
-#change-avatar{
+#change-avatar {
     position: relative;
     border-radius: 5px;
     background-color: white;
     right: 60px;
-    top:50px;
+    top: 50px;
     border: none;
     cursor: pointer;
 }
 
-.len-hidden{
+.len-hidden {
     display: none;
 }
 

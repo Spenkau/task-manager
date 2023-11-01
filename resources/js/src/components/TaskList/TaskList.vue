@@ -8,6 +8,7 @@
         <v-pagination
             v-model="currentPage"
             :length="totalPage"
+            :total-visible="5"
             prev-icon="mdi-menu-left"
             next-icon="mdi-menu-right"
         ></v-pagination>

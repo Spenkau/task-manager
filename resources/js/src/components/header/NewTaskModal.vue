@@ -66,7 +66,7 @@
                         <!--                               placeholder="Введите тег задачи(необезательно)...">-->
                         <input type="hidden" name="status_id" value="1">
                         <input type="hidden" name="user_id" value="1">
-                        <v-btn type="submit" variant="tonal" block text="Отправить"></v-btn>
+                        <v-btn type="submit" variant="tonal" block text="Отправить"/>
                     </div>
                 </form>
             </div>
@@ -76,6 +76,7 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
+import {formDataToJSON} from "../../contracts/сontracts";
 
 
 const submitForm = async () => {
@@ -112,13 +113,7 @@ const submitForm = async () => {
     }
 }
 
-const formDataToJSON = (formData) => {
-    const jsonObject = {};
-    formData.forEach((value, key) => {
-        jsonObject[key] = value;
-    });
-    return JSON.stringify(jsonObject);
-}
+
 
 
 </script>

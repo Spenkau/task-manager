@@ -27,6 +27,6 @@ export interface ITask {
     user_id: number
     parent_id?: number
     tag_id: any
-    started_at: any
-    finished_at: any
+    started_at: string
+    finished_at: string
 }

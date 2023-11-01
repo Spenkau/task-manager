@@ -1,5 +1,9 @@
 <template>
-    <RouterView/>
+    <div
+        v-if="$auth.ready()"
+    >
+        <RouterView/>
+    </div>
 </template>
 
 
