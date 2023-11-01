@@ -4,20 +4,33 @@
             <TaskItem :task="task"/>
         </li>
     </ul>
+    <v-container>
+        <v-pagination
+            v-model="currentPage"
+            :length="totalPage"
+            :total-visible="5"
+            prev-icon="mdi-menu-left"
+            next-icon="mdi-menu-right"
+        ></v-pagination>
+    </v-container>
 </template>
 
 <script setup async lang="ts">
-import {ITasks} from "../../interfaces/interfaces"
-import TaskItem from "./TaskItem.vue";
-import {onMounted, ref} from "vue";
-import {useTasksQuery} from "../../contracts/сontracts";
 
-//const {data, isLoading, isError} = useTasksQuery();
-const tasksData = ref<ITasks | []>([])
-tasksData.value = await fetch('http://127.0.0.1:8000/api/tasks').then(res => res.json())
+import {ref, watchEffect} from "vue";
+import {fetchTaskByPage} from "../../contracts/сontracts";
+import TaskItem from "./TaskItem.vue"
 
-const tasks =  tasksData.value.tasks.data
+const currentPage = ref(1);
+let tasksData = await fetchTaskByPage(currentPage.value)
+const totalPage = ref(Number(tasksData.tasks.last_page))
+const tasks =  ref(tasksData.tasks.data)
 
+
+watchEffect(async () => {
+    const tasksData = await fetchTaskByPage(currentPage.value);
+    tasks.value = tasksData.tasks.data;
+});
 
 </script>
 

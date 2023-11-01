@@ -1,10 +1,11 @@
-import Home from "../pages/Home.vue";
-import ProfilePage from "../pages/ProfilePage.vue";
-import TagsPage from "../pages/TagsPage.vue";
-import TaskPage from "../pages/TaskPage.vue";
-import NotFoundPage from "../pages/NotFoundPage.vue";
-import TestPage from "../pages/TestPage.vue";
-import UserPage from "../pages/UserPage.vue";
+import Home from "../../pages/Home.vue";
+import ProfilePage from "../../pages/ProfilePage.vue";
+import TagsPage from "../../pages/TagsPage.vue";
+import TaskPage from "../../pages/TaskPage.vue";
+import NotFoundPage from "../../pages/NotFoundPage.vue";
+import TestPage from "../../pages/TestPage.vue";
+import UserPage from "../../pages/UserPage.vue";
+import SignUpPage from "../../pages/User/SignUpPage.vue";
 
 
 const routes = [
@@ -18,7 +19,7 @@ const routes = [
     },
     {
         component: ProfilePage,
-        path: '/profile'
+        path: '/user'
     },
     {
         component: TaskPage,
@@ -40,6 +41,10 @@ const routes = [
     {
         component: TestPage,
         path: '/test'
+    },
+    {
+        component: SignUpPage,
+        path: '/signup'
     }
 ]
 

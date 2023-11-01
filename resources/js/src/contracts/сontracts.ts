@@ -13,13 +13,33 @@ const fetchData = async (data: string) => {
 
 const fetchTaskByID = async (ID = "") => {
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/${ID}`, {method: "GET"});
+        const res = await fetch(`http://127.0.0.1:8000/api/task/${ID}`, {method: "GET"});
         if (res.ok) {
             return await res.json()
         }
     } catch (e) {
         console.error('Ошибка получения данных', e)
     }
+}
+
+export const fetchTaskByPage = async (page:number|string) => {
+    try {
+        const res = await fetch(`http://127.0.0.1:8000/api/tasks?page=${page}`, {method: "GET"});
+        if (res.ok) {
+            return await res.json()
+        }
+    } catch (e) {
+        console.error('Ошибка получения данных', e)
+    }
+
+}
+
+export const formDataToJSON = (formData) => {
+    const jsonObject = {};
+    formData.forEach((value, key) => {
+        jsonObject[key] = value;
+    });
+    return JSON.stringify(jsonObject);
 }
 
 export const useTaskByIDQuery = () => useQuery("task_by_id", ()=>fetchTaskByID())

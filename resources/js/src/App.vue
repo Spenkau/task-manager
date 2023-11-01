@@ -1,5 +1,9 @@
 <template>
-    <RouterView/>
+    <div
+        v-if="$auth.ready()"
+    >
+        <RouterView/>
+    </div>
 </template>
 
 
@@ -10,4 +14,5 @@
 
 <style scoped lang="scss">
 @import "node_modules/vue-select/dist/vue-select.css";
+
 </style>

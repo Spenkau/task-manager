@@ -22,7 +22,7 @@
                         </template>
                     </p>
                     <p class="task-card-category">
-                        <i class="icon-category">иконка категории</i>
+                        <v-icon color="success" icon="$vuetify" size="x-large"/>
                         <span>{{ taskItem.category_id }}</span>
                     </p>
                     <div class="task-card-tag">
@@ -58,9 +58,7 @@
                     <h3>
                         <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
-                    <i v-if="taskItem.priority_id === 1" class="icon-priority_1">иконка приоритета</i>
-                    <i v-else-if="taskItem.priority_id === 2" class="icon-priority_2">иконка приоритета</i>
-                    <i v-else class="icon-priority_3">иконка приоритета</i>
+                    <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <button><i class="icon-rewrite"></i> редактировать</button>
@@ -83,9 +81,10 @@ import {ref, toRefs, computed, reactive} from "vue";
 
 
 const task = defineProps(['task'])
-const taskItem = ref<ITask>(task.task as ITask)
+const taskItem = computed(() => task.task as ITask);
 
 const dateIsNull = computed(() => {
+
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
 
@@ -94,8 +93,6 @@ const dateIsNull = computed(() => {
 
 <style scoped lang="scss">
 @import "../../../../css/general";
-
-
 
 
 .item-task {
@@ -298,7 +295,6 @@ const dateIsNull = computed(() => {
     background-color: hsl(206, 96%, 90%);
     padding: 5px 7px;
     border-radius: 5px;
-
 }
 
 .task-card-reaction {

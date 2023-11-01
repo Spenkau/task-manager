@@ -69,3 +69,19 @@
 .icon-priority_3 {
     @include icon(11px, 20px, 'priority_low')
 }
+
+.icon-user {
+    @include icon(22px, 22px, "user")
+}
+
+.icon-moon {
+    @include icon(20px, 20px, "moon")
+}
+
+.icon-settings {
+    @include icon(20px, 20px, "settings")
+}
+
+.icon-logout {
+    @include icon(17px, 20px, "logout")
+}
