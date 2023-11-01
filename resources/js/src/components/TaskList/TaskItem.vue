@@ -29,7 +29,7 @@
                         <ul>
                             <li>
                                 <i class="icon-tag">иконка тега</i>
-                                <a href="/tags"><span>{{ taskItem.tag_id }}</span></a>
+                                <RouterLink to="/tags"><span>{{ taskItem.tag_id }}</span> тег</RouterLink>
                             </li>
                         </ul>
                     </div>
