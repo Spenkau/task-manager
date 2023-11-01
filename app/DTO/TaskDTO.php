@@ -3,6 +3,8 @@
 namespace App\DTO;
 
 use App\Enums;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskDTO
@@ -16,6 +18,8 @@ class TaskDTO
     public int $parent_id;
     public mixed $started_at;
     public mixed $finished_at;
+//    public Tag $tags;
+//    public User $user;
 
     public function __construct($args)
     {
@@ -28,20 +32,7 @@ class TaskDTO
         $this->parent_id = $args['parent_id'];
         $this->started_at = $args['started_at'];
         $this->finished_at = $args['finished_at'];
-    }
-
-    public static function formRequest(Request $request)
-    {
-        return new static(
-            $request->input('title'),
-            $request->input('content'),
-            $request->input('category_id'),
-            $request->input('priority_id'),
-            $request->input('status_id'),
-            $request->input('user_id'),
-            $request->input('parent_id'),
-            $request->input('started_at'),
-            $request->input('finished_at'),
-        );
+//        $this->tags = $args['tags'];
+//        $this->user = $args['user'];
     }
 }

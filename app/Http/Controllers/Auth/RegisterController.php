@@ -2,74 +2,55 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\UserService;
+use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::MAIN;
+    protected UserService $userService;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
+        $this->userService = $userService;
         $this->middleware('guest');
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable', 'string', 'regex:/^\+?\d{10,}$/u'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \App\Models\User
+     * @return JsonResponse
      */
-    protected function create(array $data)
+    protected function create(StoreRequest $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $data = $request->validated();
+
+        try {
+            $this->userService->create($data);
+            return response()->json(['message' => 'User successfully created!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to create new user: ' . $e]);
+        }
+//        return User::create([
+//            'name' => $data['name'],
+//            'email' => $data['email'],
+//            'phone' => $data['phone'],
+//            'password' => Hash::make($data['password']),
+//        ]);
     }
 }

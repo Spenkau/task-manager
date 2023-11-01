@@ -26,7 +26,7 @@ return new class extends Migration
 
             $table->softDeletes();
 
-            $table->index('category_id');
+            $table->foreign('parent_id')->references('id')->on('tasks');
 
             $table->foreign('category_id')->references('id')->on('categories');
 

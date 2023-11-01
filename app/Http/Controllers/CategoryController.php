@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Exception;
@@ -19,7 +20,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $allCategories = $this->categoryService->allOrParent('all');
+        $allCategories = CategoryResource::collection($this->categoryService->allOrParent('all'));
 
         try {
             return response()->json(['data' => $allCategories]);
@@ -30,7 +31,7 @@ class CategoryController extends Controller
 
     public function withChildren()
     {
-        $withChildCategories = $this->categoryService->allOrParent('children');
+        $withChildCategories = CategoryResource::collection($this->categoryService->allOrParent('children'));
 
         try {
             return response()->json(['data' => $withChildCategories]);
