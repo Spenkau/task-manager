@@ -17,11 +17,10 @@ class TaskRepository implements TaskRepositoryInterface
     {
         if ($relation === 'all') {
             return Task::paginate(5);
-        } else {
-            return Task::with(['children', 'tags'])->paginate(5);
         }
-    }
 
+        return Task::with(['children', 'tags', 'user'])->paginate(5);
+    }
 
     public function show(int $taskId)
     {

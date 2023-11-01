@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\TaskDTO;
 use App\Events\Task\TaskCreateEvent;
+use App\Events\Task\TaskDeleteEvent;
+use App\Events\Task\TaskUpdateEvent;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
@@ -23,10 +28,10 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = $this->taskService->allOrParent('children');
-
+        $tasks = TaskResource::collection($this->taskService->allOrParent('children'));
+//        $tasks = new TaskResourceCollection($this->taskService->allOrParent('children'));
         try {
-            return response()->json(['tasks' => $tasks]);
+            return $tasks;
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
         }
@@ -34,7 +39,7 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        $task = $this->taskService->show($task->id);
+        $task = new TaskResource($this->taskService->show($task->id));
 
         try {
             return response()->json(['tasks' => $task]);
@@ -45,7 +50,7 @@ class TaskController extends Controller
 
     public function showByCategory(string $slug)
     {
-        $tasks = $this->taskService->showByCategory($slug);
+        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
 
         try {
             return response()->json(['tasks' => $tasks]);
@@ -65,7 +70,6 @@ class TaskController extends Controller
 //            TaskCreateEvent::dispatch($data);
             broadcast(new TaskCreateEvent($data))->toOthers();
 
-
             return response()->json(['message' => 'Task successfully stored!']);
         } catch (Exception $e) {
             if ($data->fails()) {
@@ -79,16 +83,24 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
+        broadcast(new TaskUpdateEvent($data))->toOthers();
+
         try {
             $this->taskService->update($task, $data);
             return response()->json(['message' => 'Task successfully updated!']);
         } catch (Exception $e) {
+            if ($data->fails()) {
+                return response()->json(['errors' => $data->errors()], 422);
+            }
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
     }
 
     public function softDelete(Task $task)
     {
+
+        broadcast(new TaskDeleteEvent($task))->toOthers();
+
         try {
             $this->taskService->softDelete($task);
             return response()->json(['message' => 'Task successfully deleted!']);

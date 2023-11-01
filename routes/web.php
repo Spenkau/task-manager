@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -9,13 +10,7 @@ Route::get('/profile', function () {
     return view('profile');
 })->middleware('auth');
 
-Route::get('/login', function () {
-    return view('login');
-});
-
-Route::get('/register', function () {
-    return view('login');
-});
+Route::get('api/user/register', [RegisterController::class, 'create']);
 
 Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function () {
     Route::get('/login', function () {

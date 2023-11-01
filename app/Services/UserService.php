@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\TaskResource;
 use App\Models\Category;
 use App\Models\Task;
+use App\Models\User;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use Exception;
@@ -18,6 +19,11 @@ class UserService
         $this->userRepo = $userRepo;
     }
 
+    public function create(mixed $data)
+    {
+        $this->userRepo->create($data);
+    }
+    
     public function getAllUsers()
     {
         return $this->userRepo->getAllUsers();
