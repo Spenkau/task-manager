@@ -30,7 +30,7 @@
                     variant="filled"
                     color="#29a19c"
                     label="Логин"
-                />
+                ></v-text-field>
 
                 <v-text-field
                     type="tel"
@@ -38,14 +38,14 @@
                     variant="filled"
                     color="#29a19c"
                     label="Телефон"
-                />
+                ></v-text-field>
                 <v-text-field
                     name="email"
                     variant="filled"
                     color="#29a19c"
                     label="Email"
                     type="email"
-                />
+                ></v-text-field>
                 <v-text-field
                     name="password"
                     variant="filled"
@@ -54,7 +54,7 @@
                     label="Пароль"
                     style="min-height: 96px"
                     type="password"
-                />
+                ></v-text-field>
                 <v-text-field
                     variant="filled"
                     color="#29a19c"
@@ -62,7 +62,7 @@
                     label="Повторите пароль"
                     style="min-height: 96px"
                     type="password"
-                />
+                ></v-text-field>
                 <v-checkbox
                     v-model="agreement"
                 >
@@ -136,16 +136,22 @@
 
 import {ref} from "vue";
 import {formDataToJSON} from "../../contracts/сontracts";
+import axios from "axios";
+
 
 const dialog = ref(false);
 const agreement = ref(false);
 
 
 const createUser = () => {
-    try{
+    try {
         const formData = ref(new FormData(document.getElementById("user") as HTMLFormElement));
-        console.log(formData.value)
-    } catch (e){
+        const jsonData = formDataToJSON(formData.value)
+        axios.post('user/register', jsonData)
+            .then(res => res.data)
+            .catch(e => console.error(e))
+
+    } catch (e) {
         console.log(`ошибка формы ${e}`)
     }
 

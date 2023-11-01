@@ -10,7 +10,7 @@ Route::get('/profile', function () {
     return view('profile');
 })->middleware('auth');
 
-Route::get('api/user/register', [RegisterController::class, 'create']);
+Route::post('api/user/register', [RegisterController::class, 'create']);
 
 Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function () {
     Route::get('/login', function () {
