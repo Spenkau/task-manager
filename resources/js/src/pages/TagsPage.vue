@@ -1,13 +1,15 @@
 <template>
 <div class="tags-page">
-
+    <v-text-field
+        label="Поиск"
+        prepend-icon="$vuetify"
+        variant="underlined"
+    ></v-text-field>
 </div>
 </template>
 
-<script>
-export default {
-    name: "TagsPage"
-}
+<script setup lang="ts">
+
 </script>
 
 <style scoped lang="scss">
