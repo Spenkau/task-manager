@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\User\StoreRequest;
-use App\Providers\RouteServiceProvider;
-use App\Models\User;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -46,11 +42,5 @@ class RegisterController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to create new user: ' . $e]);
         }
-//        return User::create([
-//            'name' => $data['name'],
-//            'email' => $data['email'],
-//            'phone' => $data['phone'],
-//            'password' => Hash::make($data['password']),
-//        ]);
     }
 }
