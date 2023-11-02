@@ -45,6 +45,7 @@
                     prefix="+"
                     required
                     @input="restrictToNumbers"
+                    :error-messages="isValidPhone? 'Cлишком короткий номер!': ''"
                 ></v-text-field>
                 <ul class="email">
                     <li>
@@ -56,6 +57,8 @@
                             label="Email"
                             type="text"
                             required
+                            :error-messages="isValidateEmail?'Некорректный формат почты':''"
+                            @input="removeSpaces"
                         ></v-text-field>
                     </li>
                     <li class="select" v-if="userEmail">
@@ -75,9 +78,14 @@
                     label="Пароль"
                     style="min-height: 96px"
                     type="password"
+                    :error-messages="!isStrongPassword? 'Очень слабый пароль!' : ''"
+                    @input="removeSpaces"
                     required
-                ></v-text-field>
-                <p class="text-hint">{{ password.length }} символов</p>
+                >
+                    <template #counter>
+                        {{ password.length }}
+                    </template>
+                </v-text-field>
                 <v-text-field
                     v-model="confirmPassword"
                     variant="filled"
@@ -85,11 +93,17 @@
                     label="Повторите пароль"
                     style="min-height: 96px"
                     type="password"
+                    :error-messages="passwordNotConfirm? 'Пароли не совпадают!':''"
+                    @input="removeSpaces"
                     required
-                ></v-text-field>
-                <p class="text-hint">{{ confirmPassword.length }} символов</p>
+                >
+                    <template #counter>
+                        {{ confirmPassword.length }}
+                    </template>
+                </v-text-field>
                 <v-checkbox
                     v-model="agreement"
+                    color="#29a19c"
                 >
                     <template v-slot:label>
                         <span style="font-size: 10px">
@@ -178,35 +192,78 @@ const errorMessage = ref('')
 
 const isConfirmForm = computed(() => {
     return name.value !== '' &&
-        phone.value !== '' &&
+        phone.value !== '' && [...phone.value].length >= 9 &&
         email.value !== '' &&
-        password.value !== '' &&
+        password.value !== '' && [...password.value].length > 4 &&
         agreement.value === true &&
         password.value === confirmPassword.value;
 })
 
-const userEmail = computed(() => {
-    return ![...email.value].includes('@')
-})
 
 const validField = (field) => {
     return field.value === field.value.trim()
 }
 
 const restrictToNumbers = (e) => {
-
     phone.value = e.target.value.replace(/[^0-9]/g, '');
 }
 
+const isValidPhone = computed(() => {
+    return [...phone.value].length > 1 && [...phone.value].length < 9
+})
+
 const validateLogin = () => {
-
     const regex = /^[A-Za-z0-9_]+$/;
-
     if (!regex.test(name.value)) {
-
         name.value = name.value.replace(/[^A-Za-z0-9_]/g, '');
     }
 }
+const removeSpaces = () => {
+    email.value = email.value.replace(/\s/g, '');
+    password.value = password.value.replace(/\s/g, '');
+    confirmPassword.value = confirmPassword.value.replace(/\s/g, '');
+};
+
+
+const userEmail = computed(() => {
+    return ![...email.value].includes('@')
+})
+
+const isValidateEmail = computed(() => {
+    if (email.value.length < 1) {
+        return false
+    }
+    const regexFullEmail = /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/
+    const regexNameEmail = /^[a-zA-Z0-9._-]+$/
+
+    if (userEmail.value) {
+        return !regexNameEmail.test(email.value)
+    } else {
+        return !regexFullEmail.test(email.value)
+    }
+})
+
+const isStrongPassword = computed(() => {
+    if(password.value.length  < 1){
+        return true
+    }
+    if (password.value.length < 6 ) {
+        return false;
+    }
+
+    if (!/[\p{Lu}\p{Lt}A-Z]/u.test(password.value)) {
+        return false;
+    }
+    if (!/[0-9]/.test(password.value)) {
+        return false;
+    }
+    if (!/[@#$%^&+=./'`;:,|_-]/.test(password.value)) {
+        return false
+    }
+
+    return true;
+
+})
 
 const clearForm = () => {
     name.value = ""
@@ -214,7 +271,13 @@ const clearForm = () => {
     phone.value = ""
     password.value = ""
     confirmPassword.value = ""
+    agreement.value = false
 }
+
+const passwordNotConfirm = computed(() => {
+    return password.value !== confirmPassword.value
+})
+
 
 const createUser = () => {
     try {
@@ -225,35 +288,21 @@ const createUser = () => {
             validField(password)
         ) {
             const jsonData = JSON.stringify({
-                name: name.value,
-                email: userEmail ? `${email.value}${selectedMail.value}` : email.value,
+                name: name.value.toLowerCase(),
+                email: userEmail ? email.value.toLowerCase() : `${email.value}${selectedMail.value}`.toLowerCase(),
                 phone: phone.value,
                 password: password.value
             })
 
             console.log(jsonData)
 
-            const options = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-                body: jsonData,
+            const headers = {
+                'Content-Type': 'application/json'
             };
 
-            fetch('http://127.0.0.1:8000/api/users/create', options)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка сети или сервера');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Ответ от сервера:', data);
-                })
-                .catch(error => {
-                    console.error('Произошла ошибка:', error);
-                });
+            axios.post('user/register', jsonData, {headers})
+                .then(res => res.data)
+                .catch(e => console.error(e))
         } else {
             errorMessage.value = 'Поля не должны содержать пробелы!'
         }
@@ -297,12 +346,5 @@ const createUser = () => {
     .v-card-actions {
         justify-content: space-between;
     }
-
-    #input-43{
-        transition: width 100ms ease-in-out;
-    }
-
 }
-
-
 </style>
