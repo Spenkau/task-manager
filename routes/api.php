@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
@@ -39,6 +40,16 @@ Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
     Route::post('create', [UserController::class, 'create']);
 });
 
+Route::group([
 
+    'middleware' => 'api',
+    'prefix' => 'auth'
 
-//Route::post('user/create', [\App\Http\Controllers\TestController::class, 'index']);
+], function ($router) {
+
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+
+});
