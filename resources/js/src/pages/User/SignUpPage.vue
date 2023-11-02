@@ -178,8 +178,9 @@
 import {computed, ref} from "vue";
 import {formDataToJSON} from "../../contracts/сontracts";
 import axios from "axios";
+import {useRouter} from "vue-router";
 
-
+const router = useRouter()
 const dialog = ref(false);
 const agreement = ref(false);
 const password = ref("");
@@ -294,16 +295,21 @@ const createUser = () => {
                 password: password.value
             })
 
-            console.log(jsonData)
 
             const headers = {
                 'Content-Type': 'application/json'
             };
 
             axios.post('users/create', jsonData, {headers})
-                .then(res => res.data)
+                .then(res => {
+                        if(res.data?.error) {
+                            errorMessage.value = 'Пользователь с такими данными уже существует!'
+                        }
+                }
+                )
                 .catch(e => console.error(e))
-
+            clearForm()
+            router.push('/login')
         } else {
             errorMessage.value = 'Поля не должны содержать пробелы!'
         }
