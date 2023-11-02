@@ -29,8 +29,8 @@ class UserService
         return $this->userRepo->getAllUsers();
     }
 
-    public function getUserData(string $username)
-    {
-        return $this->userRepo->getUserData($username);
-    }
+//    public function getUserData(string $username)
+//    {
+//        return $this->userRepo->getUserData($username);
+//    }
 }

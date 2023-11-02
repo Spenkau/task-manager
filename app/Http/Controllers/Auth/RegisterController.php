@@ -36,11 +36,13 @@ class RegisterController extends Controller
     {
         $data = $request->validated();
 
-        try {
-            $this->userService->create($data);
-            return response()->json(['message' => 'User successfully created!']);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to create new user: ' . $e]);
-        }
+
+        return response()->json($data);
+//        try {
+//            $this->userService->create($data);
+//            return response()->json(['message' => 'User successfully created!']);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'Failed to create new user: ' . $e]);
+//        }
     }
 }

@@ -6,5 +6,5 @@ interface UserRepositoryInterface
 {
     public function getAllUsers();
 
-    public function getUserData(string $userName);
+//    public function getUserData(string $userName);
 }

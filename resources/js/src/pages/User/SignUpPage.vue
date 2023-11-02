@@ -26,7 +26,7 @@
             >
                 <v-text-field
                     type="text"
-                    name="login"
+                    name="name"
                     variant="filled"
                     color="#29a19c"
                     label="Логин"
@@ -144,12 +144,40 @@ const agreement = ref(false);
 
 
 const createUser = () => {
+        console.log(11111)
     try {
         const formData = ref(new FormData(document.getElementById("user") as HTMLFormElement));
+        console.log(formData)
         const jsonData = formDataToJSON(formData.value)
-        axios.post('user/register', jsonData)
-            .then(res => res.data)
-            .catch(e => console.error(e))
+        console.log(jsonData)
+        console.log(11111)
+        // axios.post('http://127.0.0.1:8000/api/users/create', jsonData)
+        //     .then(res => console.log(res.data))
+        //     .catch(e => console.error(e))
+
+      // const options = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   method: 'POST',
+      //   body: jsonData,
+      // };
+      //
+      // fetch('http://127.0.0.1:8000/api/users/create', options)
+      //     .then(response => {
+      //       if (!response.ok) {
+      //         throw new Error('Ошибка сети или сервера');
+      //       }
+      //       return response.json();
+      //     })
+      //     .then(data => {
+      //       console.log('Ответ от сервера:', data);
+      //     })
+      //     .catch(error => {
+      //       console.error('Произошла ошибка:', error);
+      //     });
+
+
 
     } catch (e) {
         console.log(`ошибка формы ${e}`)

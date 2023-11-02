@@ -25,10 +25,10 @@ class UserRepository implements UserRepositoryInterface
         return User::all();
     }
 
-    public function getUserData(string $userName)
-    {
-        return User::where('name', $userName)
-            ->with('tasks')
-            ->get();
-    }
+//    public function getUserData(string $userName)
+//    {
+//        return User::where('name', $userName)
+//            ->with('tasks')
+//            ->get();
+//    }
 }

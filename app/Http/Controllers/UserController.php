@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\StoreRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Exception;
+use http\Client\Request;
 
 class UserController extends Controller
 {
@@ -26,14 +28,28 @@ class UserController extends Controller
         }
     }
 
-    public function show(User $user)
-    {
-        $user = $this->userService->getUserData($user->name);
+//    public function show(User $user)
+//    {
+//        $user = $this->userService->getUserData($user->name);
+//
+//        try {
+//            return response()->json(['user' => $user]);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'User is not found: ' . $e]);
+//        }
+//    }
 
-        try {
-            return response()->json(['user' => $user]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'User is not found: ' . $e]);
-        }
+    public function create(StoreRequest $request)
+    {
+        $data = $request->validated();
+
+        return response()->json(['message' => 'SUCCESS', 'data' => $data]);
+
+//        try {
+//            $this->userService->create($data);
+//            return response()->json(['message' => 'User successfully created!']);
+//        } catch (Exception $e) {
+//            return response()->json(['error' => 'Failed to create new user: ' . $e]);
+//        }
     }
 }
