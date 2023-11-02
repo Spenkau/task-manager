@@ -17,7 +17,7 @@
                 <v-card-title class="text-h6 font-weight-regular">
                     Регистрация
                 </v-card-title>
-                <RouterLink to="/signin" class="text-lg-h6 font-weight-regular">
+                <RouterLink to="/login" class="text-lg-h6 font-weight-regular">
 
                     У меня уже есть аккаунт
                 </RouterLink>
@@ -178,8 +178,9 @@
 import {computed, ref} from "vue";
 import {formDataToJSON} from "../../contracts/сontracts";
 import axios from "axios";
+import {useRouter} from "vue-router";
 
-
+const router = useRouter()
 const dialog = ref(false);
 const agreement = ref(false);
 const password = ref("");
@@ -294,15 +295,21 @@ const createUser = () => {
                 password: password.value
             })
 
-            console.log(jsonData)
 
             const headers = {
                 'Content-Type': 'application/json'
             };
 
-            axios.post('user/register', jsonData, {headers})
-                .then(res => res.data)
+            axios.post('users/create', jsonData, {headers})
+                .then(res => {
+                        if(res.data?.error) {
+                            errorMessage.value = 'Пользователь с такими данными уже существует!'
+                        }
+                }
+                )
                 .catch(e => console.error(e))
+            clearForm()
+            router.push('/login')
         } else {
             errorMessage.value = 'Поля не должны содержать пробелы!'
         }
@@ -336,10 +343,9 @@ const createUser = () => {
 }
 
 .signup-page {
-    position: fixed;
-    width: 100%;
-    height: 100%;
     display: flex;
+    width: 100vw;
+    height: 100vh;
     justify-items: center;
     align-items: center;
 
