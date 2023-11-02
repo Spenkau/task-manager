@@ -70,7 +70,7 @@ class TaskController extends Controller
 //            TaskCreateEvent::dispatch($data);
             broadcast(new TaskCreateEvent($data))->toOthers();
 
-            return response()->json(['message' => 'Task successfully stored!']);
+            return response()->json(['message' => 'Task successfully stored!', 'data' => $data   ]);
         } catch (Exception $e) {
             if ($data->fails()) {
                 return response()->json(['errors' => $data->errors()], 422);

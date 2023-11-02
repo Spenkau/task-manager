@@ -17,7 +17,7 @@
                 <v-card-title class="text-h6 font-weight-regular">
                     Регистрация
                 </v-card-title>
-                <RouterLink to="/signin" class="text-lg-h6 font-weight-regular">
+                <RouterLink to="/login" class="text-lg-h6 font-weight-regular">
 
                     У меня уже есть аккаунт
                 </RouterLink>
@@ -300,7 +300,7 @@ const createUser = () => {
                 'Content-Type': 'application/json'
             };
 
-            axios.post('user/register', jsonData, {headers})
+            axios.post('users/create', jsonData, {headers})
                 .then(res => res.data)
                 .catch(e => console.error(e))
 
@@ -337,22 +337,14 @@ const createUser = () => {
 }
 
 .signup-page {
-    position: fixed;
-    width: 100%;
-    height: 100%;
     display: flex;
+    width: 100vw;
+    height: 100vh;
     justify-items: center;
     align-items: center;
 
     .v-card-actions {
         justify-content: space-between;
     }
-
-    #input-43 {
-        transition: width 100ms ease-in-out;
-    }
-
 }
-
-
 </style>

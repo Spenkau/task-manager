@@ -28,12 +28,9 @@ class TaskResource extends JsonResource
             'finished_at' => $this['finished_at'],
             'children' => $this['children'],
             'tags' => count($this->tags) > 0 ? $this->tags->map(function ($tag) {
-                return [
-                    'id' => $tag['id'],
-                    'name' => $tag['name'],
-                    'slug' => $tag['slug'],
-                ];
-            }) : []
+                return new TagResource($tag);
+            }) : [],
+            'user' => new UserResource($this['user'])
         ];
     }
 }
