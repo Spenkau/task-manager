@@ -23,14 +23,14 @@ class UserService
     {
         $this->userRepo->create($data);
     }
-    
+
     public function getAllUsers()
     {
         return $this->userRepo->getAllUsers();
     }
 
-    public function getUserData(string $username)
-    {
-        return $this->userRepo->getUserData($username);
-    }
+//    public function getUserData(string $username)
+//    {
+//        return $this->userRepo->getUserData($username);
+//    }
 }

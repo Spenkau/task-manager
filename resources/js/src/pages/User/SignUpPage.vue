@@ -233,10 +233,27 @@ const createUser = () => {
 
             console.log(jsonData)
 
-            axios.post('user/register', jsonData)
-                .then(res => res.data)
-                .catch(e => console.error(e))
+            const options = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: jsonData,
+            };
 
+            fetch('http://127.0.0.1:8000/api/users/create', options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сети или сервера');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Ответ от сервера:', data);
+                })
+                .catch(error => {
+                    console.error('Произошла ошибка:', error);
+                });
         } else {
             errorMessage.value = 'Поля не должны содержать пробелы!'
         }
@@ -279,6 +296,10 @@ const createUser = () => {
 
     .v-card-actions {
         justify-content: space-between;
+    }
+
+    #input-43{
+        transition: width 100ms ease-in-out;
     }
 
 }

@@ -17,18 +17,18 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
         'phone',
-    ];
-
-    protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    protected $casts = [
-        'password' => 'hashed',
-    ];
+//    protected $hidden = [
+//        'password',
+//        'remember_token',
+//    ];
+//
+//    protected $casts = [
+//        'password' => 'hashed',
+//    ];
 
     public function tasks(): HasMany
     {
