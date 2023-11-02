@@ -17,52 +17,77 @@
                 <v-card-title class="text-h6 font-weight-regular">
                     Регистрация
                 </v-card-title>
+                <RouterLink to="/signin" class="text-lg-h6 font-weight-regular">
+
+                    У меня уже есть аккаунт
+                </RouterLink>
             </v-toolbar>
-            <form
+            <v-form
                 class="pa-4 pt-6"
                 id="user"
-                method="post"
-                @submit.prevent="createUser"
+
             >
                 <v-text-field
                     type="text"
-                    name="login"
+                    v-model="name"
                     variant="filled"
                     color="#29a19c"
                     label="Логин"
+                    required
+                    @input="validateLogin"
                 ></v-text-field>
-
                 <v-text-field
                     type="tel"
-                    name="phone"
+                    v-model="phone"
                     variant="filled"
                     color="#29a19c"
                     label="Телефон"
+                    prefix="+"
+                    required
+                    @input="restrictToNumbers"
                 ></v-text-field>
+                <ul class="email">
+                    <li>
+                        <v-text-field
+                            v-model="email"
+                            name="email"
+                            variant="filled"
+                            color="#29a19c"
+                            label="Email"
+                            type="text"
+                            required
+                        ></v-text-field>
+                    </li>
+                    <li class="select" v-if="userEmail">
+                        <v-select
+                            v-model="selectedMail"
+                            :items="['@gmail.com','@mail.ru', '@yandex.ru']"
+                            variant="filled"
+                            name="mail"
+                        ></v-select>
+                    </li>
+                </ul>
                 <v-text-field
-                    name="email"
-                    variant="filled"
-                    color="#29a19c"
-                    label="Email"
-                    type="email"
-                ></v-text-field>
-                <v-text-field
+                    v-model="password"
                     name="password"
                     variant="filled"
                     color="#29a19c"
-                    counter="6"
                     label="Пароль"
                     style="min-height: 96px"
                     type="password"
+                    required
                 ></v-text-field>
+                <p class="text-hint">{{ password.length }} символов</p>
                 <v-text-field
+                    v-model="confirmPassword"
                     variant="filled"
                     color="#29a19c"
-                    counter="6"
                     label="Повторите пароль"
                     style="min-height: 96px"
                     type="password"
+                    required
                 ></v-text-field>
+                <p class="text-hint">{{ confirmPassword.length }} символов</p>
                 <v-checkbox
                     v-model="agreement"
                 >
@@ -85,16 +110,18 @@
                     <v-btn
                         variant="text"
                         text="Очистить"
+                        @click.prevent="clearForm"
                     />
-                    <v-spacer></v-spacer>
+                    <v-spacer v-if="errorMessage">{{ errorMessage }}</v-spacer>
                     <v-btn
+                        :disabled="!isConfirmForm"
                         type="submit"
                         color="#29a19c"
                         text="Отправить"
-
+                        @click.prevent="createUser"
                     />
                 </v-card-actions>
-            </form>
+            </v-form>
             <v-dialog
                 v-model="dialog"
                 max-width="400"
@@ -132,24 +159,87 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {formDataToJSON} from "../../contracts/сontracts";
 import axios from "axios";
 
 
 const dialog = ref(false);
 const agreement = ref(false);
+const password = ref("");
+const confirmPassword = ref("")
+const selectedMail = ref("@gmail.com")
+const email = ref('')
+const name = ref('')
+const phone = ref('')
+const errorMessage = ref('')
 
+const isConfirmForm = computed(() => {
+    return name.value !== '' &&
+        phone.value !== '' &&
+        email.value !== '' &&
+        password.value !== '' &&
+        agreement.value === true &&
+        password.value === confirmPassword.value;
+})
+
+const userEmail = computed(() => {
+    return ![...email.value].includes('@')
+})
+
+const validField = (field) => {
+    return field.value === field.value.trim()
+}
+
+const restrictToNumbers = (e) => {
+
+    phone.value = e.target.value.replace(/[^0-9]/g, '');
+}
+
+const validateLogin = () => {
+
+    const regex = /^[A-Za-z0-9_]+$/;
+
+    if (!regex.test(name.value)) {
+
+        name.value = name.value.replace(/[^A-Za-z0-9_]/g, '');
+    }
+}
+
+const clearForm = () => {
+    name.value = ""
+    email.value = ""
+    phone.value = ""
+    password.value = ""
+    confirmPassword.value = ""
+}
 
 const createUser = () => {
     try {
-        const formData = ref(new FormData(document.getElementById("user") as HTMLFormElement));
-        const jsonData = formDataToJSON(formData.value)
-        axios.post('user/register', jsonData)
-            .then(res => res.data)
-            .catch(e => console.error(e))
+        if (
+            validField(name) &&
+            validField(email) &&
+            validField(phone) &&
+            validField(password)
+        ) {
+            const jsonData = JSON.stringify({
+                name: name.value,
+                email: userEmail ? `${email.value}${selectedMail.value}` : email.value,
+                phone: phone.value,
+                password: password.value
+            })
+
+            console.log(jsonData)
+
+            axios.post('user/register', jsonData)
+                .then(res => res.data)
+                .catch(e => console.error(e))
+
+        } else {
+            errorMessage.value = 'Поля не должны содержать пробелы!'
+        }
 
     } catch (e) {
         console.log(`ошибка формы ${e}`)
@@ -163,6 +253,21 @@ const createUser = () => {
 <style scoped lang="scss">
 @import "../../../../css/general";
 
+.email {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    li {
+        width: 100%;
+    }
+
+    .select {
+        width: 60%;
+    }
+
+
+}
 
 .signup-page {
     position: fixed;
@@ -172,12 +277,8 @@ const createUser = () => {
     justify-items: center;
     align-items: center;
 
-    .bg-deep-purple-accent-4 {
-
-    }
-
-    .text-deep-purple {
-        color: $green !important;
+    .v-card-actions {
+        justify-content: space-between;
     }
 
 }
