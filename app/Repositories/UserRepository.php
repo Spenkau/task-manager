@@ -10,14 +10,12 @@ class UserRepository implements UserRepositoryInterface
 {
     public function create(mixed $data)
     {
-        User::firstOrCreate([
-            'name' => $data['name']
-        ], [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'password' => Hash::make($data['password']),
-        ]);
+            User::firstOrCreate([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'password' => Hash::make($data['password']),
+            ]);
     }
 
     public function getAllUsers()

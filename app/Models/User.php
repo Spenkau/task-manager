@@ -21,14 +21,14 @@ class User extends Authenticatable
         'password',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    protected $casts = [
-        'password' => 'hashed',
-    ];
+//    protected $hidden = [
+//        'password',
+//        'remember_token',
+//    ];
+//
+//    protected $casts = [
+//        'password' => 'hashed',
+//    ];
 
     public function tasks(): HasMany
     {

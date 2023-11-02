@@ -23,7 +23,7 @@ class UserService
     {
         $this->userRepo->create($data);
     }
-    
+
     public function getAllUsers()
     {
         return $this->userRepo->getAllUsers();

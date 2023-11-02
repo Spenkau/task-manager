@@ -6,7 +6,7 @@ use App\Http\Requests\User\StoreRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Exception;
-use http\Client\Request;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -43,7 +43,15 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        return response()->json(['message' => 'SUCCESS', 'data' => $data]);
+        try {
+//            User::create($data);
+
+            $this->userService->create($data);
+            return response()->json($data);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to create a new user: ' . $e]);
+        }
+
 
 //        try {
 //            $this->userService->create($data);

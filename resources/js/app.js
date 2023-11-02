@@ -7,7 +7,7 @@ import "./src/dict/vuetify/vuetify"
 import "./src/dict/axios/axios"
 import vuetify from "./src/dict/vuetify/vuetify";
 import auth from "./src/dict/auth/auth";
-
+import VueTheMask from 'vue-the-mask'
 
 
 const app = createApp(App)
@@ -17,6 +17,7 @@ app
     .use(auth)
     .use(vuetify)
     .use(VueQueryPlugin)
+    .use(VueTheMask)
     .mount('#app')
 
 
