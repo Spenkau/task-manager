@@ -17,16 +17,7 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index()
-    {
-        $users = $this->userService->getAllUsers();
 
-        try {
-            return response()->json(['users' => $users]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show users: ' . $e]);
-        }
-    }
 
 //    public function show(User $user)
 //    {
