@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use http\Client\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
+        $data = $request->all();
 
-        return response()->json(['user' => $user]);
+        return response()->json(['data' => $data]);
     }
 }

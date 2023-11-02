@@ -303,7 +303,6 @@ const createUser = () => {
             axios.post('user/register', jsonData, {headers})
                 .then(res => res.data)
                 .catch(e => console.error(e))
-
         } else {
             errorMessage.value = 'Поля не должны содержать пробелы!'
         }
@@ -347,12 +346,5 @@ const createUser = () => {
     .v-card-actions {
         justify-content: space-between;
     }
-
-    #input-43 {
-        transition: width 100ms ease-in-out;
-    }
-
 }
-
-
 </style>

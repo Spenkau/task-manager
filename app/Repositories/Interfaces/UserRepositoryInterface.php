@@ -5,6 +5,6 @@ use App\Models\Task;
 interface UserRepositoryInterface
 {
     public function getAllUsers();
-
-    public function getUserData(string $userName);
+    public function create(mixed $data);
+//    public function getUserData(string $userName);
 }

@@ -6,6 +6,7 @@ import NotFoundPage from "../../pages/NotFoundPage.vue";
 import TestPage from "../../pages/TestPage.vue";
 import UserPage from "../../pages/UserPage.vue";
 import SignUpPage from "../../pages/User/SignUpPage.vue";
+import LoginPage from "../../pages/User/LoginPage.vue";
 
 
 const routes = [
@@ -45,6 +46,10 @@ const routes = [
     {
         component: SignUpPage,
         path: '/signup'
+    },
+    {
+        component: LoginPage,
+        path: '/login'
     }
 ]
 

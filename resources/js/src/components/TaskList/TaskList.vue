@@ -23,13 +23,13 @@ import TaskItem from "./TaskItem.vue"
 
 const currentPage = ref(1);
 let tasksData = await fetchTaskByPage(currentPage.value)
-const totalPage = ref(Number(tasksData.tasks.last_page))
-const tasks =  ref(tasksData.tasks.data)
+const totalPage = ref(Number(tasksData.meta.last_page))
+const tasks =  ref(tasksData.data)
 
 
 watchEffect(async () => {
     const tasksData = await fetchTaskByPage(currentPage.value);
-    tasks.value = tasksData.tasks.data;
+    tasks.value = tasksData.data;
 });
 
 </script>
