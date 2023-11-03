@@ -51,7 +51,7 @@ Route::group([
 
         Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
             Route::get('', [UserController::class, 'index']);
-        //    Route::get('{username}', [UserController::class, 'show']);
+            Route::get('{username}', [UserController::class, 'show']);
             Route::post('create', [UserController::class, 'create']);
         });
 

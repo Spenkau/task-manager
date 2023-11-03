@@ -17,7 +17,7 @@
                 </div>
                 <div class="header__container">
                     <slot></slot>
-                    <p>Хорешего дня, <span> username </span></p>
+                    <p>Хорешего дня, <span> {{ name }} </span></p>
                     <button class="container-button" @click="userToolsModalShow = true">
                         <div>
                             <img src="images/avatar.png" width="45" height="45" alt="картинка пользователя">
@@ -72,7 +72,7 @@
                 </div>
             </template>
             <template v-else>
-                <nav>
+                <nav class="header-nav">
                     <RouterLink to="/login">
                         <v-btn>
                             Войти
@@ -92,12 +92,23 @@
 <script setup>
 import NewTaskModal from "./NewTaskModal.vue";
 import UserSettingsModal from "./UserSettingsModal.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useUserStore} from "../../dict/store/store";
 
 
 const store = useUserStore()
-const isAuth = store.user.isAuth
+const isAuth = computed(() => {
+    return store.user.isAuth
+})
+
+
+const name = computed(()=>{
+    if (isAuth.value) {
+        return store.user.name
+    }
+})
+
+
 
 const newTaskModalShow = ref(false);
 const userToolsModalShow = ref(false);
@@ -107,6 +118,12 @@ const userToolsModalShow = ref(false);
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 120px;
+}
 
 .overlay {
     position: fixed;

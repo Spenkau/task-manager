@@ -1,5 +1,7 @@
 import {useQuery} from "vue-query";
 import api from "../dict/axios/api"
+import {useRouter} from "vue-router";
+const router = useRouter()
 
 const fetchData = async (data: string) => {
     try {
@@ -12,11 +14,14 @@ const fetchData = async (data: string) => {
     }
 }
 
-const fetchTaskByID = async (ID = "") => {
+export const fetchTaskByID = async (ID = "") => {
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/task/${ID}`, {method: "GET"});
-        if (res.ok) {
-            return await res.json()
+        const res = await api.get(`tasks/${ID}`);
+        if (res.data) {
+            return await res.data
+        }
+        if (res.status === 404) {
+            router.push("/404")
         }
     } catch (e) {
         console.error('Ошибка получения данных', e)
@@ -25,7 +30,7 @@ const fetchTaskByID = async (ID = "") => {
 
 export const fetchTaskByPage = async (page:number|string) => {
     try {
-        const res = await api.get(`auth/tasks?page=${page}`);
+        const res = await api.get(`tasks?page=${page}`);
         if (res.data) {
             return await res.data
         }

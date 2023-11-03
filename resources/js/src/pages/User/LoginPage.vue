@@ -81,7 +81,7 @@ const authUser = () => {
         .then(res => {
             if (res.data) {
                 localStorage.setItem('access_token', res.data.access_token)
-                store.user.isAuth = true
+                store.user.name = email.value
                 router.push('/main')
             }
         })
