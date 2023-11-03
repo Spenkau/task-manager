@@ -19,14 +19,14 @@ class UserService
         $this->userRepo = $userRepo;
     }
 
+    public function show(int $id)
+    {
+        return $this->userRepo->show($id);
+    }
+
     public function create(mixed $data)
     {
         $this->userRepo->create($data);
-    }
-
-    public function getAllUsers()
-    {
-        return $this->userRepo->getAllUsers();
     }
 
 //    public function getUserData(string $username)

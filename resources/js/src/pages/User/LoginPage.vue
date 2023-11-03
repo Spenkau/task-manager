@@ -2,7 +2,6 @@
     <div class="login-page">
         <v-card>
             <v-toolbar
-
                 color="#29a19c"
                 class="px-4 py-1"
             >
@@ -27,6 +26,7 @@
                 <v-text-field
                     type="text"
                     v-model="name"
+                    name="name"
                     variant="filled"
                     color="#29a19c"
                     label="Почта"
@@ -35,6 +35,7 @@
                 <v-text-field
                     type="password"
                     v-model="password"
+                    name="password"
                     variant="filled"
                     color="#29a19c"
                     label="Пароль"
@@ -58,10 +59,6 @@ const password = ref('');
 const errorMessage = ref('')
 
 
-const jsonData = JSON.stringify({
-    email: name.value,
-    password: password.value
-})
 
 
 const headers = {
@@ -70,7 +67,15 @@ const headers = {
 
 
 const authUser = () => {
-    axios.post('auth/login', {headers})
+    const jsonData = JSON.stringify({
+        email: name.value,
+        password: password.value
+    })
+
+
+    console.log(jsonData)
+
+    axios.post('auth/login', jsonData, {headers})
         .then(res => {
             if(res.data){
                 console.log(res.data)
