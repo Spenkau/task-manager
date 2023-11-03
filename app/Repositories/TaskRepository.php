@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\RelationEnum;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\DTO\TaskDTO;
@@ -15,7 +16,7 @@ class TaskRepository implements TaskRepositoryInterface
         // TODO Изменить решение получения тасков с именем категории
     public function allOrParent(string $relation)
     {
-        if ($relation === 'all') {
+        if ($relation == RelationEnum::ALL) {
             return Task::paginate(5);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\RelationEnum;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
@@ -9,7 +10,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function allOrParent(string $relation)
     {
-        if ($relation === 'all') {
+        if ($relation == RelationEnum::ALL) {
             return Category::all();
         }
 
