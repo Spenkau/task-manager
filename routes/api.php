@@ -21,11 +21,6 @@ Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () 
     Route::delete('delete', [CategoryController::class, 'delete']);
 });
 
-Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
-    Route::get('', [UserController::class, 'index']);
-//    Route::get('{username}', [UserController::class, 'show']);
-    Route::post('create', [UserController::class, 'create']);
-});
 
 Route::group([
 
@@ -54,6 +49,11 @@ Route::group([
             Route::get('filter', [TaskController::class, 'filterTasks']);
         });
 
+        Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
+            Route::get('', [UserController::class, 'index']);
+        //    Route::get('{username}', [UserController::class, 'show']);
+            Route::post('create', [UserController::class, 'create']);
+        });
 
     });
 

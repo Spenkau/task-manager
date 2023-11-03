@@ -1,6 +1,5 @@
 <template>
     <div
-        v-if="$auth.ready()"
     >
         <RouterView/>
     </div>

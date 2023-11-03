@@ -21,11 +21,10 @@
             </v-toolbar>
             <v-form
                 class="pa-4 pt-6"
-
             >
                 <v-text-field
                     type="text"
-                    v-model="name"
+                    v-model="email"
                     name="name"
                     variant="filled"
                     color="#29a19c"
@@ -53,11 +52,16 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
 import axios from "axios";
+import {useRouter} from "vue-router";
 
-const name = ref('');
+const router = useRouter()
+const email = ref('');
 const password = ref('');
 const errorMessage = ref('')
+import {useUserStore} from "../../dict/store/store";
 
+
+const store = useUserStore()
 
 
 
@@ -67,23 +71,24 @@ const headers = {
 
 
 const authUser = () => {
+
     const jsonData = JSON.stringify({
-        email: name.value,
+        email: email.value,
         password: password.value
     })
 
-
-    console.log(jsonData)
-
-    axios.post('auth/login', jsonData, {headers})
+    axios.post('api/auth/login', jsonData, {headers})
         .then(res => {
-            if(res.data){
-                console.log(res.data)
+            if (res.data) {
+                localStorage.setItem('access_token', res.data.access_token)
+                store.user.isAuth = true
+                router.push('/main')
             }
         })
         .catch(e => {
-            if (e?.response?.data?.error){
+            if (e?.response?.data?.error) {
                 errorMessage.value = "Неверно введен пароль или логин"
+
             }
         })
 }
@@ -112,7 +117,7 @@ a {
     text-decoration: none;
 }
 
-.v-spacer{
+.v-spacer {
     color: #0b2e13;
 }
 </style>
