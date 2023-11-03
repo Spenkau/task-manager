@@ -97,8 +97,8 @@ import {useUserStore} from "../../dict/store/store";
 
 
 const store = useUserStore()
-const user = store.user.isAuth
-console.log(user)
+const isAuth = store.user.isAuth
+
 const newTaskModalShow = ref(false);
 const userToolsModalShow = ref(false);
 

@@ -58,7 +58,7 @@
                     <h3>
                         <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
-                    <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
+                    <i :class="'icon-priority_'+ taskItem.priority">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <button><i class="icon-rewrite"></i> редактировать</button>

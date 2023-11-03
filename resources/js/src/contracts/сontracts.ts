@@ -1,4 +1,5 @@
 import {useQuery} from "vue-query";
+import api from "../dict/axios/api"
 
 const fetchData = async (data: string) => {
     try {
@@ -24,9 +25,9 @@ const fetchTaskByID = async (ID = "") => {
 
 export const fetchTaskByPage = async (page:number|string) => {
     try {
-        const res = await fetch(`http://127.0.0.1:8000/api/tasks?page=${page}`, {method: "GET"});
-        if (res.ok) {
-            return await res.json()
+        const res = await api.get(`auth/tasks?page=${page}`);
+        if (res.data) {
+            return await res.data
         }
     } catch (e) {
         console.error('Ошибка получения данных', e)

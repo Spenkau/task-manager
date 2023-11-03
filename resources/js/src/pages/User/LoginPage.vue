@@ -52,10 +52,16 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
 import axios from "axios";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('')
+import {useUserStore} from "../../dict/store/store";
+
+
+const store = useUserStore()
 
 
 
@@ -71,15 +77,18 @@ const authUser = () => {
         password: password.value
     })
 
-    axios.post('auth/login', jsonData, {headers})
+    axios.post('api/auth/login', jsonData, {headers})
         .then(res => {
             if (res.data) {
                 localStorage.setItem('access_token', res.data.access_token)
+                store.user.isAuth = true
+                router.push('/main')
             }
         })
         .catch(e => {
             if (e?.response?.data?.error) {
                 errorMessage.value = "Неверно введен пароль или логин"
+
             }
         })
 }
