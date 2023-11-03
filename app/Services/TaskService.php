@@ -47,7 +47,7 @@ class TaskService
 
     public function store(mixed $data)
     {
-        $this->taskRepo->store($data);
+        return $this->taskRepo->store($data);
     }
 
     public function update(Task $task, $data)

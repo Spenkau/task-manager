@@ -29,6 +29,7 @@ Route::group([
 
 ], function ($router) {
 
+    Route::post('create', [UserController::class, 'create']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
@@ -48,13 +49,9 @@ Route::group([
 
             Route::get('filter', [TaskController::class, 'filterTasks']);
         });
-
         Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
             Route::get('', [UserController::class, 'index']);
-        //    Route::get('{username}', [UserController::class, 'show']);
-            Route::post('create', [UserController::class, 'create']);
+            Route::get('{username}', [UserController::class, 'show']);
         });
-
     });
-
 });

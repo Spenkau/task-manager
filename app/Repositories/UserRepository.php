@@ -10,7 +10,7 @@ class UserRepository implements UserRepositoryInterface
 {
     public function show(string $name)
     {
-        return User::whereName($name)->with('tasks')->get();
+        return User::whereName($name)->with('tasks')->first();
     }
 
     public function create(mixed $data)

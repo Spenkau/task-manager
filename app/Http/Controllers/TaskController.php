@@ -65,12 +65,12 @@ class TaskController extends Controller
         $data = $taskRequest->validated();
 
         try {
-            $this->taskService->store($data);
+            $newTask = $this->taskService->store($data);
 
 //            TaskCreateEvent::dispatch($data);
-//            broadcast(new TaskCreateEvent($data))->toOthers();
+            broadcast(new TaskCreateEvent($newTask))->toOthers();
 
-            return response()->json(['message' => 'Task successfully stored!', 'data' => $data   ]);
+            return response()->json(['message' => 'Task successfully stored!', 'data FROM DATABASE' => $newTask]);
         } catch (Exception $e) {
             if ($data->fails()) {
                 return response()->json(['errors' => $data->errors()], 422);
