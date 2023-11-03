@@ -2,7 +2,6 @@
     <div class="login-page">
         <v-card>
             <v-toolbar
-
                 color="#29a19c"
                 class="px-4 py-1"
             >
@@ -26,6 +25,7 @@
                 <v-text-field
                     type="text"
                     v-model="email"
+                    name="name"
                     variant="filled"
                     color="#29a19c"
                     label="Почта"
@@ -34,6 +34,7 @@
                 <v-text-field
                     type="password"
                     v-model="password"
+                    name="password"
                     variant="filled"
                     color="#29a19c"
                     label="Пароль"
@@ -55,6 +56,7 @@ import axios from "axios";
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('')
+
 
 
 const headers = {

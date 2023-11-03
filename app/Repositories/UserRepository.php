@@ -8,20 +8,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function create(mixed $data)
+    public function show(int $id)
     {
-            User::firstOrCreate([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'password' => Hash::make($data['password']),
-            ]);
+        return User::find($id)->with('tasks')->get();
     }
 
-    public function getAllUsers()
+    public function create(mixed $data)
     {
-        return User::all();
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => Hash::make($data['password']),
+        ]);
     }
+
 
 //    public function getUserData(string $userName)
 //    {

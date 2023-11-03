@@ -17,39 +17,26 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index()
+    public function show(int $id)
     {
-        $users = $this->userService->getAllUsers();
+        $user = $this->userService->show($id);
 
         try {
-            return response()->json(['users' => $users]);
+            return response()->json(['user' => $user]);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show users: ' . $e]);
+            return response()->json(['error' => 'User is not found: ' . $e]);
         }
     }
-
-//    public function show(User $user)
-//    {
-//        $user = $this->userService->getUserData($user->name);
-//
-//        try {
-//            return response()->json(['user' => $user]);
-//        } catch (Exception $e) {
-//            return response()->json(['error' => 'User is not found: ' . $e]);
-//        }
-//    }
 
     public function create(StoreRequest $request)
     {
         $data = $request->validated();
 
         try {
-//            User::create($data);
-
             $this->userService->create($data);
-            return response()->json($data);
+            return response()->json(['message' => 'User successfully created!']);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to create a new user: ' . $e]);
+            return response()->json(['error' => ['User already exists', $e]]);
         }
 
 

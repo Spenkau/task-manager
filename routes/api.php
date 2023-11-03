@@ -8,19 +8,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
-    Route::get('', [TaskController::class, 'index']);
-
-    Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
-    Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
-    Route::get('{task}', [TaskController::class, 'show']);
-
-    Route::post('store', [TaskController::class, 'store']);
-    Route::patch('{task}', [TaskController::class, 'update']);
-    Route::delete('{task}', [TaskController::class, 'softDelete']);
-
-    Route::get('filter', [TaskController::class, 'filterTasks']);
-});
 
 Route::get('tags', [TagController::class, 'index']);
 
@@ -51,5 +38,21 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
+            Route::get('', [TaskController::class, 'index']);
+
+            Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
+            Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
+            Route::get('{task}', [TaskController::class, 'show']);
+
+            Route::post('store', [TaskController::class, 'store']);
+            Route::patch('{task}', [TaskController::class, 'update']);
+            Route::delete('{task}', [TaskController::class, 'softDelete']);
+
+            Route::get('filter', [TaskController::class, 'filterTasks']);
+        });
+    });
 
 });

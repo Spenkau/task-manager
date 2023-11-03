@@ -6,7 +6,6 @@ import "./bootstrap.js";
 import "./src/dict/vuetify/vuetify"
 import "./src/dict/axios/api"
 import vuetify from "./src/dict/vuetify/vuetify";
-import auth from "./src/dict/auth/auth";
 import {createPinia} from "pinia";
 
 
@@ -16,7 +15,6 @@ const app = createApp(App)
 app
     .use(router)
     .use(pinia)
-    .use(auth)
     .use(vuetify)
     .use(VueQueryPlugin)
     .mount('#app')

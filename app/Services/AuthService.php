@@ -23,5 +23,4 @@ class AuthService
         $this->authRepo = $authRepo;
     }
 
-
 }

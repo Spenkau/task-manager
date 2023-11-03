@@ -6,17 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // TODO: для роутов админки создать отдельный файл
-Route::get('/profile', function () {
-    return view('profile');
-})->middleware('auth');
-
-Route::middleware('guest')->namespace('\App\Http\Controllers')->group(function () {
-    Route::get('/login', function () {
-        return view('login');
-    });
-
-    Route::post('/login', [AuthController::class, 'postSignin']);
-});
 
 Auth::routes();
 

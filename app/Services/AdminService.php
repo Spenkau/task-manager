@@ -6,27 +6,23 @@ use App\Http\Resources\TaskResource;
 use App\Models\Category;
 use App\Models\Task;
 use App\Models\User;
+use App\Repositories\AdminRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
 use Exception;
 
-class UserService
+class AdminService
 {
-    protected UserRepository $userRepo;
+    protected AdminRepository $adminRepo;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(AdminRepository $adminRepo)
     {
-        $this->userRepo = $userRepo;
+        $this->adminRepo = $adminRepo;
     }
 
-    public function show(int $id)
+    public function getAllUsers()
     {
-        return $this->userRepo->show($id);
-    }
-
-    public function create(mixed $data)
-    {
-        $this->userRepo->create($data);
+        return $this->adminRepo->getAllUsers();
     }
 
 //    public function getUserData(string $username)
