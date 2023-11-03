@@ -68,7 +68,7 @@ class TaskController extends Controller
             $this->taskService->store($data);
 
 //            TaskCreateEvent::dispatch($data);
-            broadcast(new TaskCreateEvent($data))->toOthers();
+//            broadcast(new TaskCreateEvent($data))->toOthers();
 
             return response()->json(['message' => 'Task successfully stored!', 'data' => $data   ]);
         } catch (Exception $e) {

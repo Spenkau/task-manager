@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 // TODO: для роутов админки создать отдельный файл
 
-Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
