@@ -22,11 +22,10 @@
             </v-toolbar>
             <v-form
                 class="pa-4 pt-6"
-
             >
                 <v-text-field
                     type="text"
-                    v-model="name"
+                    v-model="email"
                     variant="filled"
                     color="#29a19c"
                     label="Почта"
@@ -53,15 +52,9 @@
 import {ref} from 'vue';
 import axios from "axios";
 
-const name = ref('');
+const email = ref('');
 const password = ref('');
 const errorMessage = ref('')
-
-
-const jsonData = JSON.stringify({
-    email: name.value,
-    password: password.value
-})
 
 
 const headers = {
@@ -70,14 +63,20 @@ const headers = {
 
 
 const authUser = () => {
-    axios.post('auth/login', {headers})
+
+    const jsonData = JSON.stringify({
+        email: email.value,
+        password: password.value
+    })
+
+    axios.post('auth/login', jsonData, {headers})
         .then(res => {
-            if(res.data){
-                console.log(res.data)
+            if (res.data) {
+                localStorage.setItem('access_token', res.data.access_token)
             }
         })
         .catch(e => {
-            if (e?.response?.data?.error){
+            if (e?.response?.data?.error) {
                 errorMessage.value = "Неверно введен пароль или логин"
             }
         })
@@ -107,7 +106,7 @@ a {
     text-decoration: none;
 }
 
-.v-spacer{
+.v-spacer {
     color: #0b2e13;
 }
 </style>
