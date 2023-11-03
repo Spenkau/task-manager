@@ -1,97 +1,108 @@
 <template>
     <header>
         <div class="header">
-            <div class="header__buttons">
-                <button class="button__create-task" type="button" @click="newTaskModalShow = true">
-                    <i class="icon-plus"> иконка плюса </i>
-                    Новая задача
-                </button>
-                <Teleport to="#app">
-                    <NewTaskModal v-if="newTaskModalShow">
-                        <div class="overlay" @click="newTaskModalShow = false"/>
-                    </NewTaskModal>
-                </Teleport>
-                <button class="button__change-color-mode"><i class="icon-moon"> Переключатель цветового режима </i>
-                </button>
-            </div>
-            <div class="header__container">
-                <slot></slot>
-                <p>Хорешего дня, <span> username </span></p>
-                <button class="container-button" @click="userToolsModalShow = true">
-                    <div>
-                        <img src="images/avatar.png" width="45" height="45" alt="картинка пользователя">
-                        <div class="container__layout-icon">
-                            <i class="icon-arrow-down"> Отрыть панель опций </i>
+            <template v-if="isAuth">
+                <div class="header__buttons">
+                    <button class="button__create-task" type="button" @click="newTaskModalShow = true">
+                        <i class="icon-plus"> иконка плюса </i>
+                        Новая задача
+                    </button>
+                    <Teleport to="#app">
+                        <NewTaskModal v-if="newTaskModalShow">
+                            <div class="overlay" @click="newTaskModalShow = false"/>
+                        </NewTaskModal>
+                    </Teleport>
+                    <button class="button__change-color-mode"><i class="icon-moon"> Переключатель цветового режима </i>
+                    </button>
+                </div>
+                <div class="header__container">
+                    <slot></slot>
+                    <p>Хорешего дня, <span> username </span></p>
+                    <button class="container-button" @click="userToolsModalShow = true">
+                        <div>
+                            <img src="images/avatar.png" width="45" height="45" alt="картинка пользователя">
+                            <div class="container__layout-icon">
+                                <i class="icon-arrow-down"> Отрыть панель опций </i>
+                            </div>
+                        </div>
+                    </button>
+                    <Teleport to="#app">
+                        <UserSettingsModal v-if="userToolsModalShow">
+                            <div class="overlay" @click="userToolsModalShow = false"/>
+                        </UserSettingsModal>
+                    </Teleport>
+                </div>
+                <div class="user-settings-modal disabled-settings">
+                    <div class="container">
+                        <div class="settings-buttons">
+                            <button class="button-settings-1 active-settings-button">Настройки внешнего вида</button>
+                            <button class="button-settings-2 disabled-settings-button">Настройки аккаунта</button>
+                        </div>
+                        <div class="settings-body">
+                            <ul class="settings-ui ">
+                                <li>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    Скрыть/Показывать часы
+                                </li>
+                                <li>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    Скрыть/Показывать наблюдение
+                                </li>
+                                <li>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    Скрыть/Показывать график успеваимости
+                                </li>
+                            </ul>
+                            <ul class="settings-profile disabled-settings">
+                                <li><a href="#">Изменить пароль</a></li>
+                                <li><a href="#">Изменить почту</a></li>
+                                <li><a href="#">Удалить аккаунт</a></li>
+                            </ul>
                         </div>
                     </div>
-                </button>
-                <Teleport to="#app">
-                    <UserSettingsModal v-if="userToolsModalShow">
-                        <div class="overlay" @click="userToolsModalShow = false"/>
-                    </UserSettingsModal>
-                </Teleport>
-            </div>
-            <div class="user-settings-modal disabled-settings">
-                <div class="container">
-                    <div class="settings-buttons">
-                        <button class="button-settings-1 active-settings-button">Настройки внешнего вида</button>
-                        <button class="button-settings-2 disabled-settings-button">Настройки аккаунта</button>
-                    </div>
-                    <div class="settings-body">
-                        <ul class="settings-ui ">
-                            <li>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider round"></span>
-                                </label>
-                                Скрыть/Показывать часы
-                            </li>
-                            <li>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider round"></span>
-                                </label>
-                                Скрыть/Показывать наблюдение
-                            </li>
-                            <li>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider round"></span>
-                                </label>
-                                Скрыть/Показывать график успеваимости
-                            </li>
-                        </ul>
-                        <ul class="settings-profile disabled-settings">
-                            <li><a href="#">Изменить пароль</a></li>
-                            <li><a href="#">Изменить почту</a></li>
-                            <li><a href="#">Удалить аккаунт</a></li>
-                        </ul>
-                    </div>
                 </div>
-            </div>
+            </template>
+            <template v-else>
+                <nav>
+                    <RouterLink to="/login">
+                        <v-btn>
+                            Войти
+                        </v-btn>
+                    </RouterLink>
+                    <RouterLink to="/signup">
+                        <v-btn prepend-icon="mdi-arrow-up-bold-box-outline" color="#29a19c">
+                            Создать аккаунт
+                        </v-btn>
+                    </RouterLink>
+                </nav>
+            </template>
         </div>
     </header>
 </template>
 
-<script>
+<script setup>
 import NewTaskModal from "./NewTaskModal.vue";
 import UserSettingsModal from "./UserSettingsModal.vue";
 import {ref} from "vue";
+import {useUserStore} from "../../dict/store/store";
 
-export default {
-    name: "TheHeader",
-    components: {UserSettingsModal, NewTaskModal},
-    setup(){
-        const newTaskModalShow = ref(false);
-        const userToolsModalShow = ref(false);
 
-        return{
-            newTaskModalShow,
-            userToolsModalShow
-        }
-    }
+const store = useUserStore()
+const isAuth = store.user.isAuth
 
-}
+const newTaskModalShow = ref(false);
+const userToolsModalShow = ref(false);
+
+
 </script>
 
 <style scoped lang="scss">
@@ -192,7 +203,6 @@ export default {
     }
 
 }
-
 
 
 .icon-auth {

@@ -290,7 +290,7 @@ const createUser = () => {
         ) {
             const jsonData = JSON.stringify({
                 name: name.value.toLowerCase(),
-                email: userEmail ? email.value.toLowerCase() : `${email.value}${selectedMail.value}`.toLowerCase(),
+                email: [...email.value].includes('@')? email.value.toLowerCase() : `${email.value}${selectedMail.value}`.toLowerCase(),
                 phone: phone.value,
                 password: password.value
             })
