@@ -72,7 +72,7 @@
                 </div>
             </template>
             <template v-else>
-                <nav>
+                <nav class="header-nav">
                     <RouterLink to="/login">
                         <v-btn>
                             Войти
@@ -107,6 +107,12 @@ const userToolsModalShow = ref(false);
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.header-nav{
+    display: flex;
+    align-items: center;
+    gap: 120px;
+}
 
 .overlay {
     position: fixed;

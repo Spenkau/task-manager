@@ -2,29 +2,34 @@
     <TheHeader>
         <i class="icon-sidebar-open" @mousemove="showSidebar = true"> открыть сайдбар </i>
     </TheHeader>
-    <div class="body-main">
-        <div class="left" @mousemove="showSidebar=true"></div>
-        <Sidebar v-if="showSidebar" @mouseleave="showSidebar=false">
-            <CategoryList :categories="categories"/>
-        </Sidebar>
-        <section class="main">
-            <div class="active-task">
-                <h2 class="list-header">Активные задачи</h2>
-                <Suspense>
-                    <TaskList/>
-                    <template #fallback>
-                        <p>
-                            ожидание
-                        </p>
-                    </template>
-                </Suspense>
-            </div>
-            <v-container>
-                <DateTimePanel/>
-                <UserObservation/>
-            </v-container>
-        </section>
-    </div>
+    <template v-if="isAuth">
+        <div class="body-main">
+            <div class="left" @mousemove="showSidebar=true"></div>
+            <Sidebar v-if="showSidebar" @mouseleave="showSidebar=false">
+                <CategoryList :categories="categories"/>
+            </Sidebar>
+            <section class="main">
+                <div class="active-task">
+                    <h2 class="list-header">Активные задачи</h2>
+                    <Suspense>
+                        <TaskList/>
+                        <template #fallback>
+                            <p>
+                                ожидание
+                            </p>
+                        </template>
+                    </Suspense>
+                </div>
+                <v-container>
+                    <DateTimePanel/>
+                    <UserObservation/>
+                </v-container>
+            </section>
+        </div>
+    </template>
+    <template v-else>
+        <UserNotAuth/>
+    </template>
 </template>
 
 <script>
@@ -35,15 +40,20 @@ import CategoryList from "../components/sidebar/СategoryList.vue";
 import TaskList from "../components/TaskList/TaskList.vue";
 import {onMounted, ref} from "vue";
 import UserObservation from "../components/widgets/UserObservation.vue";
+import {useUserStore} from "../dict/store/store";
+import UserNotAuth from "../components/widgets/UserNotAuth.vue";
 
 export default {
     name: "Home",
-    components: {UserObservation, TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
+    components: {UserNotAuth, UserObservation, TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
     setup() {
         const showSidebar = ref(false)
         const categories = ref([])
         const messages = ref([])
 
+
+        const store = useUserStore()
+        const isAuth = store.user.isAuth
 
         const getCategories = async () => {
             try {
@@ -63,6 +73,7 @@ export default {
         })
 
         return {
+            isAuth,
             showSidebar,
             categories,
             messages
