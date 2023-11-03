@@ -1,5 +1,7 @@
 import {useQuery} from "vue-query";
 import api from "../dict/axios/api"
+import {useRouter} from "vue-router";
+const router = useRouter()
 
 const fetchData = async (data: string) => {
     try {
@@ -17,6 +19,9 @@ export const fetchTaskByID = async (ID = "") => {
         const res = await api.get(`tasks/${ID}`);
         if (res.data) {
             return await res.data
+        }
+        if (res.status === 404) {
+            router.push("/404")
         }
     } catch (e) {
         console.error('Ошибка получения данных', e)

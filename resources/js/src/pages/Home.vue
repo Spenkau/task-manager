@@ -38,10 +38,11 @@ import Sidebar from "../components/sidebar/Sidebar.vue";
 import DateTimePanel from "../components/widgets/DateTimePanel.vue";
 import CategoryList from "../components/sidebar/СategoryList.vue";
 import TaskList from "../components/TaskList/TaskList.vue";
-import {onMounted, ref} from "vue";
+import {computed, onBeforeMount, onMounted, ref} from "vue";
 import UserObservation from "../components/widgets/UserObservation.vue";
 import {useUserStore} from "../dict/store/store";
 import UserNotAuth from "../components/widgets/UserNotAuth.vue";
+import api from "../dict/axios/api";
 
 export default {
     name: "Home",
@@ -51,9 +52,13 @@ export default {
         const categories = ref([])
         const messages = ref([])
 
-
         const store = useUserStore()
-        const isAuth = store.user.isAuth
+        const user = store.user
+
+
+        const isAuth = computed(()=>{
+            return store.user.isAuth
+        })
 
         const getCategories = async () => {
             try {
@@ -68,9 +73,26 @@ export default {
             }
         }
 
-        onMounted(()=>{
+        onMounted(() => {
             getCategories()
         })
+
+        onBeforeMount(() => {
+            api.get(`users/${user.name}`).then(res => {
+                if (res?.data?.user) {
+                    const data = res.data.user[0]
+                    user.id = data.id
+                    user.name = data.name
+                    user.email = data.email
+                    user.phone = data.phone
+                    user.role_id = data.role_id
+                    user.isAuth = true
+                } else {
+                    user.isAuth = false
+                }
+            })
+        })
+
 
         return {
             isAuth,

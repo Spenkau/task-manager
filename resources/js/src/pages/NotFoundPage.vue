@@ -13,7 +13,8 @@ export default {
 
 <style scoped lang="scss">
     div{
-        min-height: 765px;
+        height: 100vh;
+        width: 100vw;
         display: flex;
         flex-direction: column;
         align-items: center;
