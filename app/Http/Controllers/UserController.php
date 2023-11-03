@@ -17,9 +17,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function show(int $id)
+    public function show(string $name)
     {
-        $user = $this->userService->show($id);
+        $user = $this->userService->show($name);
 
         try {
             return response()->json(['user' => $user]);
