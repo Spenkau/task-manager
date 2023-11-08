@@ -19,9 +19,9 @@ class UserService
         $this->userRepo = $userRepo;
     }
 
-    public function show(string $name)
+    public function show(string $email)
     {
-        return $this->userRepo->show($name);
+        return $this->userRepo->show($email);
     }
 
     public function create(mixed $data)

@@ -21,7 +21,6 @@ Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () 
     Route::delete('delete', [CategoryController::class, 'delete']);
 });
 
-
 Route::group([
 
     'middleware' => 'api',
@@ -36,6 +35,12 @@ Route::group([
     Route::post('me', [AuthController::class, 'me']);
 
     Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
+            Route::get('', [UserController::class, 'index']);
+            Route::get('{username}', [UserController::class, 'show']);
+        });
+
         Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
             Route::get('', [TaskController::class, 'index']);
 
@@ -48,10 +53,6 @@ Route::group([
             Route::delete('{task}', [TaskController::class, 'softDelete']);
 
             Route::get('filter', [TaskController::class, 'filterTasks']);
-        });
-        Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
-            Route::get('', [UserController::class, 'index']);
-            Route::get('{username}', [UserController::class, 'show']);
         });
     });
 });

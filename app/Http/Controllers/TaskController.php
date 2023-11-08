@@ -60,17 +60,16 @@ class TaskController extends Controller
     }
 
     // todo добавлять настоящий user_id
-    public function store(StoreRequest $taskRequest)
+    public function store(StoreRequest $request)
     {
-        $data = $taskRequest->validated();
+        $data = $request->validated();
 
         try {
             $newTask = $this->taskService->store($data);
 
-//            TaskCreateEvent::dispatch($data);
             broadcast(new TaskCreateEvent($newTask))->toOthers();
 
-            return response()->json(['message' => 'Task successfully stored!', 'data FROM DATABASE' => $newTask]);
+            return response()->json(['message' => 'Task successfully stored!', 'New Task: ' => $newTask]);
         } catch (Exception $e) {
             if ($data->fails()) {
                 return response()->json(['errors' => $data->errors()], 422);

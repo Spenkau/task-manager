@@ -77,43 +77,21 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {formDataToJSON} from "../../contracts/сontracts";
+import api from '../../dict/axios/api'
+import axios from "axios";
 
+const submitForm = () => {
 
-const submitForm = async () => {
+    const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
+    const jsonData = formDataToJSON(formData.value);
+    console.log(jsonData)
 
-    try {
-        const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
-        const jsonData = formDataToJSON(formData.value);
-        console.log(jsonData)
+    const headers = {
+        'Content-Type': 'application/json'
+    };
 
-        const options = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-            body: jsonData,
-        };
-
-        fetch('http://127.0.0.1:8000/api/tasks/store', options)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сети или сервера');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Ответ от сервера:', data);
-            })
-            .catch(error => {
-                console.error('Произошла ошибка:', error);
-            });
-
-    } catch (e) {
-        console.error('Ошибка формы', e);
-    }
+    axios.post('api/auth/tasks/store', jsonData, {headers}).then(res => console.log(res))
 }
-
-
 
 
 </script>
@@ -132,9 +110,10 @@ const submitForm = async () => {
     opacity: 0;
 }
 
-.textarea{
+.textarea {
     margin-bottom: 30px;
 }
+
 .modal-task_container {
     form {
         position: fixed;

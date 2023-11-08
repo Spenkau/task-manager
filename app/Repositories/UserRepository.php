@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function show(string $name)
+    public function show(string $email)
     {
-        return User::whereName($name)->with('tasks')->first();
+        return User::whereEmail($email)->with('tasks')->first();
     }
 
     public function create(mixed $data)

@@ -300,7 +300,7 @@ const createUser = () => {
                 'Content-Type': 'application/json'
             };
 
-            axios.post('users/create', jsonData, {headers})
+            axios.post('api/auth/create', jsonData, {headers})
                 .then(res => {
                         if(res.data?.error) {
                             errorMessage.value = 'Пользователь с такими данными уже существует!'
