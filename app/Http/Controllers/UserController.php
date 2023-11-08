@@ -28,13 +28,13 @@ class UserController extends Controller
         }
     }
 
-    public function create(StoreRequest $request)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
 
         try {
-            $this->userService->create($data);
-            return response()->json(['message' => 'User successfully created!']);
+            $response = $this->userService->create($data);
+            return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => ['User already exists', $e]]);
         }

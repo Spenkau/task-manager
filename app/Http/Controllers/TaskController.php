@@ -108,6 +108,11 @@ class TaskController extends Controller
         }
     }
 
+    public function finishTask()
+    {
+
+    }
+
     public function filterTasks()
     {
         $tasks = QueryBuilder::for(Task::class)

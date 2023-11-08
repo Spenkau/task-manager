@@ -26,7 +26,7 @@ class UserService
 
     public function create(mixed $data)
     {
-        $this->userRepo->create($data);
+        return $this->userRepo->store($data);
     }
 
 //    public function getUserData(string $username)

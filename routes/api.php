@@ -28,13 +28,13 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('create', [UserController::class, 'create']);
+    Route::post('store', [UserController::class, 'store']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 
-    Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => 'jwt.auth'], function () {
 
         Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
             Route::get('', [UserController::class, 'index']);

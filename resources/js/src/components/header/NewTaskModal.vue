@@ -84,8 +84,11 @@ const submitForm = () => {
     const jsonData = formDataToJSON(formData.value);
     console.log(jsonData)
 
+    const token = localStorage.access_token;
+
     const headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
     };
 
     axios.post('api/auth/tasks/store', jsonData, {headers}).then(res => console.log(res))
