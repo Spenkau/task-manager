@@ -44,7 +44,7 @@
 }
 
 .icon-tag {
-    @include icon(15px, 15px, 'tag')
+    @include icon(17px, 19px, 'tag')
 }
 
 .icon-category{
@@ -93,4 +93,8 @@
 
 .icon-logout {
     @include icon(17px, 20px, "logout")
+}
+
+.icon-bugs {
+    @include icon(15px,15px, "bugs")
 }

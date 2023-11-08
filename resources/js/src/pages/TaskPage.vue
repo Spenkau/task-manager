@@ -28,7 +28,6 @@
             </EditTaskModal>
             <button class="task-page-delete"><i class="icon-delete"> иконка удалить</i></button>
             <button class="task-page-complete"><i class="icon-complete"> иконка завершить</i></button>
-            <button class="task-page-edit"><i class="icon-rewrite"> иконка редиктировать</i></button>
             <InputComment/>
             <CommentList/>
         </div>

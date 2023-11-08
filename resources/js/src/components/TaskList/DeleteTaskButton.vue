@@ -1,8 +1,8 @@
 <template>
     <div class="delete-task">
-        <v-btn @click="() => deleteTask()">
-            удалить
-        </v-btn>
+        <button @click="() => deleteTask()">
+            <i class="icon-bugs">удалить</i>
+        </button>
     </div>
 </template>
 
@@ -21,8 +21,11 @@ const deleteTask = () => {
 
 <style scoped lang="scss">
 .delete-task{
-    button {
-        width: 100%;
+    display: flex;
+    align-items: center;
+    &:hover{
+        transform: scale(1.25);
     }
 }
+
 </style>
