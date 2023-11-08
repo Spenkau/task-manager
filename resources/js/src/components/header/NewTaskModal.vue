@@ -61,7 +61,7 @@
                             ></v-text-field>
                         </div>
                         <input type="hidden" name="status_id" value="1">
-                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="user_id" :value="userID">
                         <v-btn type="submit" variant="tonal" block text="Отправить"/>
                     </div>
                 </form>
@@ -71,9 +71,15 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 import {formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
+import {useUserStore} from "../../dict/store/store";
+
+const store = useUserStore()
+const userID = computed(() => {
+    return store.user.id
+})
 
 const submitForm = () => {
 
