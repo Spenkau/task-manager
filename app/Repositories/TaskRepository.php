@@ -14,13 +14,16 @@ use Spatie\QueryBuilder\QueryBuilder;
 class TaskRepository implements TaskRepositoryInterface
 {
         // TODO Изменить решение получения тасков с именем категории
-    public function allOrParent(string $relation)
+    public function allOrParent(string $relation, int $userId)
     {
         if ($relation == RelationEnum::ALL) {
             return Task::paginate(5);
         }
 
-        return Task::with(['children', 'tags', 'user'])->paginate(5);
+        return Task::whereNull('parent_id')
+            ->with(['children', 'tags'])
+            ->where('user_id', $userId)
+            ->paginate(5);
     }
 
     public function show(int $taskId)

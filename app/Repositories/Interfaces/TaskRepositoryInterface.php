@@ -6,7 +6,7 @@ use App\Models\Task;
 
 interface TaskRepositoryInterface
 {
-    public function allOrParent(string $relation);
+    public function allOrParent(string $relation, int $userId);
 
     public function show(int $taskId);
 

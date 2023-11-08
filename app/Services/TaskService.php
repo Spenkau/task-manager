@@ -22,9 +22,9 @@ class TaskService
         $this->categoryRepo = $categoryRepo;
     }
 
-    public function allOrParent(string $relation)
+    public function allOrParent(string $relation, int $userId)
     {
-        return $this->taskRepo->allOrParent($relation);
+        return $this->taskRepo->allOrParent($relation, $userId);
     }
 
     public function show(int $taskId)

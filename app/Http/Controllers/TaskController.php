@@ -28,7 +28,9 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = TaskResource::collection($this->taskService->allOrParent('children'));
+        $user = Auth::user();
+
+        $tasks = TaskResource::collection($this->taskService->allOrParent('children', $user['id']));
 
         try {
             return $tasks;
