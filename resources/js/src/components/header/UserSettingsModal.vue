@@ -21,16 +21,24 @@
                 </button>
             </li>
             <li>
-                <a href="">
+                <button>
                     <i class="icon-logout"> иконка выйти из аккаунты </i>
                     Выйти
-                </a>
+                </button>
             </li>
         </ul>
     </div>
 </template>
 
 <script setup lang="ts">
+import {useUserStore} from "../../dict/store/store";
+import {computed} from "vue";
+
+const store = useUserStore()
+
+const logout = computed(() => {
+    store.user.isAuth = false
+})
 
 </script>
 

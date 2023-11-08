@@ -29,7 +29,7 @@
                             <input class="name" name="username" value="Username" disabled="disabled">
                             <button type="button" class="button-edit"><i class="icon-edit">редактировать</i></button>
                         </div>
-                        <p>@user_login</p>
+                        <p>{{user.name}}</p>
                     </div>
                 </div>
                 <div class="user-about">
@@ -55,8 +55,15 @@ import UserAchievements from "../components/widgets/UserAchievements.vue";
 import {onMounted, ref} from "vue";
 import {fetchTaskByPage} from "../contracts/сontracts";
 import MiniTaskCard from "../components/widgets/MiniTaskCard.vue";
+import {useUserStore} from "../dict/store/store";
 
 const userTasks = ref([])
+
+const store = useUserStore()
+const user = store.user
+
+console.log(user)
+
 
 onMounted(async () => {
     // const tasksData = await fetchTaskByPage(1)
