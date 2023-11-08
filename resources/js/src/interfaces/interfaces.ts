@@ -30,3 +30,10 @@ export interface ITask {
     started_at: string
     finished_at: string
 }
+
+enum StatusTask {
+    inactive ,
+    active,
+    pending ,
+    performed
+}

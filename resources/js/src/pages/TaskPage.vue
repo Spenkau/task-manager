@@ -26,95 +26,8 @@
             </div>
             <button class="task-page-delete"><i class="icon-delete"> иконка удалить</i></button>
             <button class="task-page-complete"><i class="icon-complete"> иконка завершить</i></button>
-            <div class="write-comment">
-                <form action="" method="post">
-                    <v-text-field clearable type="text" label="Оставьте комментарий для задачи.." name="comment"
-                                  variant="underlined"></v-text-field>
-                    <input type="submit" value="Отправить" class="input-submit-commit disabled">
-                </form>
-            </div>
-            <div class="task-comments">
-                <ul class="comment-list">
-                    <li>
-                        <div class="user-comment">
-                            <img src="/images/avatar.png" alt="user avatar">
-                            <div class="comment">
-                                <p class="user-name">Maxim</p>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
-                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
-                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="right">
-                        <div class="user-comment">
-                            <img src="/images/avatar.png" alt="user avatar">
-                            <div class="comment">
-                                <p class="user-name">Alex</p>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
-                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
-                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-comment">
-                            <img src="/images/avatar.png" alt="user avatar">
-                            <div class="comment">
-                                <p class="user-name">Andry</p>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
-                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
-                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-comment">
-                            <img src="/images/avatar.png" alt="user avatar">
-                            <div class="comment">
-                                <p class="user-name">CJ</p>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
-                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
-                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-comment">
-                            <img src="/images/avatar.png" alt="user avatar">
-                            <div class="comment">
-                                <p class="user-name">Cebastian</p>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
-                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
-                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-comment">
-                            <img src="/images/avatar.png" alt="user avatar">
-                            <div class="comment">
-                                <p class="user-name">Dolly</p>
-                                <p class="comment-text">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At doloribus ducimus eaque
-                                    eius et iure modi molestiae nesciunt nostrum, perspiciatis quia quidem quisquam
-                                    saepe unde, veniam voluptatem voluptatibus. Soluta, ullam!
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <InputComment/>
+            <CommentList/>
         </div>
     </div>
 </template>
@@ -124,7 +37,8 @@
 import {useRoute, useRouter} from "vue-router";
 import {ref, onBeforeMount, reactive, computed} from "vue";
 import {fetchTaskByID} from "../contracts/сontracts";
-
+import CommentList from "../components/CommentList/CommentList.vue";
+import InputComment from "../components/CommentList/InputComment.vue";
 
 const route = useRoute();
 const taskId = route.params.id
@@ -284,65 +198,6 @@ const statusTask = computed(() => {
 }
 
 
-.task-comments {
-    margin-top: 60px;
-    width: 920px;
-
-    img {
-        width: 64px;
-        height: 64px
-    }
-}
-
-.comment-list {
-    display: block;
-
-
-    li {
-        width: min-content;
-        margin-bottom: 45px;
-
-        &:nth-child(even) {
-            .user-comment {
-                display: flex;
-                flex-direction: row-reverse;
-                justify-content: space-between;
-            }
-
-            margin-left: auto;
-
-            .comment {
-                order: 1;
-            }
-
-            img {
-                order: 0;
-            }
-
-            .user-name {
-                justify-content: flex-end;
-            }
-        }
-    }
-}
-
-.user-comment {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-.user-name {
-    margin-bottom: 10px;
-}
-
-.comment-text {
-    width: 450px;
-    line-height: 23px;
-    text-align: justify;
-    opacity: 0.8;
-}
-
 .input-page {
     &::placeholder {
         color: $black;
@@ -368,28 +223,6 @@ const statusTask = computed(() => {
         border: 1px solid $red;
     }
 
-}
-
-.write-comment {
-    margin-top: 80px;
-    width: 100%;
-
-    input[type="submit"] {
-        margin-left: 90%;
-        padding: 8px;
-        border: none;
-        background-color: transparent;
-        opacity: 0.4;
-        font-family: $main-font;
-        border-radius: 15px;
-        cursor: pointer;
-
-        &:hover {
-            opacity: 1;
-            background-color: $green;
-            color: $abs-white;
-        }
-    }
 }
 
 </style>
