@@ -29,7 +29,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = TaskResource::collection($this->taskService->allOrParent('children'));
-//        $tasks = new TaskResourceCollection($this->taskService->allOrParent('children'));
+
         try {
             return $tasks;
         } catch (Exception $e) {
@@ -59,18 +59,16 @@ class TaskController extends Controller
         }
     }
 
-    // todo добавлять настоящий user_id
-    public function store(StoreRequest $taskRequest)
+    public function store(StoreRequest $request)
     {
-        $data = $taskRequest->validated();
+        $data = $request->validated();
 
         try {
-            $this->taskService->store($data);
+            $newTask = $this->taskService->store($data);
 
-//            TaskCreateEvent::dispatch($data);
-//            broadcast(new TaskCreateEvent($data))->toOthers();
+            broadcast(new TaskCreateEvent($newTask))->toOthers();
 
-            return response()->json(['message' => 'Task successfully stored!', 'data' => $data   ]);
+            return response()->json(['message' => 'Task successfully stored!', 'New Task: ' => $newTask]);
         } catch (Exception $e) {
             if ($data->fails()) {
                 return response()->json(['errors' => $data->errors()], 422);
@@ -79,14 +77,14 @@ class TaskController extends Controller
         }
     }
 
-    public function update(UpdateRequest $request, Task $task)
+    public function update(UpdateRequest $request)
     {
         $data = $request->validated();
 
         broadcast(new TaskUpdateEvent($data))->toOthers();
 
         try {
-            $this->taskService->update($task, $data);
+            $this->taskService->update($data);
             return response()->json(['message' => 'Task successfully updated!']);
         } catch (Exception $e) {
             if ($data->fails()) {
@@ -107,6 +105,11 @@ class TaskController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
         }
+    }
+
+    public function finish(mixed $data)
+    {
+        $this->taskService->finish($data);
     }
 
     public function filterTasks()

@@ -66,17 +66,16 @@ console.log(store)
 
 
 onMounted(async () => {
-    const tasksData = await fetchTaskByPage(1)
-    userTasks.value = tasksData.tasks.data
+    // const tasksData = await fetchTaskByPage(1)
+    // userTasks.value = tasksData.tasks.data
 })
 
 onMounted(() => {
     try {
         window.Echo.channel('task-channel')
-            .listen('.App\\Events\\Task\\TaskCreateEvent', (e) => {
-                console.log('welcome to task channel');
+            .listen('.task.created', (e) => {
+                console.log(e.task);
                 userTasks.value.unshift(e.task)
-
             })
             .error((error) => {
                 console.error('Error:', error);

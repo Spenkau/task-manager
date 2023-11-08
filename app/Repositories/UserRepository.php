@@ -8,21 +8,39 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function show(string $name)
+    public function show(string $email)
     {
-        return User::whereName($name)->with('tasks')->get();
+        return User::whereEmail($email)->with('tasks')->first();
     }
 
-    public function create(mixed $data)
+    public function store(mixed $data)
     {
-        User::create([
+        $user = $this->isUserExist($data['email']);
+
+        if ($user) {
+            return ['message' => 'User with this email already exists'];
+        }
+        User::firstOrCreate([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $token = $this->getToken($data['id']);
+
+        return ['message' => 'User successfully created!', 'access_token' => $token];
     }
 
+    public function isUserExist($data)
+    {
+        return User::where('email', $data)->first();
+    }
+
+    public function getToken(int $id)
+    {
+        return auth()->tokenById($id);
+    }
 
 //    public function getUserData(string $userName)
 //    {

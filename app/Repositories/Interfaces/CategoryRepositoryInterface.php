@@ -9,7 +9,7 @@ interface CategoryRepositoryInterface
     public function allOrParent(string $relation);
     public function store(mixed $data);
 
-    public function update(Category $category, $data);
+    public function update(mixed $data);
 
-    public function delete(Category $category);
+    public function delete(int $id);
 }

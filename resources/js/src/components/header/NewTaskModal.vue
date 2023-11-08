@@ -74,6 +74,7 @@
 import {ref} from 'vue';
 import {formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
+import axios from "axios";
 
 const submitForm = () => {
 
