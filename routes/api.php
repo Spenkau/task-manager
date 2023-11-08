@@ -52,6 +52,8 @@ Route::group([
             Route::patch('{task}', [TaskController::class, 'update']);
             Route::delete('{task}', [TaskController::class, 'softDelete']);
 
+            Route::post('finish', [TaskController::class, 'finish']);
+
             Route::get('filter', [TaskController::class, 'filterTasks']);
         });
     });

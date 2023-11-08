@@ -22,18 +22,19 @@ class CategoryService
         return $this->categoryRepo->allOrParent($relation);
     }
 
-    public function update(Category $category, $data)
-    {
-        $this->categoryRepo->update($category, $data);
-    }
-
     public function store(mixed $data)
     {
-        $this->categoryRepo->store($data);
+        return $this->categoryRepo->store($data);
     }
 
-    public function delete(Category $category)
+    public function update(mixed $data)
     {
-        $this->categoryRepo->delete($category);
+        return $this->categoryRepo->update($data);
+    }
+
+
+    public function delete(int $id)
+    {
+        return $this->categoryRepo->delete($id);
     }
 }

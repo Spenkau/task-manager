@@ -34,18 +34,15 @@ class TaskRepository implements TaskRepositoryInterface
             ->get();
     }
 
-    public function index()
-    {
-        return Task::with('tags')->get();
-    }
-
     public function store(mixed $data)
     {
         return Task::create($data);
     }
 
-    public function update(Task $task, $data)
+    public function update(mixed $data)
     {
+        $task = Task::find($data['id']);
+
         $task->update($data);
     }
 
@@ -54,9 +51,14 @@ class TaskRepository implements TaskRepositoryInterface
         $task->delete();
     }
 
-    public function getByUser(Task $task)
+    public function finish(mixed $data)
     {
-        return Task::with('user')->where('user_id' . $task->user_id)->toArray();
+        $task = Task::find($data['id']);
+
+        $task->finished_at = $data['finished_at'];
+        $task->status_id = 3;
+
+        $task->save();
     }
 
     public function getByCategory(Task $task)
@@ -64,12 +66,12 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::with('category')->where('category_id' . $task->category_id)->toArray();
     }
 
-    public function filterTasks(string $field)
-    {
-        $tasks = QueryBuilder::for(Task::class)
-            ->allowedFilters($field)
-            ->get();
-
-        return $tasks;
-    }
+//    public function filterTasks(string $field)
+//    {
+//        $tasks = QueryBuilder::for(Task::class)
+//            ->allowedFilters($field)
+//            ->get();
+//
+//        return $tasks;
+//    }
 }

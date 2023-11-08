@@ -45,31 +45,30 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         try {
-//            dump((new CategoryDTO($data))->name);
-            $this->categoryService->store($data);
-            return response()->json(['message' => 'Category successfully stored!']);
+            $response = $this->categoryService->store($data);
+            return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store category: ' . $e], 500);
         }
     }
 
-    public function update(UpdateRequest $request, Category $category)
+    public function update(UpdateRequest $request)
     {
         $data = $request->validated();
 
         try {
-            $this->categoryService->update($category, $data);
-            return response()->json(['message' => 'Category successfully stored!']);
+            $response = $this->categoryService->update($data);
+            return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update category: ' . $e], 500);
         }
     }
 
-    public function delete(Category $category)
+    public function delete(int $id)
     {
         try {
-            $this->categoryService->delete($category);
-            return response()->json(['message' => 'Category successfully deleted!']);
+            $response = $this->categoryService->delete($id);
+            return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete category: ' . $e], 500);
         }

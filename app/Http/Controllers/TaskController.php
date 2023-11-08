@@ -29,7 +29,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = TaskResource::collection($this->taskService->allOrParent('children'));
-//        $tasks = new TaskResourceCollection($this->taskService->allOrParent('children'));
+
         try {
             return $tasks;
         } catch (Exception $e) {
@@ -59,7 +59,6 @@ class TaskController extends Controller
         }
     }
 
-    // todo добавлять настоящий user_id
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
@@ -78,14 +77,14 @@ class TaskController extends Controller
         }
     }
 
-    public function update(UpdateRequest $request, Task $task)
+    public function update(UpdateRequest $request)
     {
         $data = $request->validated();
 
         broadcast(new TaskUpdateEvent($data))->toOthers();
 
         try {
-            $this->taskService->update($task, $data);
+            $this->taskService->update($data);
             return response()->json(['message' => 'Task successfully updated!']);
         } catch (Exception $e) {
             if ($data->fails()) {
@@ -108,9 +107,9 @@ class TaskController extends Controller
         }
     }
 
-    public function finishTask()
+    public function finish(mixed $data)
     {
-
+        $this->taskService->finish($data);
     }
 
     public function filterTasks()
