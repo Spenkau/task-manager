@@ -26,7 +26,6 @@
                                 name="priority_id"
                             ></v-select>
                         </div>
-
                         <v-select
                             clearable
                             label="Категория"
@@ -60,7 +59,6 @@
                                 variant="outlined"
                                 clearable
                             ></v-text-field>
-
                         </div>
                         <input type="hidden" name="status_id" value="1">
                         <input type="hidden" name="user_id" value="1">
@@ -83,7 +81,7 @@ const submitForm = () => {
     const jsonData = formDataToJSON(formData.value);
     console.log(jsonData)
 
-    api.post('tasks/create', jsonData).then(res => console.log(res))
+    api.post('tasks/store', jsonData).then(res => res.status === 200)
 }
 
 

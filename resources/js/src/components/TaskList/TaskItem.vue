@@ -1,11 +1,7 @@
 <template>
     <div class="tasks-container">
         <div class="item-task">
-            <div class="task-delete">
-                <button>
-                    <i class="icon-delete"> Удалить</i>
-                </button>
-            </div>
+            <DeleteTaskButton :taskID="taskItem.id"/>
             <div class="task-card">
                 <div class="task-header">
                     <p>
@@ -66,11 +62,7 @@
                     <button><i class="icon-postpone"></i> отложить</button>
                 </div>
             </div>
-            <div class="task-complete">
-                <button>
-                    <i class="icon-complete"> Завершить</i>
-                </button>
-            </div>
+            <CompleteTaskButton/>
         </div>
     </div>
 </template>
@@ -78,7 +70,8 @@
 <script setup lang="ts">
 import {ITask} from "../../interfaces/interfaces";
 import {ref, toRefs, computed, reactive} from "vue";
-
+import CompleteTaskButton from "./completeTaskButton.vue";
+import DeleteTaskButton from "./DeleteTaskButton.vue";
 
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
