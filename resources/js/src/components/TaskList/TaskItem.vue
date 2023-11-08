@@ -44,19 +44,29 @@
                         </div>
                     </div>
                     <div class="complete">
-                        <CompleteTaskButton/>
+                        <CompleteTaskButton :taskID="taskItem.id"/>
                     </div>
                 </div>
                 <div class="task-body">
                     <h3>
                         <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
-                    <div class="task-card-tag">
-                        <ul>
+                    <div>
+                        <ul class="tag-list">
                             <li class="task-card-tag">
                                 <i class="icon-tag">иконка тега</i>
                                 <RouterLink to="/tags"><span>тег</span></RouterLink>
 <!--                                {{ taskItem.tag_id }}-->
+                            </li>
+                            <li class="task-card-tag">
+                                <i class="icon-tag">иконка тега</i>
+                                <RouterLink to="/tags"><span>тег</span></RouterLink>
+                                <!--                                {{ taskItem.tag_id }}-->
+                            </li>
+                            <li class="task-card-tag">
+                                <i class="icon-tag">иконка тега</i>
+                                <RouterLink to="/tags"><span>тег</span></RouterLink>
+                                <!--                                {{ taskItem.tag_id }}-->
                             </li>
                         </ul>
                     </div>
@@ -92,6 +102,10 @@ const dateIsNull = computed(() => {
 <style scoped lang="scss">
 @import "../../../../css/general";
 
+.tag-list{
+    display: flex;
+    gap: 15px;
+}
 
 .item-task {
     display: flex;
@@ -212,7 +226,7 @@ const dateIsNull = computed(() => {
         height: 18px;
     }
     i:first-child{
-        width: 18px;
+        width: 19px;
         height: 19px;
     }
 }

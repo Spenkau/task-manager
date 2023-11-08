@@ -74,12 +74,6 @@
 import {computed, ref} from 'vue';
 import {formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
-import {useUserStore} from "../../dict/store/store";
-
-const store = useUserStore()
-const userID = computed(() => {
-    return store.user.id
-})
 
 const submitForm = () => {
 

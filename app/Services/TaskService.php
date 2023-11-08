@@ -24,7 +24,6 @@ class TaskService
 
     public function allOrParent(string $relation)
     {
-//        return TaskResource::collection($this->taskRepo->allOrParent($relation));
         return $this->taskRepo->allOrParent($relation);
     }
 
@@ -40,24 +39,24 @@ class TaskService
         return TaskResource::collection($this->taskRepo->showByCategory($category->id));
     }
 
-    public function showByTags(Tag $tag)
-    {
-        // TODO сделать получение тегов
-    }
-
     public function store(mixed $data)
     {
-        $this->taskRepo->store($data);
+        return $this->taskRepo->store($data);
     }
 
-    public function update(Task $task, $data)
+    public function update(mixed $data)
     {
-        $this->taskRepo->update($task, $data);
+        $this->taskRepo->update($data);
     }
 
     public function softDelete(Task $task)
     {
         $this->taskRepo->softDelete($task);
+    }
+
+    public function finish(mixed $data)
+    {
+        $this->taskRepo->finish($data);
     }
 
     public function filterTasks(string $field)

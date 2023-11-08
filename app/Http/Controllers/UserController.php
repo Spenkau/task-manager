@@ -17,9 +17,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function show(string $name)
+    public function show(string $email)
     {
-        $user = $this->userService->show($name);
+        $user = $this->userService->show($email);
 
         try {
             return response()->json(['user' => $user]);
@@ -28,13 +28,13 @@ class UserController extends Controller
         }
     }
 
-    public function create(StoreRequest $request)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
 
         try {
-            $this->userService->create($data);
-            return response()->json(['message' => 'User successfully created!']);
+            $response = $this->userService->create($data);
+            return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => ['User already exists', $e]]);
         }

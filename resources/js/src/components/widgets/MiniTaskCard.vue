@@ -2,9 +2,11 @@
     <RouterLink :to="'/task/'+ taskItem.id">
         <div class="search-task">
             <div class="search-task-header">
-                <h3>
-                    {{ taskItem.title }}
-                </h3>
+                <RouterLink :to="/task/+taskItem.id">
+                    <h3>
+                        {{ taskItem.title }}
+                    </h3>
+                </RouterLink>
                 <p class="task-card-tag">
                     <i class="icon-tag">иконка тега</i>
                     <span>Тег</span>
@@ -37,7 +39,7 @@ import {ITask} from "../../interfaces/interfaces";
 
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
-
+console.log(taskItem.value)
 // const dateTask = computed(()=>{
 //     if (taskItem.value.started_at && taskItem.value.finished_at){
 //         return `с ${task.value.started_at} по ${task.value.finished_at}`

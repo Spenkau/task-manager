@@ -11,10 +11,12 @@ import api from "../../dict/axios/api";
 
 const props = defineProps(['taskID'])
 const id = props.taskID
-const taskDeleteData = {id,finished_at:new Date().toISOString()}
+
+
+const taskDeleteData = {id:id,finished_at:new Date().toLocaleString()}
 
 const completeTask = () => {
-    api.post('tasks/delete', taskDeleteData).then(res => console.log(res))
+    api.post('tasks/finish', taskDeleteData).then(res => console.log(res))
 }
 </script>
 
