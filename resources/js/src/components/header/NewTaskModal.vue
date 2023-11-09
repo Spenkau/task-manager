@@ -26,7 +26,6 @@
                                 name="priority_id"
                             ></v-select>
                         </div>
-
                         <v-select
                             clearable
                             label="Категория"
@@ -60,7 +59,6 @@
                                 variant="outlined"
                                 clearable
                             ></v-text-field>
-
                         </div>
                         <input type="hidden" name="status_id" value="1">
                         <v-btn type="submit" variant="tonal" block text="Отправить"/>
@@ -83,14 +81,7 @@ const submitForm = () => {
     const jsonData = formDataToJSON(formData.value);
     console.log(jsonData)
 
-    const token = localStorage.access_token;
-
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-    };
-
-    axios.post('api/auth/tasks/store', jsonData, {headers}).then(res => console.log(res))
+    api.post('tasks/store', jsonData).then(res => res.status === 200)
 }
 
 

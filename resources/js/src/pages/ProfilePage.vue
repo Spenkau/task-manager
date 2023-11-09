@@ -62,7 +62,7 @@ const userTasks = ref([])
 const store = useUserStore()
 const user = store.user
 
-console.log(user)
+console.log(store)
 
 
 onMounted(async () => {
