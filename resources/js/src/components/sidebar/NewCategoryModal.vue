@@ -1,21 +1,15 @@
 <template>
     <slot></slot>
     <div class="modal-category_container" >
-        <form id="category" class="decor" method="POST">
+        <form id="category" class="decor" novalidate @submit.prevent="createCategory">
         <div class="form-left-decoration"></div>
         <div class="form-right-decoration"></div>
         <div class="circle"></div>
         <div class="form-inner">
             <h3>Создать категорию</h3>
             <div>
-                <v-select
-                    clearable
-                    label="Категория"
-                    :items="[]"
-                    variant="outlined"
-                    name="category_id"
-                ></v-select>
                 <v-text-field
+                    v-model="category"
                     type="text"
                     label="Название категории..."
                     name="name"
@@ -24,20 +18,24 @@
                     clearable
                 />
             </div>
-            <input type="submit" value="Отправить">
+            <v-btn width="100%" type="submit" text="Отправить" color="#29a19c"></v-btn>
         </div>
         </form>
     </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import api from '../../dict/axios/api'
+const category = ref('')
+const rules = ref( [
+    value => !!value || 'Заполните!',
+    value => (value && value.length >= 3) || 'Минимум 3 буквы!',
+])
 
-    const rules = ref( [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
-    ])
-
+const createCategory = computed(()=>{
+    api.post('/categories/store', {name:category.value}).then(res => res.data)
+})
 </script>
 
 <style scoped lang="scss">
