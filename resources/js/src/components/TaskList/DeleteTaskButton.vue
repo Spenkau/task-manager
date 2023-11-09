@@ -1,8 +1,8 @@
 <template>
     <div class="delete-task">
-        <v-btn @click="() => deleteTask()">
-            удалить
-        </v-btn>
+        <button @click="() => deleteTask()">
+            <i class="icon-bugs">удалить</i>
+        </button>
     </div>
 </template>
 
@@ -12,20 +12,20 @@ import api from "../../dict/axios/api";
 
 const props = defineProps(['taskID'])
 const id = props.taskID
-const taskDeleteData = {
-    data: {id}
-}
+// const taskDeleteData = {id}
 const deleteTask = () => {
-    console.log(taskDeleteData)
-    api.delete('tasks/delete', taskDeleteData).then(res => console.log(res))
+    api.delete(`tasks/delete/${id}`).then(res => console.log(res))
 }
 
 </script>
 
 <style scoped lang="scss">
 .delete-task{
-    button {
-        width: 100%;
+    display: flex;
+    align-items: center;
+    &:hover{
+        transform: scale(1.25);
     }
 }
+
 </style>
