@@ -62,7 +62,7 @@ export default {
 
         const getCategories = async () => {
             try {
-                const res = await fetch('http://127.0.0.1:8000/api/categories/with_children');
+                const res = await api.get('categories/with_children')
                 if (res.ok) {
                     const data = await res.json();
                     categories.value = data.data

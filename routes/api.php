@@ -36,8 +36,8 @@ Route::group([
             Route::get('{task}', [TaskController::class, 'show']);
 
             Route::post('store', [TaskController::class, 'store']);
-            Route::patch('{task}', [TaskController::class, 'update']);
-            Route::delete('{task}', [TaskController::class, 'delete']);
+            Route::patch('update', [TaskController::class, 'update']);
+            Route::delete('delete', [TaskController::class, 'delete']);
 
             Route::post('finish', [TaskController::class, 'finish']);
 

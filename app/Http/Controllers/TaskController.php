@@ -13,7 +13,7 @@ use App\Http\Resources\TaskResourceCollection;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
-use http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -93,8 +93,9 @@ class TaskController extends Controller
         }
     }
 
-    public function delete(int $id)
+    public function delete(Request $request)
     {
+        $id = $request->input('id');
 
         broadcast(new TaskDeleteEvent($id))->toOthers();
 

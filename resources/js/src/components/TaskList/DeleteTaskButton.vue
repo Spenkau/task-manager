@@ -12,9 +12,12 @@ import api from "../../dict/axios/api";
 
 const props = defineProps(['taskID'])
 const id = props.taskID
-const taskDeleteData = {id}
+const taskDeleteData = {
+    data: {id}
+}
 const deleteTask = () => {
-    api.post('tasks/delete', taskDeleteData).then(res => console.log(res))
+    console.log(taskDeleteData)
+    api.delete('tasks/delete', taskDeleteData).then(res => console.log(res))
 }
 
 </script>
