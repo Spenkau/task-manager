@@ -34,10 +34,10 @@ export default {
     },
 
     setup(props) {
-        const {categories} = toRefs(props);
+        const {categories} = props;
         const showModal = ref(false)
 
-        const categoryList = ref<ICategories>(categories.value)
+        const categoryList = ref(categories)
 
 
         return {

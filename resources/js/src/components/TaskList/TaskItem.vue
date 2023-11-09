@@ -1,9 +1,11 @@
 <template>
     <div class="tasks-container">
         <div class="item-task">
-            <DeleteTaskButton :taskID="taskItem.id"/>
             <div class="task-card">
                 <div class="task-header">
+                    <div>
+                        <DeleteTaskButton :taskID="taskItem.id"/>
+                    </div>
                     <p>
                         {{ taskItem.id }}
                     </p>
@@ -21,14 +23,6 @@
                         <v-icon color="success" icon="$vuetify" size="x-large"/>
                         <span>{{ taskItem.category_id }}</span>
                     </p>
-                    <div class="task-card-tag">
-                        <ul>
-                            <li>
-                                <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>{{ taskItem.tag_id }}</span> тег</RouterLink>
-                            </li>
-                        </ul>
-                    </div>
                     <div class="task-card-reaction">
                         <div class="reaction-content">
                             <a href="/user/1">
@@ -49,11 +43,33 @@
                             <span>2</span>
                         </div>
                     </div>
+                    <div class="complete">
+                        <CompleteTaskButton :taskID="taskItem.id"/>
+                    </div>
                 </div>
                 <div class="task-body">
                     <h3>
                         <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
+                    <div>
+                        <ul class="tag-list">
+                            <li class="task-card-tag">
+                                <i class="icon-tag">иконка тега</i>
+                                <RouterLink to="/tags"><span>тег</span></RouterLink>
+<!--                                {{ taskItem.tag_id }}-->
+                            </li>
+                            <li class="task-card-tag">
+                                <i class="icon-tag">иконка тега</i>
+                                <RouterLink to="/tags"><span>тег</span></RouterLink>
+                                <!--                                {{ taskItem.tag_id }}-->
+                            </li>
+                            <li class="task-card-tag">
+                                <i class="icon-tag">иконка тега</i>
+                                <RouterLink to="/tags"><span>тег</span></RouterLink>
+                                <!--                                {{ taskItem.tag_id }}-->
+                            </li>
+                        </ul>
+                    </div>
                     <i :class="'icon-priority_'+ taskItem.priority">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
@@ -62,7 +78,6 @@
                     <button><i class="icon-postpone"></i> отложить</button>
                 </div>
             </div>
-            <CompleteTaskButton/>
         </div>
     </div>
 </template>
@@ -70,7 +85,7 @@
 <script setup lang="ts">
 import {ITask} from "../../interfaces/interfaces";
 import {ref, toRefs, computed, reactive} from "vue";
-import CompleteTaskButton from "./completeTaskButton.vue";
+import CompleteTaskButton from "./СompleteTaskButton.vue";
 import DeleteTaskButton from "./DeleteTaskButton.vue";
 
 const task = defineProps(['task'])
@@ -87,6 +102,10 @@ const dateIsNull = computed(() => {
 <style scoped lang="scss">
 @import "../../../../css/general";
 
+.tag-list{
+    display: flex;
+    gap: 15px;
+}
 
 .item-task {
     display: flex;
@@ -189,7 +208,7 @@ const dateIsNull = computed(() => {
     align-items: center;
     margin-top: 25px;
     margin-bottom: 25px;
-    gap: 300px;
+
 
     h3 {
         a {
@@ -202,9 +221,13 @@ const dateIsNull = computed(() => {
         }
     }
 
-    i {
+    i:last-child {
         width: 13px;
         height: 18px;
+    }
+    i:first-child{
+        width: 19px;
+        height: 19px;
     }
 }
 

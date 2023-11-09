@@ -9,7 +9,7 @@
                     {{ statusTask }}
                 </p>
                 <p class="task-priority"> Приоритет
-                    <i :class="'icon-priority_' + task.priority_id">иконка приоритета</i>
+                    <i :class="'icon-priority_' + task.priority">иконка приоритета</i>
                 </p>
                 <p class="task-date">
                     {{ dateTask }}
@@ -17,13 +17,15 @@
             </div>
             <p class="task-content">{{ task.content }}</p>
             <div class="task-settings">
-                <button><i class="icon-rewrite"></i> редатктировать</button>
+                <button @click="show = true"><i class="icon-rewrite"></i> редатктировать</button>
 
                 <button><i class="icon-share"></i> поделиться</button>
 
                 <button><i class="icon-postpone"></i> отложить</button>
-
             </div>
+            <EditTaskModal v-if="show" :task="task">
+                <div class="overlay" @click="show = false"/>
+            </EditTaskModal>
             <button class="task-page-delete"><i class="icon-delete"> иконка удалить</i></button>
             <button class="task-page-complete"><i class="icon-complete"> иконка завершить</i></button>
             <InputComment/>
@@ -39,16 +41,21 @@ import {ref, onBeforeMount, reactive, computed} from "vue";
 import {fetchTaskByID} from "../contracts/сontracts";
 import CommentList from "../components/CommentList/CommentList.vue";
 import InputComment from "../components/CommentList/InputComment.vue";
+import EditTaskModal from "../components/widgets/EditTaskModal.vue";
+
 
 const route = useRoute();
 const taskId = route.params.id
 const router = useRouter()
 const task = ref({})
+const show = ref(false)
+
 onBeforeMount(() => {
         fetchTaskByID(taskId)
             .then(data => task.value = data.tasks)
     }
 )
+
 
 
 const dateTask = computed(() => {
@@ -60,14 +67,14 @@ const dateTask = computed(() => {
 })
 
 const statusTask = computed(() => {
-    switch (task.value.status_id) {
+    switch (task.value.status) {
         case 0:
             return "Заброшенно"
         case 1:
             return "В процессе"
         case 2:
             return "Отложенно"
-        case 4:
+        case 3:
             return "Выполенно"
     }
 })
@@ -159,7 +166,7 @@ const statusTask = computed(() => {
 }
 
 
-.task-page-complete, .task-page-delete {
+.task-page-complete, .task-page-delete, .task-page-edit {
     position: fixed;
     display: flex;
     align-items: center;
@@ -167,11 +174,19 @@ const statusTask = computed(() => {
     padding: 25px;
     bottom: 0;
     transition: padding 200ms ease-in-out;
-
+    z-index: 5;
     &:hover {
         padding: 35px;
     }
 
+}
+
+.task-page-edit{
+    height: min-content;
+    top:0;
+    right: 0;
+    background-color: #4b5563;
+    border-bottom-left-radius: 35px;
 }
 
 .task-page-delete {
