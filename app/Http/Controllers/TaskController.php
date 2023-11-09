@@ -6,6 +6,7 @@ use App\DTO\TaskDTO;
 use App\Events\Task\TaskCreateEvent;
 use App\Events\Task\TaskDeleteEvent;
 use App\Events\Task\TaskUpdateEvent;
+use App\Http\Requests\Task\FinishRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
@@ -13,7 +14,7 @@ use App\Http\Resources\TaskResourceCollection;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
-use http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -33,7 +34,7 @@ class TaskController extends Controller
         $tasks = TaskResource::collection($this->taskService->allOrParent('children', $user['id']));
 
         try {
-            return $tasks;
+            return response()->json($tasks);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
         }
@@ -93,13 +94,13 @@ class TaskController extends Controller
         }
     }
 
-    public function delete(int $id)
+    public function delete(Task $task)
     {
 
-        broadcast(new TaskDeleteEvent($id))->toOthers();
+        broadcast(new TaskDeleteEvent($task))->toOthers();
 
         try {
-            $this->taskService->delete($id);
+            $this->taskService->delete($task);
             return response()->json(['message' => 'Task successfully deleted!']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
@@ -108,9 +109,16 @@ class TaskController extends Controller
 
     // TODO делать ли отдельный контроллер для завершения \ отложения задачи, оставлять ли связь мени ту мени для таски-юзеры
 
-    public function finish(mixed $data)
+    public function finish(Request $request)
     {
-        $this->taskService->finish($data);
+        $data = $request->all();
+
+        try {
+            $this->taskService->finish($data);
+            return response()->json(['message' => 'Task completed!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to complete task:' . $e]);
+        }
     }
 
     public function filterTasks()
