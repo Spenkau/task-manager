@@ -47,7 +47,7 @@ class TaskService
 
     public function update(mixed $data)
     {
-        $this->taskRepo->update($data);
+        return $this->taskRepo->update($data);
     }
 
     public function delete(Task $task)
@@ -55,14 +55,14 @@ class TaskService
         $this->taskRepo->delete($task);
     }
 
-    public function finish(mixed $data)
+    public function manageStatus(mixed $data)
     {
-        $this->taskRepo->finish($data);
+        return $this->taskRepo->manageStatus($data);
     }
 
-    public function filterTasks(string $field)
-    {
-        return $this->taskRepo->filterTasks($field);
-    }
+//    public function filterTasks(string $field)
+//    {
+//        return $this->taskRepo->filterTasks($field);
+//    }
 
 }

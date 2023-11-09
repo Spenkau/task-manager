@@ -12,15 +12,15 @@ interface TaskRepositoryInterface
 
     public function showByCategory($categoryId);
 
-    public function store(mixed $data);
+    public function store(array $data);
 
-    public function update(mixed $data);
+    public function update(array $data);
 
     public function delete(Task $task);
 
     public function getByCategory(Task $task);
 
-    public function finish(mixed $data);
+    public function manageStatus(array $data);
 
 //    public function filterTasks(string $field);
 }
