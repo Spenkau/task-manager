@@ -4,8 +4,8 @@ namespace App\Enums;
 
 enum StatusEnum: int
 {
-    case INACTIVE = 0;
+    case PLANNED = 0;
     case ACTIVE = 1;
-    case PENDING = 2;
+    case CANCELED = 2;
     case FINISHED = 3;
 }

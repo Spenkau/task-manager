@@ -41,7 +41,7 @@ Route::group([
             Route::patch('update', [TaskController::class, 'update']);
             Route::delete('delete/{task}', [TaskController::class, 'delete']);
 
-            Route::post('finish', [TaskController::class, 'finish']);
+            Route::post('status_update', [TaskController::class, 'manageStatus']);
 
             Route::get('filter', [TaskController::class, 'filterTasks']);
         });

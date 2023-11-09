@@ -17,11 +17,11 @@ class TaskRepository implements TaskRepositoryInterface
     public function allOrParent(string $relation, int $userId)
     {
         if ($relation == RelationEnum::ALL) {
-            return Task::paginate(5);
+            return Task::where('owner_id', $userId)->paginate(5);
         }
 
         return Task::whereNull('parent_id')
-            ->with(['children', 'tags'])
+            ->with('tags')
             ->where('owner_id', $userId)
             ->paginate(5);
     }
@@ -37,16 +37,33 @@ class TaskRepository implements TaskRepositoryInterface
             ->get();
     }
 
-    public function store(mixed $data)
+    public function store(array $data)
     {
-        return Task::create($data);
+
+        $task = Task::create($data);
+
+        if ($data['tags']) {
+            $this->attachTags($data['tags'], $task);
+        }
+
+        $task->load(['children', 'tags']);
+
+        return $task;
     }
 
-    public function update(mixed $data)
+    public function update(array $data)
     {
         $task = Task::find($data['id']);
 
         $task->update($data);
+
+        if ($data['tags']) {
+            $this->attachTags($data['tags'], $task);
+        }
+
+        $task->load(['children', 'tags']);
+
+        return $task;
     }
 
     public function delete(Task $task)
@@ -54,19 +71,31 @@ class TaskRepository implements TaskRepositoryInterface
         $task->delete();
     }
 
-    public function finish(mixed $data)
+    public function manageStatus(array $data)
     {
         $task = Task::find($data['id']);
 
-        $task->finished_at = $data['finished_at'];
+        if ($data['finished_at']) {
+            $task->finished_at = $data['finished_at'];
+        }
+
         $task->status_id = StatusEnum::FINISHED;
 
         $task->save();
+
+        $task->refresh();
+
+        return $task;
     }
 
     public function getByCategory(Task $task)
     {
         return Task::with('category')->where('category_id', $task->category_id)->toArray();
+    }
+
+    public function attachTags(array $tags, $task)
+    {
+        $task->tags()->syncWithoutDetaching($tags);
     }
 
 //    public function filterTasks(string $field)

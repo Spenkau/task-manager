@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\TaskDTO;
 use App\Events\Task\TaskCreateEvent;
 use App\Events\Task\TaskDeleteEvent;
+use App\Events\Task\TaskStatusUpdateEvent;
 use App\Events\Task\TaskUpdateEvent;
 use App\Http\Requests\Task\FinishRequest;
 use App\Http\Requests\Task\StoreRequest;
@@ -71,7 +72,7 @@ class TaskController extends Controller
 
             broadcast(new TaskCreateEvent($newTask))->toOthers();
 
-            return response()->json(['message' => 'Task successfully stored!', 'New Task: ' => $newTask]);
+            return response()->json(['message' => 'Task successfully stored!', 'data' => $newTask]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
@@ -84,8 +85,8 @@ class TaskController extends Controller
         broadcast(new TaskUpdateEvent($data))->toOthers();
 
         try {
-            $this->taskService->update($data);
-            return response()->json(['message' => 'Task successfully updated!']);
+            $task = $this->taskService->update($data);
+            return response()->json(['message' => 'Task successfully updated!', 'data' => $task]);
         } catch (Exception $e) {
             if ($data->fails()) {
                 return response()->json(['errors' => $data->errors()], 422);
@@ -109,12 +110,15 @@ class TaskController extends Controller
 
     // TODO делать ли отдельный контроллер для завершения \ отложения задачи, оставлять ли связь мени ту мени для таски-юзеры
 
-    public function finish(Request $request)
+    public function manageStatus(Request $request)
     {
         $data = $request->all();
 
         try {
-            $this->taskService->finish($data);
+            $task = $this->taskService->manageStatus($data);
+
+            broadcast(new TaskStatusUpdateEvent($task))->toOthers();
+
             return response()->json(['message' => 'Task completed!']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to complete task:' . $e]);

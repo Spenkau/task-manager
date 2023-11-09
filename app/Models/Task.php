@@ -50,4 +50,14 @@ class Task extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($task) {
+            $task->tags()->detach();
+            $task->users()->detach();
+        });
+    }
 }
