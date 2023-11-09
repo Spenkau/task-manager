@@ -21,8 +21,8 @@ class TaskResource extends JsonResource
             'title' => $this['title'],
             'content' => $this['content'],
             'category_id' => $this['category_id'],
-            'priority' => PriorityEnum::from($this['priority_id']),
-            'status' => StatusEnum::from($this['status_id']),
+            'priority' => $this['priority_id'],
+            'status' => $this['status_id'],
             'parent_id' => $this['parent_id'],
             'started_at' => $this['started_at'],
             'finished_at' => $this['finished_at'],
@@ -30,7 +30,6 @@ class TaskResource extends JsonResource
             'tags' => count($this->tags) > 0 ? $this->tags->map(function ($tag) {
                 return new TagResource($tag);
             }) : [],
-            'user' => new UserResource($this['user'])
         ];
     }
 }

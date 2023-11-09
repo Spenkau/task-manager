@@ -8,19 +8,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('tags', [TagController::class, 'index']);
-
-Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
-    Route::get('all', [CategoryController::class, 'index']);
-
-    Route::get('with_children', [CategoryController::class, 'withChildren']);
-
-    Route::post('create', [CategoryController::class, 'store']);
-    Route::patch('update', [CategoryController::class, 'update']);
-    Route::delete('delete', [CategoryController::class, 'delete']);
-});
-
 Route::group([
 
     'middleware' => 'api',
@@ -50,11 +37,29 @@ Route::group([
 
             Route::post('store', [TaskController::class, 'store']);
             Route::patch('{task}', [TaskController::class, 'update']);
-            Route::delete('{task}', [TaskController::class, 'softDelete']);
+            Route::delete('{task}', [TaskController::class, 'delete']);
 
             Route::post('finish', [TaskController::class, 'finish']);
 
             Route::get('filter', [TaskController::class, 'filterTasks']);
+        });
+
+        Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
+            Route::get('all', [CategoryController::class, 'index']);
+
+            Route::get('with_children', [CategoryController::class, 'withChildren']);
+
+            Route::post('store', [CategoryController::class, 'store']);
+            Route::patch('update', [CategoryController::class, 'update']);
+            Route::delete('delete', [CategoryController::class, 'delete']);
+        });
+
+        Route::group(['namespace' => 'Tag', 'prefix' => 'tags'], function () {
+            Route::get('', [TagController::class, 'index']);
+
+            Route::post('store', [TagController::class, 'store']);
+            Route::patch('update', [TagController::class, 'update']);
+            Route::delete('delete', [TagController::class, 'delete']);
         });
     });
 });
