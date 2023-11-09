@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->integer('priority_id')->unsigned();
             $table->integer('status_id')->unsigned()->default(1);
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('owner_id');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
@@ -30,7 +30,7 @@ return new class extends Migration
 
             $table->foreign('category_id')->references('id')->on('categories');
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('owner_id')->references('id')->on('users');
 
         });
     }

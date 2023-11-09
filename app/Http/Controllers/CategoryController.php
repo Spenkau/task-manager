@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryWithChildResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Exception;
@@ -20,10 +21,10 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $allCategories = CategoryResource::collection($this->categoryService->allOrParent('all'));
+        $categories = CategoryResource::collection($this->categoryService->all());
 
         try {
-            return response()->json(['data' => $allCategories]);
+            return response()->json(['data' => $categories]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show categories: ' . $e], 500);
         }
@@ -31,10 +32,10 @@ class CategoryController extends Controller
 
     public function withChildren()
     {
-        $withChildCategories = CategoryResource::collection($this->categoryService->allOrParent('children'));
+        $categories = CategoryWithChildResource::collection($this->categoryService->withChildren());
 
         try {
-            return response()->json(['data' => $withChildCategories]);
+            return response()->json(['data' => $categories]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show categories: ' . $e], 500);
         }
@@ -46,7 +47,7 @@ class CategoryController extends Controller
 
         try {
             $response = $this->categoryService->store($data);
-            return response()->json($response);
+            return response()->json(['message' => 'Category stored!', $response]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store category: ' . $e], 500);
         }
@@ -58,7 +59,7 @@ class CategoryController extends Controller
 
         try {
             $response = $this->categoryService->update($data);
-            return response()->json($response);
+            return response()->json(['message' => 'Category updated!', $response]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update category: ' . $e], 500);
         }
@@ -68,7 +69,7 @@ class CategoryController extends Controller
     {
         try {
             $response = $this->categoryService->delete($id);
-            return response()->json($response);
+            return response()->json(['Category deleted!', $response]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete category: ' . $e], 500);
         }

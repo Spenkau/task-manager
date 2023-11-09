@@ -16,7 +16,7 @@ interface TaskRepositoryInterface
 
     public function update(mixed $data);
 
-    public function softDelete(Task $task);
+    public function delete(int $id);
 
     public function getByCategory(Task $task);
 

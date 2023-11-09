@@ -20,12 +20,12 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->sentence,
             'content' => fake()->text(),
             'category_id' => fake()->numberBetween(1, 3),
             'priority_id' => fake()->numberBetween(1, 3),
             'status_id' => fake()->numberBetween(1, 3),
-            'user_id' => fake()->numberBetween(1, 3),
+            'owner_id' => fake()->numberBetween(1, 3),
             'parent_id' => null,
         ];
     }

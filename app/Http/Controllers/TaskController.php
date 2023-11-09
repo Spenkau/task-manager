@@ -44,7 +44,7 @@ class TaskController extends Controller
         $task = new TaskResource($this->taskService->show($task->id));
 
         try {
-            return response()->json(['tasks' => $task]);
+            return response()->json(['data' => $task]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your task: ' . $e]);
         }
@@ -72,9 +72,6 @@ class TaskController extends Controller
 
             return response()->json(['message' => 'Task successfully stored!', 'New Task: ' => $newTask]);
         } catch (Exception $e) {
-            if ($data->fails()) {
-                return response()->json(['errors' => $data->errors()], 422);
-            }
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
     }
@@ -96,18 +93,20 @@ class TaskController extends Controller
         }
     }
 
-    public function softDelete(Task $task)
+    public function delete(int $id)
     {
 
-        broadcast(new TaskDeleteEvent($task))->toOthers();
+        broadcast(new TaskDeleteEvent($id))->toOthers();
 
         try {
-            $this->taskService->softDelete($task);
+            $this->taskService->delete($id);
             return response()->json(['message' => 'Task successfully deleted!']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
         }
     }
+
+    // TODO делать ли отдельный контроллер для завершения \ отложения задачи, оставлять ли связь мени ту мени для таски-юзеры
 
     public function finish(mixed $data)
     {

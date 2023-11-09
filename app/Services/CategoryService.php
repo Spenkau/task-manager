@@ -2,24 +2,25 @@
 
 namespace App\Services;
 
-use App\Http\Resources\CategoryResource;
-use App\Http\Resources\CategoryResourceCollection;
-use App\Models\Category;
 use App\Repositories\CategoryRepository;
 
 class CategoryService
 {
-    protected $categoryRepo;
+    protected CategoryRepository $categoryRepo;
 
     public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepo = $categoryRepository;
     }
 
-    public function allOrParent(string $relation)
+    public function all()
     {
-//        return CategoryResource::collection($this->categoryRepo->allOrParent($relation));
-        return $this->categoryRepo->allOrParent($relation);
+        return $this->categoryRepo->all();
+    }
+
+    public function withChildren()
+    {
+        return $this->categoryRepo->withChildren();
     }
 
     public function store(mixed $data)

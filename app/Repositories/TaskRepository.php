@@ -13,7 +13,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskRepository implements TaskRepositoryInterface
 {
-        // TODO Изменить решение получения тасков с именем категории
     public function allOrParent(string $relation, int $userId)
     {
         if ($relation == RelationEnum::ALL) {
@@ -22,7 +21,7 @@ class TaskRepository implements TaskRepositoryInterface
 
         return Task::whereNull('parent_id')
             ->with(['children', 'tags'])
-            ->where('user_id', $userId)
+            ->where('owner_id', $userId)
             ->paginate(5);
     }
 
@@ -49,8 +48,10 @@ class TaskRepository implements TaskRepositoryInterface
         $task->update($data);
     }
 
-    public function softDelete(Task $task)
+    public function delete(int $id)
     {
+        $task = Task::find($id);
+
         $task->delete();
     }
 
@@ -66,7 +67,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function getByCategory(Task $task)
     {
-        return Task::with('category')->where('category_id' . $task->category_id)->toArray();
+        return Task::with('category')->where('category_id', $task->category_id)->toArray();
     }
 
 //    public function filterTasks(string $field)

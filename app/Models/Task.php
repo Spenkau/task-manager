@@ -15,6 +15,7 @@ class Task extends Model
     use SoftDeletes;
 
     protected $table = 'tasks';
+
     protected $guarded = false;
 
     public function parent(): BelongsTo
@@ -38,9 +39,9 @@ class Task extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
-    public function user(): BelongsTo
+    public function users(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function comments(): HasMany

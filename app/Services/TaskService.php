@@ -10,11 +10,12 @@ use App\Models\Task;
 use App\Repositories\CategoryRepository;
 use App\Repositories\TaskRepository;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class TaskService
 {
-    protected $taskRepo;
-    protected $categoryRepo;
+    protected TaskRepository $taskRepo;
+    protected CategoryRepository $categoryRepo;
 
     public function __construct(TaskRepository $taskRepo, CategoryRepository $categoryRepo)
     {
@@ -49,9 +50,9 @@ class TaskService
         $this->taskRepo->update($data);
     }
 
-    public function softDelete(Task $task)
+    public function delete(int $id)
     {
-        $this->taskRepo->softDelete($task);
+        $this->taskRepo->delete($id);
     }
 
     public function finish(mixed $data)
