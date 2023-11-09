@@ -19,21 +19,24 @@
                                 clearable
                             ></v-text-field>
                             <v-select
+                                v-model="prioritySelect"
                                 clearable
                                 label="Приоритет"
-                                :items="[1,2, 3]"
+                                :items="['Низкий','Обычный', 'Высокий']"
                                 variant="outlined"
-                                name="priority_id"
                             ></v-select>
+                            <input type="hidden" name="priority_id" :value="priority">
                         </div>
                         <v-autocomplete
                             clearable
+                            v-model="selectCategory"
                             label="Категория"
-                            :items="categories"
+                            :items="categoriesTitle"
                             variant="outlined"
-                            name="category_id"
                         >
                         </v-autocomplete>
+                        <input type="hidden" name="category_id" :value="idSelectedCategory">
+
                         <v-textarea
                             type="text"
                             label="Описание задачи..."
@@ -65,7 +68,7 @@
                             v-model="selectTag"
                             clearable
                             label="Веберете тег(необезательно)"
-                            :items="[1, 2, 3, 3, 5, 'Cоздать тег']"
+                            :items="tagsList"
                             variant="outlined"
                             name="tag"
                         ></v-autocomplete>
@@ -81,6 +84,7 @@
                                         variant="outlined"
                                         label="Тег"
                                         clearable
+
                                     >
                                     </v-text-field>
                                 </v-card-text>
@@ -91,6 +95,7 @@
                         </v-dialog>
                         <input type="hidden" name="status_id" value="1">
                         <input type="hidden" name="user_id" :value="userID">
+
                         <v-btn type="submit" variant="tonal" block text="Отправить"/>
                     </div>
                 </form>
@@ -104,10 +109,11 @@ import {computed, onMounted, ref, watch} from 'vue';
 import {formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
 import {useUserStore} from "../../dict/store/store";
-import axios from "axios";
+
 
 
 const store = useUserStore()
+const categories = store.categories
 const userID = computed(() => {
     return store.user.id
 })
@@ -115,17 +121,48 @@ const userID = computed(() => {
 const selectTag = ref('')
 const dialog = ref(false)
 const newTag = ref('')
-const categories = ref()
+const categoriesTitle = ref([])
+const selectCategory = ref('')
+const idSelectedCategory = ref(0)
+const prioritySelect = ref("")
+const priority = ref(0)
+
+const tags = ref([])
+const tagsList = ref([])
+
+
 
 watch(selectTag, () => {
-    if (selectTag.value === 'Cоздать тег') {
+    if (selectTag.value === 'Создать тег') {
         dialog.value = true
         selectTag.value = ''
     }
 })
 
-onMounted(() => {
-    axios.get('http://127.0.0.1:8000/api/categories/with_children').then(res => res.data = categories.value)
+watch(prioritySelect, () => {
+    if (prioritySelect.value === 'Низкий') {
+        priority.value = 1
+    } else if (prioritySelect.value === 'Обычный') {
+        priority.value = 2
+    } else {
+        priority.value = 3
+    }
+})
+
+watch(selectCategory, () => {
+    categories.value.forEach(category => {
+        if (category.name === selectCategory.value) {
+            idSelectedCategory.value = category.id
+        }
+    })
+})
+
+onMounted(async () => {
+    categoriesTitle.value = categories.value.map(category => category.name)
+    tags.value = await api.get('/tags').then(res => res.data)
+    const tagsTitle = tags.value.map(tag => tag.name)
+    tagsList.value = [...tagsTitle, 'Создать тег']
+
 })
 
 const saveTag = () => {
@@ -137,12 +174,10 @@ const saveTag = () => {
 
 
 const submitForm = () => {
-
     const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
     const jsonData = formDataToJSON(formData.value);
     console.log(jsonData)
-
-    api.post('tasks/store', jsonData).then(res => res.status === 200)
+    api.post('tasks/store', jsonData).then(res => console.log(res.data))
 }
 
 

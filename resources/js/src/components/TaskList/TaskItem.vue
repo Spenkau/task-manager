@@ -6,9 +6,6 @@
                     <div>
                         <DeleteTaskButton :taskID="taskItem.id"/>
                     </div>
-                    <p>
-                        {{ taskItem.id }}
-                    </p>
                     <p class="task-card-date">
                         <span v-if="dateIsNull">
                             Дата не указана
@@ -21,7 +18,7 @@
                     </p>
                     <p class="task-card-category">
                         <v-icon color="success" icon="$vuetify" size="x-large"/>
-                        <span>{{ taskItem.category_id }}</span>
+                        <span>{{ categoryNameByID }}</span>
                     </p>
                     <div class="task-card-reaction">
                         <div class="reaction-content">
@@ -87,9 +84,22 @@ import {ITask} from "../../interfaces/interfaces";
 import {ref, toRefs, computed, reactive} from "vue";
 import CompleteTaskButton from "./СompleteTaskButton.vue";
 import DeleteTaskButton from "./DeleteTaskButton.vue";
+import {useUserStore} from "../../dict/store/store";
+
+const store = useUserStore()
+const categories = store.categories
+
 
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
+
+const categoryNameByID = computed(()=>{
+    return categories.value.find(category => category.id === taskItem.value.category_id).name
+})
+
+
+
+
 
 const dateIsNull = computed(() => {
 
