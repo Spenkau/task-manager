@@ -67,7 +67,6 @@ export default {
             try {
                 api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data);
                 api.get('/categories/all').then(res => allCategories.value = res.data.data)
-
             } catch (e) {
                 console.error('Ошибка получения данных:', e);
             }

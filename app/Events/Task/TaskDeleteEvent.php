@@ -13,14 +13,14 @@ class TaskDeleteEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private int $id;
+    private Task $task;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(int $id)
+    public function __construct(Task $task)
     {
-        $this->id = $id;
+        $this->task = $task;
     }
 
     /**
@@ -40,7 +40,7 @@ class TaskDeleteEvent implements ShouldBroadcast
      */
     public function broadcastWith(): array
     {
-        return ['task_id' => $this->id];
+        return ['task' => $this->task];
     }
 
     /**

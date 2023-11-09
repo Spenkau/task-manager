@@ -16,6 +16,8 @@ class Task extends Model
 
     protected $table = 'tasks';
 
+    protected $dates = ['finished_at'];
+
     protected $guarded = false;
 
     public function parent(): BelongsTo
