@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Http\Resources\TagResource;
-use App\Http\Resources\TagResourceCollection;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Task;
 use App\Repositories\TagRepository;
 use App\Repositories\TaskRepository;
@@ -26,16 +26,22 @@ class TagService
 
     public function index()
     {
-        return TagResource::collection($this->tagRepo->index());
+        return $this->tagRepo->index();
     }
 
-    public function showAllTasks()
+    public function store(mixed $data)
     {
-        return TaskResource::collection($this->taskRepo->index());
+        $this->tagRepo->store($data);
     }
 
-    public function showTasks(array $tags)
+    public function update(mixed $data)
     {
-        return $this->tagRepo->showTasks($tags);
+        $this->tagRepo->update($data);
     }
+
+    public function delete(int $id)
+    {
+        $this->tagRepo->delete($id);
+    }
+
 }

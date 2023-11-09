@@ -8,14 +8,15 @@ use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function allOrParent(string $relation)
+    public function all()
     {
-        if ($relation == RelationEnum::ALL) {
-            return Category::all();
-        }
+        return Category::all();
+    }
 
-        return Category::whereParentId(null)
-            ->with($relation)
+    public function withChildren()
+    {
+        return Category::whereNull('parent_id')
+            ->with('children')
             ->get();
     }
 
@@ -58,8 +59,6 @@ class CategoryRepository implements CategoryRepositoryInterface
         return ['message' => 'Something went wrong!'];
     }
 
-    // TODO закончить реализацию метода получения задач по слагу категорий
-    // перенести в TaskRepo скорее
     public function findOne(string $slug)
     {
         return Category::where('slug', $slug)->firstOrFail();

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class UpdateRequest extends FormRequest
             'category_id' => 'numeric|min:1',
             'priority_id' => 'numeric|min:1|max:3',
             'status_id' => 'numeric|min:1|max:3',
-            'user_id' => 'numeric',
+            'owner_id' => 'numeric',
             'parentId' => 'numeric',
             'started_at' => 'date_format:Y-m-d',
             'finished_at' => 'date_format:Y-m-d',

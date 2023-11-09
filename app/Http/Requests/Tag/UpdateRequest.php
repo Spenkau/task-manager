@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Tag;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTagRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,20 +18,19 @@ class StoreTagRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => 'array|max:255',
+            'name' => 'string|max:255',
         ];
     }
 
     protected function prepareForValidation()
     {
         $this->merge([
-            'name' => trim($this->name)
-//            'name' => trim(preg_split('/[,;\s]+/', $this->name))
+            'name' => trim($this['name']),
         ]);
     }
 }

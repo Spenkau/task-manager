@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Tag\StoreRequest;
+use App\Http\Requests\Tag\UpdateRequest;
+use App\Http\Resources\TagResource;
 use App\Services\TagService;
 use App\Services\TaskService;
 use Exception;
@@ -19,14 +22,49 @@ class TagController extends Controller
 
     public function index()
     {
-        $tags = $this->tagService->index();
-
-        $tasks = $this->tagService->showAllTasks();
+        $tags = TagResource::collection($this->tagService->index());
 
         try {
-            return response()->json(['data' => ['tags' => $tags, 'tasks' => $tasks]], 500);
+            return response($tags);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show tags: ' . $e]);
+        }
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+
+        try {
+            $this->taskService->store($data);
+
+            return response()->json(['message' => 'Tag created!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to store tag: ' . $e]);
+        }
+    }
+
+    public function update(UpdateRequest $request)
+    {
+        $data = $request->validated();
+
+        try {
+            $this->taskService->update($data);
+
+            return response()->json(['message' => 'Tag updated!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to update tag: ' . $e]);
+        }
+    }
+
+    public function delete(int $id)
+    {
+        try {
+            $this->tagService->delete($id);
+
+            return response()->json(['message' => 'Tag deleted!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete tag: ' . $e], 500);
         }
     }
 

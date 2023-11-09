@@ -6,7 +6,7 @@ use App\Models\Task;
 
 interface TaskRepositoryInterface
 {
-    public function allOrParent(string $relation);
+    public function allOrParent(string $relation, int $userId);
 
     public function show(int $taskId);
 
@@ -16,7 +16,7 @@ interface TaskRepositoryInterface
 
     public function update(mixed $data);
 
-    public function softDelete(Task $task);
+    public function delete(int $id);
 
     public function getByCategory(Task $task);
 

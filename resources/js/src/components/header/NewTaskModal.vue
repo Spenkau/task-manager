@@ -61,7 +61,6 @@
                             ></v-text-field>
                         </div>
                         <input type="hidden" name="status_id" value="1">
-                        <input type="hidden" name="user_id" value="1">
                         <v-btn type="submit" variant="tonal" block text="Отправить"/>
                     </div>
                 </form>

@@ -12,14 +12,20 @@ class TagRepository implements TagRepositoryInterface
         return Tag::all();
     }
 
-    public function showTasks(array $tags)
+    public function store(mixed $data)
     {
+        Tag::create($data);
+    }
 
-        if (!empty($tags)) {
-            $tags = Tag::find($tags);
-            return $tags->tasks();
-        }
+    public function update(mixed $data)
+    {
+        Tag::update($data);
+    }
 
-        return Tag::all();
+    public function delete(int $id)
+    {
+        $tag = Tag::find($id);
+
+        $tag->delete($id);
     }
 }
