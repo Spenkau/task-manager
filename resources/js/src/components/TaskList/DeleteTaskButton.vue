@@ -14,7 +14,7 @@ const props = defineProps(['taskID'])
 const id = props.taskID
 const taskDeleteData = {id}
 const deleteTask = () => {
-    api.post('tasks/delete', taskDeleteData).then(res => console.log(res))
+    api.post(`tasks/delete/${id}`, taskDeleteData).then(res => console.log(res))
 }
 
 </script>

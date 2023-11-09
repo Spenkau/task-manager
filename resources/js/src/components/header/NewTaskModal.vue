@@ -26,13 +26,14 @@
                                 name="priority_id"
                             ></v-select>
                         </div>
-                        <v-select
+                        <v-autocomplete
                             clearable
                             label="Категория"
-                            :items="[1, 2, 3, 3, 5, 10]"
+                            :items="categories"
                             variant="outlined"
                             name="category_id"
-                        ></v-select>
+                        >
+                        </v-autocomplete>
                         <v-textarea
                             type="text"
                             label="Описание задачи..."
@@ -60,6 +61,34 @@
                                 clearable
                             ></v-text-field>
                         </div>
+                        <v-autocomplete
+                            v-model="selectTag"
+                            clearable
+                            label="Веберете тег(необезательно)"
+                            :items="[1, 2, 3, 3, 5, 'Cоздать тег']"
+                            variant="outlined"
+                            name="tag"
+                        ></v-autocomplete>
+                        <v-dialog
+                            v-model="dialog"
+                            width="500"
+                        >
+                            <v-card>
+                                <v-card-text>
+                                    <v-text-field
+                                        v-model="newTag"
+                                        type="text"
+                                        variant="outlined"
+                                        label="Тег"
+                                        clearable
+                                    >
+                                    </v-text-field>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn color="#29a19c" block @click="saveTag">Cохранить</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
                         <input type="hidden" name="status_id" value="1">
                         <input type="hidden" name="user_id" :value="userID">
                         <v-btn type="submit" variant="tonal" block text="Отправить"/>
@@ -71,9 +100,41 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref, watch} from 'vue';
 import {formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
+import {useUserStore} from "../../dict/store/store";
+import axios from "axios";
+
+
+const store = useUserStore()
+const userID = computed(() => {
+    return store.user.id
+})
+
+const selectTag = ref('')
+const dialog = ref(false)
+const newTag = ref('')
+const categories = ref()
+
+watch(selectTag, () => {
+    if (selectTag.value === 'Cоздать тег') {
+        dialog.value = true
+        selectTag.value = ''
+    }
+})
+
+onMounted(() => {
+    axios.get('http://127.0.0.1:8000/api/categories/with_children').then(res => res.data = categories.value)
+})
+
+const saveTag = () => {
+    api.post('/tags/store', {name: newTag.value}).then(res => console.log(res))
+    dialog.value = false
+}
+
+
+
 
 const submitForm = () => {
 
