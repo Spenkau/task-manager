@@ -5,6 +5,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +39,7 @@ Route::group([
 
             Route::post('store', [TaskController::class, 'store']);
             Route::patch('update', [TaskController::class, 'update']);
-            Route::delete('delete', [TaskController::class, 'delete']);
+            Route::delete('delete/{task}', [TaskController::class, 'delete']);
 
             Route::post('finish', [TaskController::class, 'finish']);
 
@@ -51,7 +53,7 @@ Route::group([
 
             Route::post('store', [CategoryController::class, 'store']);
             Route::patch('update', [CategoryController::class, 'update']);
-            Route::delete('delete', [CategoryController::class, 'delete']);
+            Route::delete('delete/{category}', [CategoryController::class, 'delete']);
         });
 
         Route::group(['namespace' => 'Tag', 'prefix' => 'tags'], function () {
@@ -59,7 +61,19 @@ Route::group([
 
             Route::post('store', [TagController::class, 'store']);
             Route::patch('update', [TagController::class, 'update']);
-            Route::delete('delete', [TagController::class, 'delete']);
+            Route::delete('delete/{tag}', [TagController::class, 'delete']);
+        });
+
+        Route::get('test', function () {
+            $task = Task::find(20);
+
+            $users = $task->users;
+
+            return $users;
         });
     });
 });
+
+// TODO таблица task_user - таблица участников задания. Переименовать на members. Узнать нужна ли модель для этого
+// TODO чтобы получить все доступные задачи участнику $user->tasks. Чтобы получить всех участников задания
+//TODO $task->users;

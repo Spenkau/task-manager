@@ -50,9 +50,9 @@ class TaskService
         $this->taskRepo->update($data);
     }
 
-    public function delete(int $id)
+    public function delete(Task $task)
     {
-        $this->taskRepo->delete($id);
+        $this->taskRepo->delete($task);
     }
 
     public function finish(mixed $data)

@@ -22,7 +22,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function store(mixed $data)
     {
-        $category = Category::where('id', $data['id']);
+        $category = Category::where('name', $data['name']);
 
         if ($category) {
             return ['message' => 'Category already exist!'];

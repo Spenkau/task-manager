@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Enums\RelationEnum;
+use App\Enums\StatusEnum;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\DTO\TaskDTO;
@@ -48,10 +49,8 @@ class TaskRepository implements TaskRepositoryInterface
         $task->update($data);
     }
 
-    public function delete(int $id)
+    public function delete(Task $task)
     {
-        $task = Task::find($id);
-
         $task->delete();
     }
 
@@ -60,7 +59,7 @@ class TaskRepository implements TaskRepositoryInterface
         $task = Task::find($data['id']);
 
         $task->finished_at = $data['finished_at'];
-        $task->status_id = 3;
+        $task->status_id = StatusEnum::FINISHED;
 
         $task->save();
     }
