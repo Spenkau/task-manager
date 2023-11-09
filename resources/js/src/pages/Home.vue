@@ -49,25 +49,25 @@ export default {
     components: {UserNotAuth, UserObservation, TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
     setup() {
         const showSidebar = ref(false)
-        const categories = ref([])
         const messages = ref([])
 
         const store = useUserStore()
         const user = store.user
+        const categoriesWithChildren = store.categoriesWithChildren
+        const allCategories = store.categories
+        const categories = categoriesWithChildren.value
+
 
 
         const isAuth = computed(()=>{
             return store.user.isAuth
         })
 
-        const getCategories = async () => {
+        const getCategories = () => {
             try {
-                const res = await fetch('http://127.0.0.1:8000/api/categories/with_children');
-                if (res.ok) {
-                    const data = await res.json();
-                    categories.value = data.data
+                api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data);
+                api.get('/categories/all').then(res => allCategories.value = res.data.data)
 
-                }
             } catch (e) {
                 console.error('Ошибка получения данных:', e);
             }
@@ -75,6 +75,7 @@ export default {
 
         onMounted(() => {
             getCategories()
+            console.log(store)
         })
 
         onBeforeMount(() => {

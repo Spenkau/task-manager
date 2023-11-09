@@ -1,6 +1,6 @@
 <template>
     <ul class="sidebar__list">
-        <li v-for="(categoryItem,key) in categoryList" :key="key">
+        <li v-for="(categoryItem,key) in categories" :key="key">
             <v-icon color="primary" size="x-small" icon="mdi-check-circle"/>
             {{ categoryItem.name }}
             <CategoryChildren
@@ -20,32 +20,16 @@
     </ul>
 </template>
 
-<script lang="ts">
-import {ICategories} from "../../interfaces/interfaces";
+<script setup lang="ts">
 import {computed, ref, toRefs} from "vue";
 import CategoryChildren from "./CategoryChildren.vue";
 import NewCategoryModal from "./NewCategoryModal.vue";
 
-export default {
-    name: "CategoryList",
-    components: {NewCategoryModal, CategoryChildren},
-    props: {
-        categories: Array
-    },
 
-    setup(props) {
-        const {categories} = props;
-        const showModal = ref(false)
-
-        const categoryList = ref(categories)
+const props = defineProps(['categories'])
+const showModal = ref(false)
 
 
-        return {
-            categoryList,
-            showModal
-        }
-    }
-}
 
 </script>
 
