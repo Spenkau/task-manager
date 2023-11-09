@@ -62,7 +62,8 @@
     .icon-moon {
         @include icon(24px, 24px, "moon")
     }
-    .icon-sun{
+
+    .icon-sun {
         @include icon(24px, 24px, "sun")
     }
 }
@@ -103,68 +104,22 @@
     z-index: 10;
 }
 
-.overlay__modal {
-    position: absolute;
-    display: block;
-    right: 200px;
-    top: 100px;
-    width: 200px;
-    background-color: $white;
-    padding: 25px 30px;
-    border-radius: 10px;
-    color: $black;
-    z-index: 155;
 
-}
 
-.icon-user {
-    @include icon(22px, 22px, "user")
-}
-
-.icon-moon {
-    @include icon(20px, 20px, "moon")
-}
-
-.icon-settings {
-    @include icon(20px, 20px, "settings")
-}
-
-.icon-logout {
-    @include icon(17px, 20px, "logout")
-}
-
-.modal__list {
-    font-size: 14px;
-
-    li:not(li:last-child) {
-        padding-bottom: 20px;
-    }
-
-    a {
-        display: flex;
-        align-items: center;
-        justify-content: left;
-        gap: 5px;
-
-        &:hover {
-            color: $green;
-        }
-    }
-}
-
-.icon-auth{
+.icon-auth {
     @include icon(17px, 20px, "logout");
 }
 
 
-.icon-reg{
+.icon-reg {
     @include icon(25px, 25px, "reg");
 }
 
-.header__auth-buttons{
+.header__auth-buttons {
     display: flex;
     align-items: center;
-    a{
+
+    a {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -174,10 +129,186 @@
 }
 
 
-.icon-sidebar-open{
+.icon-sidebar-open {
     position: absolute;
     left: 20px;
-    top:40px;
+    top: 40px;
     @include icon(30px, 30px, "open_sb");
     z-index: 3;
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 5px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: $green;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px $green;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.user-settings-modal{
+    display: block;
+    position: fixed;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(40, 40, 70, .2);
+    z-index: 15;
+}
+
+.container{
+    display: flex;
+    width: 450px;
+    height: 190px;
+    position: fixed;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    background-color: #d5e7e7;
+    z-index: 15;
+    border-radius: 0;
+}
+
+.settings-body{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+
+.settings-buttons{
+    button{
+        padding: 10px;
+        font-size: 14px;
+        position: absolute;
+        &:first-child{
+            margin-right: -5px;
+        }
+    }
+}
+
+.button-settings-1{
+    left: -112px;
+    top:77px;
+    transform: rotate(90deg);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.button-settings-2{
+    transform: rotate(90deg);
+    right: -92px;
+    width: 190px;
+    top: 77px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+
+.disabled-settings-button{
+    background-color: $green;
+    color: $white;
+}
+
+.active-settings-button{
+    background-color: $white;
+}
+
+.settings-ui,.settings-profile{
+    padding: 20px;
+    li{
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+}
+
+.settings-ui{
+    display: flex;
+    flex-direction: column;
+    li{
+        display: flex;
+        gap:15px
+    }
+}
+
+.settings-profile{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color:$white;
+    background-color: #17908b;
+    height: 100%;
+    width: 430px;
+    a{
+        display: flex;
+        justify-content: center;
+        border-radius: 15px;
+        font-size: 18px;
+        width: 410px;
+        padding: 12px;
+        &:hover{
+            box-shadow: inset 0 0 73px -27px rgb(33, 32, 33);
+        }
+    }
+}
+
+.disabled-settings{
+    display: none;
 }

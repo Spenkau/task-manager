@@ -2,68 +2,67 @@
 
 namespace App\Services;
 
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Task;
+use App\Repositories\CategoryRepository;
 use App\Repositories\TaskRepository;
 use Exception;
-use http\Env\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\Auth;
 
 class TaskService
 {
-    protected $taskRepo;
+    protected TaskRepository $taskRepo;
+    protected CategoryRepository $categoryRepo;
 
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(TaskRepository $taskRepo, CategoryRepository $categoryRepo)
     {
-        $this->taskRepo = $taskRepository;
+        $this->taskRepo = $taskRepo;
+        $this->categoryRepo = $categoryRepo;
     }
 
-    public function allOrParent(string $relation)
+    public function allOrParent(string $relation, int $userId)
     {
-        return $this->taskRepo->allOrParent($relation);
+        return $this->taskRepo->allOrParent($relation, $userId);
     }
 
     public function show(int $taskId)
     {
-        try {
-            $task = $this->taskRepo->show($taskId);
-            return response()->json(['success' => true, 'data' => $task]);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failted tot show task: ' . $e]);
-        }
+        return new TaskResource($this->taskRepo->show($taskId));
     }
 
     public function showByCategory(string $slug)
     {
-        $category = Category::where('slug', $slug)->first();
+        $category = $this->categoryRepo->findOne($slug);
 
-        $tasks = $this->taskRepo->showByCategory($category->id);
-
-        try {
-            return response()->json(['success' => true, 'data' => $tasks]);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Failed to show tasks: ' . $e]);
-        }
+        return TaskResource::collection($this->taskRepo->showByCategory($category->id));
     }
 
     public function store(mixed $data)
     {
-        try {
-            $this->taskRepo->store($data);
-            return response()->json(['success' => true, 'message' => 'Task created']);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to create: ' . $e]);
-        }
+        return $this->taskRepo->store($data);
     }
 
-    public function softDelete(Task $task)
+    public function update(mixed $data)
     {
-        try {
-            $this->taskRepo->softDelete($task);
-            return response()->json(['success' => false, 'message' => 'Task deleted']);
-        } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to create: ' . $e]);
-        }
-
+        return $this->taskRepo->update($data);
     }
+
+    public function delete(Task $task)
+    {
+        $this->taskRepo->delete($task);
+    }
+
+    public function manageStatus(mixed $data)
+    {
+        return $this->taskRepo->manageStatus($data);
+    }
+
+//    public function filterTasks(string $field)
+//    {
+//        return $this->taskRepo->filterTasks($field);
+//    }
+
 }

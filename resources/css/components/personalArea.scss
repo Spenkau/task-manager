@@ -1,0 +1,167 @@
+@import "../general";
+
+.icon-edit {
+    @include icon(24px, 24px, 'edit');
+}
+
+.icon-apply {
+    @include icon(24px, 24px, 'apply');
+}
+
+.icon-change{
+    @include icon(32px, 32px, 'change')
+}
+
+.personal-area {
+    display: flex;
+
+    .icon-archive {
+        @include icon(25px, 25px, 'archive');
+    }
+
+    .icon-invite {
+        @include icon(25px, 25px, 'invite');
+    }
+
+    .icon-logout {
+        transform: rotate(180deg);
+    }
+}
+
+
+.personal-area_nav {
+    background-color: $abs-white;
+    height: 100%;
+    font-size: 18px;
+    padding-right: 30px;
+    padding-top: 30px;
+    padding-left: 30px;
+
+    li {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    a {
+        color: $black;
+        display: block;
+        cursor: pointer;
+    }
+}
+
+
+.personal-area_body {
+    padding: 30px;
+}
+
+.personal-area_body-info {
+    display: block;
+
+    h2 {
+        font-size: 38px;
+    }
+
+    img {
+        width: 128px;
+    }
+
+}
+
+.button-edit {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+}
+
+.user-name {
+    display: flex;
+
+    input[disabled="disabled"] {
+        background-color: transparent;
+        font-size: 38px;
+        font-style: normal;
+        padding: 0;
+        border: 1px solid transparent;
+    }
+
+    input {
+        font-size: 38px;
+        border: 1px solid $green;
+        padding: 0;
+        border-radius: 5px;
+        background-color: white;
+    }
+}
+
+.form-header {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.user-about {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 30px;
+
+    textarea {
+        resize: none;
+        font-size: 19px;
+        font-family: $main-font;
+        background-color: $abs-white;
+        border:1px solid $green;
+        border-radius: 5px;
+        height: 150px;
+
+
+    }
+
+    textarea[disabled="disabled"] {
+        background-color: transparent;
+        border: 1px solid transparent;
+    }
+
+    align-items: flex-start;
+    gap: 150px;
+}
+
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+}
+
+#change-avatar{
+    position: relative;
+    border-radius: 5px;
+    background-color: white;
+    right: 60px;
+    top:50px;
+    border: none;
+    cursor: pointer;
+}
+
+.len-hidden{
+    display: none;
+}

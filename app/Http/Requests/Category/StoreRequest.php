@@ -23,13 +23,16 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|max:81',
+            'parent_id' => 'numeric|min:0',
         ];
     }
 
     protected function prepareForValidation()
     {
         $this->merge([
-            'name' => trim($this->name),
+            'name' => trim($this['name']),
+            'parent_id' => $this['parent_id'] ?? null
+
         ]);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,8 +14,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             UserSeeder::class,
+            TagSeeder::class,
             TaskSeeder::class,
+            CommentSeeder::class,
         ]);
-        $this->command->info('бд заполнена');
+        $this->command->info('Database fulfilled');
     }
 }

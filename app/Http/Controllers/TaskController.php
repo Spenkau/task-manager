@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\TaskDTO;
+use App\Events\Task\TaskCreateEvent;
+use App\Events\Task\TaskDeleteEvent;
+use App\Events\Task\TaskStatusUpdateEvent;
+use App\Events\Task\TaskUpdateEvent;
+use App\Http\Requests\Task\FinishRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Models\Task;
 use App\Services\TaskService;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Session;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
-    protected $taskService;
+    protected TaskService $taskService;
 
     public function __construct(TaskService $taskService)
     {
@@ -22,61 +30,107 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = $this->taskService->allOrParent('children');
+        $user = Auth::user();
 
-        dump($tasks);
+        $tasks = TaskResource::collection($this->taskService->allOrParent('children', $user['id']));
 
-        return view('tasks', compact('tasks'));
+        try {
+            return response()->json($tasks);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
+        }
     }
 
     public function show(Task $task)
     {
-        $task = $this->taskService->show($task->id);
+        $task = new TaskResource($this->taskService->show($task->id));
 
-        return response()->view('task', ['task' => $task]);
+        try {
+            return response()->json(['data' => $task]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your task: ' . $e]);
+        }
     }
 
     public function showByCategory(string $slug)
     {
-        $tasks = $this->taskService->showByCategory($slug);
+        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
 
-        dump($slug);
-
-        return view('tasks_by_category', compact('tasks', 'slug'));
+        try {
+            return response()->json(['tasks' => $tasks]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
+        }
     }
 
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
 
-        $this->taskService->store($data);
+        try {
+            $newTask = $this->taskService->store($data);
 
-        return 'таска создана!';
+            broadcast(new TaskCreateEvent($newTask))->toOthers();
+
+            return response()->json(['message' => 'Task successfully stored!', 'data' => $newTask]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
+        }
     }
 
-    public function update(UpdateRequest $request, Task $task)
+    public function update(UpdateRequest $request)
     {
         $data = $request->validated();
 
-        $this->taskService->update($task, $data);
+        broadcast(new TaskUpdateEvent($data))->toOthers();
 
-        return redirect()->route('post.show', $task->id);
-    }
-
-    public function softDelete(Task $task)
-    {
         try {
-            $this->taskService->softDelete($task);
-            Session::flash('message', 'Task deleted successfully');
-        } catch (NotFoundHttpException $e) {
-            Session::flash('message', $e->getMessage());
+            $task = $this->taskService->update($data);
+            return response()->json(['message' => 'Task successfully updated!', 'data' => $task]);
+        } catch (Exception $e) {
+            if ($data->fails()) {
+                return response()->json(['errors' => $data->errors()], 422);
+            }
+            return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
-
-        return back();
     }
 
-//    public function showByCategory(\http\Env\Request $request)
-//    {
-//        $tasks = $this->taskService->tasksBySlug($request);
-//    }
+    public function delete(Task $task)
+    {
+
+        broadcast(new TaskDeleteEvent($task))->toOthers();
+
+        try {
+            $this->taskService->delete($task);
+            return response()->json(['message' => 'Task successfully deleted!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete task: ' . $e], 500);
+        }
+    }
+
+    // TODO делать ли отдельный контроллер для завершения \ отложения задачи, оставлять ли связь мени ту мени для таски-юзеры
+
+    public function manageStatus(Request $request)
+    {
+        $data = $request->all();
+
+        try {
+            $task = $this->taskService->manageStatus($data);
+
+            broadcast(new TaskStatusUpdateEvent($task))->toOthers();
+
+            return response()->json(['message' => 'Task completed!']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to complete task:' . $e]);
+        }
+    }
+
+    public function filterTasks()
+    {
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters('title')
+            ->get();
+
+        return response()->json(['res' => '111']);
+    }
 }

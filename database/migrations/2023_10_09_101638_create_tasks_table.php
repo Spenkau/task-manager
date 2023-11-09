@@ -16,21 +16,22 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->integer('priority_id');
-            $table->integer('status_id');
-            $table->unsignedBigInteger('user_id');
+            $table->integer('priority_id')->unsigned();
+            $table->integer('status_id')->unsigned()->default(1);
             $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('owner_id');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->timestamps();
 
             $table->softDeletes();
 
-            $table->index('category_id');
+            $table->foreign('parent_id')->references('id')->on('tasks');
 
             $table->foreign('category_id')->references('id')->on('categories');
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('owner_id')->references('id')->on('users');
+
         });
     }
 
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('tasks');
     }
 };

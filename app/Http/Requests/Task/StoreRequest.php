@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Task;
 
+use Carbon\Carbon;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreRequest extends FormRequest
 {
@@ -17,28 +20,36 @@ class StoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
+
         return [
             'title' => 'required|max:255',
             'content' => 'required',
-            'category_id' => 'numeric|min:1',
-            'priority_id' => 'numeric|min:1|max:3',
+            'category_id' => 'required|numeric|min:1',
+            'priority_id' => 'required|numeric|min:1|max:3',
             'status_id' => 'numeric|min:1|max:3',
-            'user_id' => 'numeric',
-            'parentId' => 'numeric',
-            'started_at' => 'date_format:Y-m-d',
-            'finished_at' => 'date_format:Y-m-d',
+            'owner_id' => 'numeric|min:1',
+            'started_at' => '',
+            'finished_at' => '',
         ];
     }
 
     protected function prepareForValidation()
     {
+        $user = Auth::user();
+
         $this->merge([
-            'title' => trim($this->title),
-            'content' => trim($this->content),
+            'title' => trim($this['title']),
+            'content' => trim($this['content']),
+            'owner_id' => $user['id']
         ]);
     }
+
+//    public function convertDateFormat($date)
+//    {
+//        $date = Carbon::createFromDate();
+//    }
 }

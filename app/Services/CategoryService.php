@@ -2,35 +2,40 @@
 
 namespace App\Services;
 
-use App\Models\Category;
 use App\Repositories\CategoryRepository;
 
 class CategoryService
 {
-    protected $categoryRepo;
+    protected CategoryRepository $categoryRepo;
 
     public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepo = $categoryRepository;
     }
 
-    public function allOrParent(string $relation)
+    public function all()
     {
-        return $this->categoryRepo->allOrParent($relation);
+        return $this->categoryRepo->all();
     }
 
-    public function update(int $categoryId, $data)
+    public function withChildren()
     {
-        $this->categoryRepo->update($categoryId, $data);
+        return $this->categoryRepo->withChildren();
     }
 
     public function store(mixed $data)
     {
-        $this->categoryRepo->store($data);
+        return $this->categoryRepo->store($data);
     }
 
-    public function delete(int $categoryId)
+    public function update(mixed $data)
     {
-        $this->categoryRepo->delete($categoryId);
+        return $this->categoryRepo->update($data);
+    }
+
+
+    public function delete(int $id)
+    {
+        return $this->categoryRepo->delete($id);
     }
 }

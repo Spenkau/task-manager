@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -13,16 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i < 10; $i++) {
-            static $str = 'e';
-            User::create([
-                'id' => $i,
-                'name' => $str,
-                'email' => $str,
-                'password' => $str,
-                'phone' => $str,
-            ]);
-            $str .= 'e';
-        }
+        UserFactory::new()->count(20)->create();
     }
 }

@@ -6,7 +6,9 @@ $yellow: #ecca75;
 $red: #f05454;
 $white: #fafafa;
 $abs-white: #ffffff;
+$bg-white: #FEFEFE;
 $black: #282846;
+
 
 
 @mixin icon($w,$h,$icon-name) {
@@ -18,7 +20,7 @@ $black: #282846;
 
 }
 
-body {
+#app {
     font-family: $main-font;
     color: $black;
     background-color: $white;

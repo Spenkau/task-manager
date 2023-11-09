@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Task;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,11 +11,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TaskFactory extends Factory
 {
-    public function generateRand(): ?int
-    {
-        return random_int(0, 1) ? 1 : null;
-
-    }
 
     /**
      * Define the model's default state.
@@ -23,21 +19,14 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
-        $maxTaskId = Task::max('id');
         return [
-            'title' => fake()->title(),
+            'title' => fake()->sentence,
             'content' => fake()->text(),
             'category_id' => fake()->numberBetween(1, 3),
             'priority_id' => fake()->numberBetween(1, 3),
             'status_id' => fake()->numberBetween(1, 3),
-            'user_id' => fake()->numberBetween(1, 3),
-            'parent_id' => function () use ($maxTaskId) {
-                if ($this->generateRand()) {
-                    return fake()->numberBetween(1, $maxTaskId);
-                }
-
-                return null;
-            },
+            'owner_id' => fake()->numberBetween(1, 3),
+            'parent_id' => null,
         ];
     }
 }

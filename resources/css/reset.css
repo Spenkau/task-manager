@@ -14,6 +14,20 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 
 }
 
+button{
+    background-color: transparent;
+    border:none;
+    font-size: inherit;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+}
+
+a{
+    color: inherit;
+    cursor: pointer;
+}
+
 ol, ul {
     list-style: none;
 }

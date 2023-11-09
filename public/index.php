@@ -33,6 +33,17 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 
 require __DIR__.'/../vendor/autoload.php';
 
+$options = array(
+    'cluster' => 'eu',
+    'useTLS' => true
+);
+$pusher = new Pusher\Pusher(
+    'b010246548dbe7d5fc77',
+    '97f14898360cb85bf33a',
+    '1693769',
+    $options
+);
+
 /*
 |--------------------------------------------------------------------------
 | Run The Application
