@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Tag\StoreRequest;
 use App\Http\Requests\Tag\UpdateRequest;
 use App\Http\Resources\TagResource;
+use App\Models\Tag;
 use App\Services\TagService;
 use App\Services\TaskService;
 use Exception;
@@ -33,10 +34,12 @@ class TagController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
+        $tag = $request->validated();
+
 
         try {
-            $this->taskService->store($data);
+            Tag::create($tag);
+//            $this->taskService->store($tag);
 
             return response()->json(['message' => 'Tag created!']);
         } catch (Exception $e) {
