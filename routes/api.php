@@ -54,6 +54,12 @@ Route::group([
             Route::delete('delete', [CategoryController::class, 'delete']);
         });
 
-        Route::get('tags', [TagController::class, 'index']);
+        Route::group(['namespace' => 'Tag', 'prefix' => 'tags'], function () {
+            Route::get('', [TagController::class, 'index']);
+
+            Route::post('store', [TagController::class, 'store']);
+            Route::patch('update', [TagController::class, 'update']);
+            Route::delete('delete', [TagController::class, 'delete']);
+        });
     });
 });
