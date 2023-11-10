@@ -34,7 +34,7 @@ const rules = ref( [
 ])
 
 const createCategory = computed(()=>{
-    api.post('/categories/store', {name:category.value}).then(res => res.data)
+    api.post('/categories/store', {name:category.value, parent_id: null}).then(res => res.data)
 })
 </script>
 

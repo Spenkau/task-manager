@@ -18,8 +18,6 @@ interface TaskRepositoryInterface
 
     public function delete(Task $task);
 
-    public function getByCategory(Task $task);
-
     public function manageStatus(array $data);
 
 //    public function filterTasks(string $field);

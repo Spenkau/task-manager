@@ -26,14 +26,16 @@ class StoreRequest extends FormRequest
     {
 
         return [
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'required|numeric|min:1',
-            'priority_id' => 'required|numeric|min:1|max:3',
-            'status_id' => 'numeric|min:1|max:3',
-            'owner_id' => 'numeric|min:1',
+            'title' => 'required|string',
+            'content' => 'required|string',
+            'category_id' => 'required',
+            'priority_id' => 'required',
+            'status_id' => 'required',
+            'owner_id' => 'required',
             'started_at' => '',
             'finished_at' => '',
+            'parent_id' => 'nullable',
+            'tag' => ''
         ];
     }
 
@@ -44,7 +46,7 @@ class StoreRequest extends FormRequest
         $this->merge([
             'title' => trim($this['title']),
             'content' => trim($this['content']),
-            'owner_id' => $user['id']
+            'owner_id' => $this['owner_id'] ?? $user['id']
         ]);
     }
 

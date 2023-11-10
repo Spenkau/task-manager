@@ -28,18 +28,6 @@ class TaskService
         return $this->taskRepo->allOrParent($relation, $userId);
     }
 
-    public function show(int $taskId)
-    {
-        return new TaskResource($this->taskRepo->show($taskId));
-    }
-
-    public function showByCategory(string $slug)
-    {
-        $category = $this->categoryRepo->findOne($slug);
-
-        return TaskResource::collection($this->taskRepo->showByCategory($category->id));
-    }
-
     public function store(mixed $data)
     {
         return $this->taskRepo->store($data);
@@ -53,6 +41,18 @@ class TaskService
     public function delete(Task $task)
     {
         $this->taskRepo->delete($task);
+    }
+
+    public function show(int $taskId)
+    {
+        return new TaskResource($this->taskRepo->show($taskId));
+    }
+
+    public function showByCategory(string $slug)
+    {
+        $categoryId = $this->categoryRepo->findOne($slug);
+
+        return $this->taskRepo->showByCategory($categoryId);
     }
 
     public function manageStatus(mixed $data)

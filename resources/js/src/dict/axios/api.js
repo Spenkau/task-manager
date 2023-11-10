@@ -11,7 +11,8 @@ api.interceptors.request.use(config => {
     if (localStorage.getItem('access_token')) {
         config.headers = {
             'Content-Type': 'application/json',
-            "authorization":`Bearer ${localStorage.getItem('access_token')}`
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         }
     }
     return config
@@ -26,7 +27,7 @@ api.interceptors.response.use(config => {
     if (localStorage.getItem('access_token')) {
         config.headers = {
             'Content-Type': 'application/json',
-            "authorization":`Bearer ${localStorage.getItem('access_token')}`
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         }
     }
     return config

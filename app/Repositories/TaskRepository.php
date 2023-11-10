@@ -26,19 +26,9 @@ class TaskRepository implements TaskRepositoryInterface
             ->paginate(5);
     }
 
-    public function show(int $taskId)
-    {
-        return Task::find($taskId);
-    }
-
-    public function showByCategory($categoryId)
-    {
-        return Task::where('category_id', $categoryId)
-            ->get();
-    }
-
     public function store(array $data)
     {
+        // TODO сделать разделение массивов
 
         $task = Task::create($data);
 
@@ -69,6 +59,24 @@ class TaskRepository implements TaskRepositoryInterface
     public function delete(Task $task)
     {
         $task->delete();
+
+        $task->children()->delete();
+
+//        $children = Task::where('parent_id', $task['id'])->get();
+
+
+    }
+
+    public function show(int $taskId)
+    {
+        return Task::find($taskId)->with('tags');
+    }
+
+    public function showByCategory($categoryId)
+    {
+        return Task::where('category_id', $categoryId)
+            ->with('tags')
+            ->get();
     }
 
     public function manageStatus(array $data)
@@ -79,23 +87,23 @@ class TaskRepository implements TaskRepositoryInterface
             $task->finished_at = $data['finished_at'];
         }
 
-        $task->status_id = StatusEnum::FINISHED;
-
-        $task->save();
-
-        $task->refresh();
+        $this->changeStatusValue($task, $data['status_id']);
 
         return $task;
-    }
-
-    public function getByCategory(Task $task)
-    {
-        return Task::with('category')->where('category_id', $task->category_id)->toArray();
     }
 
     public function attachTags(array $tags, $task)
     {
         $task->tags()->syncWithoutDetaching($tags);
+    }
+
+    public function changeStatusValue($task, $status_id)
+    {
+        $task->status_id = $status_id;
+
+        $task->save();
+
+        $task->refresh();
     }
 
 //    public function filterTasks(string $field)

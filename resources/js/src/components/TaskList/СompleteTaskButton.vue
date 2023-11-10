@@ -24,10 +24,10 @@ function formatISO8601DateTime(date) {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 }
 
-const taskDeleteData = {id: id, finished_at: formatISO8601DateTime(new Date())}
+const taskDeleteData = {id: id, status_id: 3, finished_at: formatISO8601DateTime(new Date())}
 
 const completeTask = () => {
-  api.post('tasks/finish', taskDeleteData).then(res => console.log(res))
+  api.post('tasks/status_update', taskDeleteData).then(res => console.log(res))
 }
 </script>
 
