@@ -39,7 +39,6 @@ class UserController extends Controller
             return response()->json(['error' => ['User already exists', $e]]);
         }
 
-
 //        try {
 //            $this->userService->create($data);
 //            return response()->json(['message' => 'User successfully created!']);
