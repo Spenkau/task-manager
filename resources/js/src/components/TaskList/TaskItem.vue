@@ -3,9 +3,6 @@
         <div class="item-task">
             <div class="task-card">
                 <div class="task-header">
-                    <div>
-                        <DeleteTaskButton :taskID="taskItem.id"/>
-                    </div>
                     <p class="task-card-date">
                         <span v-if="dateIsNull">
                             Дата не указана
@@ -40,9 +37,6 @@
                             <span>2</span>
                         </div>
                     </div>
-                    <div class="complete">
-                        <CompleteTaskButton :taskID="taskItem.id"/>
-                    </div>
                 </div>
                 <div class="task-body">
                     <h3>
@@ -70,9 +64,11 @@
                     <i :class="'icon-priority_'+ taskItem.priority">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
+                    <DeleteTaskButton :taskID="taskItem.id"/>
                     <button><i class="icon-rewrite"></i> редактировать</button>
                     <button><i class="icon-share"></i> поделиться</button>
                     <button><i class="icon-postpone"></i> отложить</button>
+                    <CompleteTaskButton :taskID="taskItem.id"/>
                 </div>
             </div>
         </div>
@@ -110,6 +106,10 @@ const dateIsNull = computed(() => {
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.task-card-date{
+    max-width: 140px;
+}
 
 .tag-list{
     display: flex;
@@ -197,7 +197,8 @@ const dateIsNull = computed(() => {
     color: rgba(40, 40, 70, 0.3);
     display: flex;
     align-items: center;
-    gap: 40px;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .task-card-category {

@@ -11,10 +11,10 @@
                         <h3>Создать Задачу</h3>
                         <div class="name-status-group">
                             <v-text-field
+                                v-model="title"
                                 type="text"
                                 label="Название задачи..."
                                 hide-details="auto"
-                                name="title"
                                 variant="outlined"
                                 clearable
                             ></v-text-field>
@@ -25,7 +25,6 @@
                                 :items="['Низкий','Обычный', 'Высокий']"
                                 variant="outlined"
                             ></v-select>
-                            <input type="hidden" name="priority_id" :value="priority">
                         </div>
                         <v-autocomplete
                             clearable
@@ -35,9 +34,8 @@
                             variant="outlined"
                         >
                         </v-autocomplete>
-                        <input type="hidden" name="category_id" :value="idSelectedCategory">
-
                         <v-textarea
+                            v-model="content"
                             type="text"
                             label="Описание задачи..."
                             hide-details="auto"
@@ -46,24 +44,30 @@
                             clearable
                             class="textarea"
                         ></v-textarea>
-                        <div class="task-date">
-                            <v-text-field
-                                type="date"
-                                label="Дата начала"
-                                hide-details="auto"
-                                name="started_at"
-                                variant="outlined"
-                                clearable
-                            ></v-text-field>
-                            <v-text-field
-                                type="date"
-                                label="Дата завершения"
-                                hide-details="auto"
-                                name="finished_at"
-                                variant="outlined"
-                                clearable
-                            ></v-text-field>
-                        </div>
+                        <ul class="task-date">
+                            <li>
+                                <v-text-field
+                                    v-model="startedAt"
+                                    type="date"
+                                    label="Дата начала"
+                                    hide-details="auto"
+                                    name="started_at"
+                                    variant="outlined"
+                                    clearable
+                                ></v-text-field>
+                            </li>
+                            <li>
+                                <v-text-field
+                                    v-model="finishedAt"
+                                    type="date"
+                                    label="Дата завершения"
+                                    hide-details="auto"
+                                    name="finished_at"
+                                    variant="outlined"
+                                    clearable
+                                ></v-text-field>
+                            </li>
+                        </ul>
                         <v-autocomplete
                             v-model="selectTag"
                             clearable
@@ -84,7 +88,6 @@
                                         variant="outlined"
                                         label="Тег"
                                         clearable
-
                                     >
                                     </v-text-field>
                                 </v-card-text>
@@ -93,9 +96,6 @@
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
-                        <input type="hidden" name="status_id" value="1">
-                        <input type="hidden" name="owner_id" :value="userID">
-
                         <v-btn type="submit" block text="Отправить" color="#29a19c"/>
                     </div>
                 </form>
@@ -117,7 +117,10 @@ const categories = store.categories
 const userID = computed(() => {
     return store.user.id
 })
-
+const title = ref('')
+const content = ref('')
+const startedAt = ref('')
+const finishedAt = ref('')
 const selectTag = ref('')
 const dialog = ref(false)
 const newTag = ref('')
@@ -171,11 +174,21 @@ const saveTag = () => {
 }
 
 
-
-
 const submitForm = () => {
-    const formData = ref(new FormData(document.getElementById("task") as HTMLFormElement));
-    const jsonData = formDataToJSON(formData.value);
+    const jsonData = {
+        task:{
+            title:title.value,
+            category_id:idSelectedCategory.value,
+            content:content.value,
+            started_at:startedAt.value,
+            finished_at:finishedAt.value,
+            priority:priority.value,
+            status:1,
+            owner_id:userID.value
+
+        },
+        tags:[selectTag.value]
+    };
     console.log(jsonData)
     api.post('tasks/store', jsonData).then(res => console.log(res.data))
 }
@@ -249,7 +262,7 @@ const submitForm = () => {
 }
 
 .form-right-decoration {
-    top: 60px;
+    top: 590px;
     right: -30px;
 }
 
@@ -434,20 +447,12 @@ const submitForm = () => {
 
 .task-date {
     display: flex;
-    justify-content: space-around;
     padding-bottom: 20px;
     text-align: center;
-
-    label {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    input {
-        font-family: "Roboto", sans-serif;
-        color: $black;
-        opacity: 0.7;
+    justify-content: space-between;
+    gap: 20px;
+    li{
+        width: 100%;
     }
 }
 

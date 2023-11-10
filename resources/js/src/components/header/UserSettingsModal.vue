@@ -33,11 +33,15 @@
 <script setup lang="ts">
 import {useUserStore} from "../../dict/store/store";
 import {computed} from "vue";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const store = useUserStore()
 
 const logout = computed(() => {
     store.user.isAuth = false
+    localStorage.removeItem('access_token')
+    router.push('/login')
 })
 
 const username = computed(() => {
