@@ -94,7 +94,7 @@
                             </v-card>
                         </v-dialog>
                         <input type="hidden" name="status_id" value="1">
-                        <input type="hidden" name="user_id" :value="userID">
+                        <input type="hidden" name="owner_id" :value="userID">
 
                         <v-btn type="submit" block text="Отправить" color="#29a19c"/>
                     </div>

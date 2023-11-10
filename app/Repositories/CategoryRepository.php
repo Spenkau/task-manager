@@ -61,6 +61,6 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function findOne(string $slug)
     {
-        return Category::where('slug', $slug)->firstOrFail();
+        return Category::where('slug', $slug)->pluck('id')->firstOrFail();
     }
 }
