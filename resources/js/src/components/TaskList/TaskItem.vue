@@ -102,7 +102,6 @@ const categoryNameByID = computed(()=>{
 
 
 const dateIsNull = computed(() => {
-
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
 
