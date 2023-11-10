@@ -79,7 +79,7 @@ export default {
 
         onBeforeMount(() => {
             api.get(`users/${user.name}`).then(res => {
-                if (res?.data?.user) {
+                if (res?.data?.user && !user.isAuth) {
                     const data = res.data.user
                     user.id = data.id
                     user.name = data.name

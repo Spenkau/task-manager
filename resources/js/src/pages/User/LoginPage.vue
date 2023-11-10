@@ -82,7 +82,7 @@ const authUser = () => {
             if (res.data) {
                 localStorage.setItem('access_token', res.data.access_token)
                 store.user.name = email.value
-                router.push('/main')
+                router.push('/')
             }
         })
         .catch(e => {

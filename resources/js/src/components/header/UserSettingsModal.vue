@@ -3,10 +3,10 @@
     <div class="overlay__modal">
         <ul class="modal__list">
             <li>
-                <a href="/user">
+                <RouterLink :to="'/user/'+ username">
                     <i class="icon-user"> иконка личного кабинета </i>
                     Личный кабинет
-                </a>
+                </RouterLink>
             </li>
             <li>
                 <button>
@@ -21,7 +21,7 @@
                 </button>
             </li>
             <li>
-                <button>
+                <button @click="logout">
                     <i class="icon-logout"> иконка выйти из аккаунты </i>
                     Выйти
                 </button>
@@ -33,11 +33,19 @@
 <script setup lang="ts">
 import {useUserStore} from "../../dict/store/store";
 import {computed} from "vue";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const store = useUserStore()
 
 const logout = computed(() => {
     store.user.isAuth = false
+    localStorage.removeItem('access_token')
+    router.push('/login')
+})
+
+const username = computed(() => {
+    return store.user.name
 })
 
 </script>

@@ -1,12 +1,10 @@
 <template>
-    <RouterLink :to="'/task/'+ taskItem.id">
+    <RouterLink :to="'/task/'+ task.id">
         <div class="search-task">
             <div class="search-task-header">
-                <RouterLink :to="/task/+taskItem.id">
-                    <h3>
-                        {{ taskItem.title }}
-                    </h3>
-                </RouterLink>
+                <h3>
+                    {{ task.title }}
+                </h3>
                 <p class="task-card-tag">
                     <i class="icon-tag">иконка тега</i>
                     <span>Тег</span>
@@ -15,41 +13,47 @@
             <div class="search-task-body">
                 <div class="category">
                     <v-icon color="success" icon="$vuetify" size="x-small"/>
-                    <span> {{ taskItem.category_id }}</span>
+                    <span> {{ categoryNameByID }}</span>
                 </div>
-                <div class="date">
-                    <p>
-                        дата
-                    </p>
+                <div>
+                    {{dateTask}}
                 </div>
             </div>
             <div class="search-task-footer">
-                <p>
-                    {{ statusTask }}
-                </p>
-                <i :class="'icon-priority_' + taskItem.priority_id">иконка приоритета</i>
+                Приоритет <i :class="'icon-priority_' + task.priority">иконка приоритета</i>
             </div>
         </div>
     </RouterLink>
 </template>
 
-<script setup lang="ts">
-import {computed} from "vue";
-import {ITask} from "../../interfaces/interfaces";
+<script setup>
+import {computed, onMounted, ref} from "vue";
+import api from "../../dict/axios/api"
 
-const task = defineProps(['task'])
-const taskItem = computed(() => task.task as ITask);
-console.log(taskItem.value)
-// const dateTask = computed(()=>{
-//     if (taskItem.value.started_at && taskItem.value.finished_at){
-//         return `с ${task.value.started_at} по ${task.value.finished_at}`
-//     } else {
-//         return 'Дата не указана'
-//     }
-// })
+const props = defineProps(['task'])
+const task = computed(() => props.task);
+const categories = ref([])
+
+onMounted(()=>{
+    api.get('/categories/all').then(res => categories.value = res.data.data)
+})
+
+const categoryNameByID = computed(()=>{
+    return categories.value.find(category => category.id === task.value.category_id)
+
+
+})
+
+const dateTask = computed(()=>{
+    if (task.value.started_at && task.value.finished_at){
+        return `с ${task.value.started_at} по ${task.value.finished_at}`
+    } else {
+        return 'Дата не указана'
+    }
+})
 
 const statusTask = computed(() => {
-    switch (taskItem.value.status_id) {
+    switch (task.value.status) {
         case 0:
             return "Заброшено";
         case 1:

@@ -4,23 +4,19 @@ import TagsPage from "../../pages/TagsPage.vue";
 import TaskPage from "../../pages/TaskPage.vue";
 import NotFoundPage from "../../pages/NotFoundPage.vue";
 import TestPage from "../../pages/TestPage.vue";
-import UserPage from "../../pages/UserPage.vue";
 import SignUpPage from "../../pages/User/SignUpPage.vue";
 import LoginPage from "../../pages/User/LoginPage.vue";
-
+import ArchivePage from "../../pages/ArchivePage.vue"
 
 const routes = [
     {
         component: Home,
-        path: '/main'
+        path: '/',
+        name: 'home'
     },
     {
         component: TagsPage,
         path: '/tags'
-    },
-    {
-        component: ProfilePage,
-        path: '/user'
     },
     {
         component: TaskPage,
@@ -36,7 +32,7 @@ const routes = [
         path: '/:catchAll(.*)'
     },
     {
-        component: UserPage,
+        component: ProfilePage,
         path: '/user/:username'
     },
     {
@@ -45,11 +41,17 @@ const routes = [
     },
     {
         component: SignUpPage,
-        path: '/signup'
+        path: '/signup',
+        name: 'signup'
     },
     {
         component: LoginPage,
-        path: '/login'
+        path: '/login',
+        name: 'login'
+    },
+    {
+        component: ArchivePage,
+        path: '/user/:username/archive'
     }
 ]
 
