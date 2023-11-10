@@ -15,26 +15,27 @@ class UserRepository implements UserRepositoryInterface
 
     public function store(mixed $data)
     {
-        $user = $this->isUserExist($data['email']);
+        $existedUser = $this->isUserExist($data['email']);
 
-        if ($user) {
-            return ['message' => 'User with this email already exists'];
+        if ($existedUser) {
+            return ['error' => 'User with this email already exists'];
         }
-        User::firstOrCreate([
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
 
-        $token = $this->getToken($data['id']);
+        $token = $this->getToken($user['id']);
 
         return ['message' => 'User successfully created!', 'access_token' => $token];
     }
 
-    public function isUserExist($data)
+    public function isUserExist($email)
     {
-        return User::where('email', $data)->first();
+        return User::where('email', $email)->first();
     }
 
     public function getToken(int $id)

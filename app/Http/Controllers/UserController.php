@@ -34,9 +34,9 @@ class UserController extends Controller
 
         try {
             $response = $this->userService->create($data);
-            return response()->json($response);
+            return response()->json($response, $response['error'] ?? 403);
         } catch (Exception $e) {
-            return response()->json(['error' => ['User already exists', $e]]);
+            return response()->json(['error' => ['Something went wrong!', $e]]);
         }
 
 //        try {

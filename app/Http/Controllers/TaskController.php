@@ -31,7 +31,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
         $tasks = TaskResource::collection($this->taskService->allOrParent('children', $user['id']));
 
