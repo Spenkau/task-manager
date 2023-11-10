@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Category;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -17,13 +18,13 @@ class StoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
             'name' => 'required|max:81',
-            'parent_id' => 'numeric|min:0',
+            'parent_id' => 'nullable|numeric',
         ];
     }
 
@@ -31,7 +32,7 @@ class StoreRequest extends FormRequest
     {
         $this->merge([
             'name' => trim($this['name']),
-            'parent_id' => $this['parent_id'] ?? null
+            'parent_id' => $this['parent_id'] ? null : (int) $this['parent_id']
 
         ]);
     }

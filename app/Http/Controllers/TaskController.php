@@ -12,6 +12,7 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
+use App\Models\Category;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
@@ -35,41 +36,29 @@ class TaskController extends Controller
         $tasks = TaskResource::collection($this->taskService->allOrParent('children', $user['id']));
 
         try {
-            return response()->json($tasks);
+            return $tasks;
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
-        }
-    }
-
-    public function show(Task $task)
-    {
-        $task = new TaskResource($this->taskService->show($task->id));
-
-        try {
-            return response()->json(['data' => $task]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show your task: ' . $e]);
-        }
-    }
-
-    public function showByCategory(string $slug)
-    {
-        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
-
-        try {
-            return response()->json(['tasks' => $tasks]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
         }
     }
 
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-
         try {
-            $newTask = $this->taskService->store($data);
+//            $newTask = $this->taskService->store($data);
 
+
+
+            $newTask = Task::create($data);
+
+            if ($data['tags']) {
+                $newTask->tags()->syncWithoutDetaching($data['tags']);
+            }
+
+//            $newTask->load('tags');
+
+//            return response()->json($data);
             broadcast(new TaskCreateEvent($newTask))->toOthers();
 
             return response()->json(['message' => 'Task successfully stored!', 'data' => $newTask]);
@@ -108,7 +97,27 @@ class TaskController extends Controller
         }
     }
 
-    // TODO делать ли отдельный контроллер для завершения \ отложения задачи, оставлять ли связь мени ту мени для таски-юзеры
+    public function show(Task $task)
+    {
+        $task = new TaskResource($this->taskService->show($task->id));
+
+        try {
+            return response()->json(['data' => $task]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your task: ' . $e]);
+        }
+    }
+
+    public function showByCategory(string $slug)
+    {
+        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
+
+        try {
+            return response()->json(['tasks' => $tasks]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
+        }
+    }
 
     public function manageStatus(Request $request)
     {
@@ -119,7 +128,7 @@ class TaskController extends Controller
 
             broadcast(new TaskStatusUpdateEvent($task))->toOthers();
 
-            return response()->json(['message' => 'Task completed!']);
+            return response()->json(['message' => 'Task status changed!', 'task' => $task]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to complete task:' . $e]);
         }
