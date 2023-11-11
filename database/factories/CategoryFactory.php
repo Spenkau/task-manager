@@ -19,6 +19,7 @@ class CategoryFactory extends Factory
         return [
             'name' => fake()->colorName(),
             'parent_id' => null,
+            'owner_id' => 21,
         ];
     }
 }

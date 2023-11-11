@@ -31,9 +31,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $user = auth()->user();
-
-        $tasks = TaskResource::collection($this->taskService->allOrParent('children', $user['id']));
+        $tasks = TaskResource::collection($this->taskService->withChildren());
 
         try {
             return $tasks;
@@ -46,19 +44,8 @@ class TaskController extends Controller
     {
         $data = $request->validated();
         try {
-//            $newTask = $this->taskService->store($data);
+            $newTask = $this->taskService->store($data);
 
-
-
-            $newTask = Task::create($data);
-
-            if ($data['tags']) {
-                $newTask->tags()->syncWithoutDetaching($data['tags']);
-            }
-
-//            $newTask->load('tags');
-
-//            return response()->json($data);
             broadcast(new TaskCreateEvent($newTask))->toOthers();
 
             return response()->json(['message' => 'Task successfully stored!', 'data' => $newTask]);

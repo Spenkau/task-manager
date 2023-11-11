@@ -23,12 +23,17 @@ class TaskService
         $this->categoryRepo = $categoryRepo;
     }
 
-    public function allOrParent(string $relation, int $userId)
+    public function all()
     {
-        return $this->taskRepo->allOrParent($relation, $userId);
+        return $this->taskRepo->all();
     }
 
-    public function store(mixed $data)
+    public function withChildren()
+    {
+        return $this->taskRepo->withChildren();
+    }
+
+    public function store(array $data)
     {
         return $this->taskRepo->store($data);
     }

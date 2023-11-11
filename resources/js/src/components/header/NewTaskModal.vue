@@ -71,7 +71,7 @@
                         <v-autocomplete
                             v-model="selectTag"
                             clearable
-                            label="Веберете тег(необезательно)"
+                            label="Выберите тег(необязательно)"
                             :items="tagsList"
                             variant="outlined"
                             name="tag"
@@ -182,15 +182,15 @@ const submitForm = () => {
             content:content.value,
             started_at:startedAt.value,
             finished_at:finishedAt.value,
-            priority:priority.value,
-            status:1,
+            priority_id:priority.value,
+            status_id:1,
             owner_id:userID.value
 
         },
         tags:[selectTag.value]
     };
-    console.log(jsonData)
-    api.post('tasks/store', jsonData).then(res => console.log(res.data))
+    console.log(selectTag)
+    // api.post('tasks/store', jsonData).then(res => console.log(res.data))
 }
 
 
