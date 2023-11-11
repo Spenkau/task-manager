@@ -47,7 +47,7 @@ class CategoryController extends Controller
 
         try {
             $response = $this->categoryService->store($data);
-            return response()->json(['message' => 'Category stored!', $response]);
+            return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store category: ' . $e], 500);
         }

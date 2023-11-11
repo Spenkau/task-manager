@@ -38,9 +38,9 @@ class TaskRepository extends BaseRepository
         // TODO сделать разделение массивов
         $task = $this->storeModel($data['task']);
 
-//        if ($data['tags']) {
-//            $this->attachTags($data['tags'], $task);
-//        }
+        if ($data['tags'][0] === '') {
+            $this->attachTags($data['tags'], $task);
+        }
 
         $task->load(['children', 'tags']);
 
