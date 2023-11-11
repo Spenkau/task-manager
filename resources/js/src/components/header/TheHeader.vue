@@ -97,10 +97,7 @@ import {useUserStore} from "../../dict/store/store";
 
 
 const store = useUserStore()
-const isAuth = computed(() => {
-    return store.user.isAuth
-})
-
+const isAuth = computed(() => store.user.isAuth)
 
 const name = computed(()=>{
     if (isAuth.value) {

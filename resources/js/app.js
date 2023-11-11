@@ -13,8 +13,8 @@ const pinia = createPinia()
 const app = createApp(App)
 
 app
-    .use(router)
     .use(pinia)
+    .use(router)
     .use(vuetify)
     .use(VueQueryPlugin)
     .mount('#app')

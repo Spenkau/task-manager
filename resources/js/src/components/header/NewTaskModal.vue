@@ -22,9 +22,12 @@
                                 v-model="prioritySelect"
                                 clearable
                                 label="Приоритет"
-                                :items="['Низкий','Обычный', 'Высокий']"
+                                :items="[{title:'Низкий',value:1},{title:'Обычный',value:2}, {title:'Высокий',value:3}]"
                                 variant="outlined"
-                            ></v-select>
+                                item-title="title"
+                                item-value="value"
+                            >
+                            </v-select>
                         </div>
                         <v-autocomplete
                             clearable
@@ -128,7 +131,7 @@ const categoriesTitle = ref([])
 const selectCategory = ref('')
 const idSelectedCategory = ref(0)
 const prioritySelect = ref("")
-const priority = ref(0)
+
 
 const tags = ref([])
 const tagsList = ref([])
@@ -142,15 +145,6 @@ watch(selectTag, () => {
     }
 })
 
-watch(prioritySelect, () => {
-    if (prioritySelect.value === 'Низкий') {
-        priority.value = 1
-    } else if (prioritySelect.value === 'Обычный') {
-        priority.value = 2
-    } else {
-        priority.value = 3
-    }
-})
 
 watch(selectCategory, () => {
     categories.value.forEach(category => {
@@ -182,7 +176,7 @@ const submitForm = () => {
             content:content.value,
             started_at:startedAt.value,
             finished_at:finishedAt.value,
-            priority:priority.value,
+            priority:prioritySelect.value,
             status:1,
             owner_id:userID.value
 
@@ -198,7 +192,11 @@ const submitForm = () => {
 
 <style lang="scss">
 @import "../../../../css/general";
-
+.select-value{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .fade-enter-active,
 .fade-leave-active {
