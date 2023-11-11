@@ -3,29 +3,42 @@
 namespace App\Repositories;
 
 use App\Models\Tag;
-use App\Repositories\Interfaces\TagRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 
-class TagRepository implements TagRepositoryInterface
+class TagRepository extends BaseRepository
 {
+    protected Model $model;
+
+    public function __construct(Tag $tag)
+    {
+        parent::__construct();
+
+        $this->model = $tag;
+    }
+
     public function index()
     {
-        return Tag::all();
+        return $this->allModels();
     }
 
-    public function store(mixed $data)
+    public function store(array $data)
     {
-        Tag::create($data);
+        $data['owner_id'] = $this->user;
+
+        return $this->storeModel($data);
     }
 
-    public function update(mixed $data)
+    public function update(array $data)
     {
-        Tag::update($data);
+        $tag = $this->findModel($data['id']);
+
+        $this->updateModel($tag, $data);
     }
 
     public function delete(int $id)
     {
-        $tag = Tag::find($id);
+        $tag = $this->findModel($id);
 
-        $tag->delete($id);
+        $this->destroyModel($tag);
     }
 }

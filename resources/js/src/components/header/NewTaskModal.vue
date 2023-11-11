@@ -33,8 +33,10 @@
                             clearable
                             v-model="selectCategory"
                             label="Категория"
-                            :items="categoriesTitle"
+                            :items="categoriesItems"
                             variant="outlined"
+                            item-title="title"
+                            item-value="value"
                         >
                         </v-autocomplete>
                         <v-textarea
@@ -74,7 +76,7 @@
                         <v-autocomplete
                             v-model="selectTag"
                             clearable
-                            label="Веберете тег(необезательно)"
+                            label="Выберите тег(необязательно)"
                             :items="tagsList"
                             variant="outlined"
                             name="tag"
@@ -127,9 +129,8 @@ const finishedAt = ref('')
 const selectTag = ref('')
 const dialog = ref(false)
 const newTag = ref('')
-const categoriesTitle = ref([])
+const categoriesItems = ref([])
 const selectCategory = ref('')
-const idSelectedCategory = ref(0)
 const prioritySelect = ref("")
 
 
@@ -139,6 +140,7 @@ const tagsList = ref([])
 
 
 watch(selectTag, () => {
+    console.log(selectTag.value)
     if (selectTag.value === 'Создать тег') {
         dialog.value = true
         selectTag.value = ''
@@ -146,19 +148,22 @@ watch(selectTag, () => {
 })
 
 
-watch(selectCategory, () => {
-    categories.value.forEach(category => {
-        if (category.name === selectCategory.value) {
-            idSelectedCategory.value = category.id
-        }
-    })
-})
 
 onMounted(async () => {
-    categoriesTitle.value = categories.value.map(category => category.name)
+    categoriesItems.value = categories.value.map(category => {
+        return {
+            title:category.name,
+            value:category.id
+        }
+    })
     tags.value = await api.get('/tags').then(res => res.data)
-    const tagsTitle = tags.value.map(tag => tag.name)
-    tagsList.value = [...tagsTitle, 'Создать тег']
+    const tagsItems = tags.value.map(tag => {
+        return {
+            title:tag.name,
+            value:tag.id
+        }
+    })
+    tagsList.value = [...tagsItems, 'Создать тег']
 
 })
 
@@ -172,18 +177,17 @@ const submitForm = () => {
     const jsonData = {
         task:{
             title:title.value,
-            category_id:idSelectedCategory.value,
+            category_id:selectCategory.value,
             content:content.value,
             started_at:startedAt.value,
             finished_at:finishedAt.value,
-            priority:prioritySelect.value,
-            status:1,
+            priority_id:prioritySelect.value,
+            status_id:1,
             owner_id:userID.value
-
         },
         tags:[selectTag.value]
     };
-    console.log(jsonData)
+    console.log(selectTag)
     api.post('tasks/store', jsonData).then(res => console.log(res.data))
 }
 

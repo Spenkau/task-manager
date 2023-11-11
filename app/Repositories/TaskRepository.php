@@ -3,34 +3,39 @@
 namespace App\Repositories;
 
 use App\Enums\RelationEnum;
-use App\Enums\StatusEnum;
-use App\Http\Resources\TaskResource;
 use App\Models\Task;
-use App\DTO\TaskDTO;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Model;
 
-class TaskRepository implements TaskRepositoryInterface
+class TaskRepository extends BaseRepository
 {
-    public function allOrParent(string $relation, int $userId)
-    {
-        if ($relation == RelationEnum::ALL) {
-            return Task::where('owner_id', $userId)->paginate(5);
-        }
+    protected Model $model;
 
+    public function __construct(Task $task)
+    {
+        parent::__construct();
+
+        $this->model = $task;
+    }
+
+    public function all()
+    {
+            return $this->allModels();
+
+    }
+
+    public function withChildren()
+    {
         return Task::whereNull('parent_id')
             ->with('tags')
-            ->where('owner_id', $userId)
+            ->where('owner_id', $this->user)
             ->paginate(5);
     }
 
     public function store(array $data)
     {
         // TODO сделать разделение массивов
-
-        $task = Task::create($data);
+        $task = $this->storeModel($data['task']);
 
         if ($data['tags']) {
             $this->attachTags($data['tags'], $task);
@@ -69,7 +74,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function show(int $taskId)
     {
-        return Task::find($taskId)->with('tags');
+        return $this->findModel($taskId);
     }
 
     public function showByCategory($categoryId)

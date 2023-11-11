@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->unsignedBigInteger('owner_id');
             $table->timestamps();
+
+            $table->foreign('owner_id')->references('id')->on('users');
         });
 
         Schema::create('tag_task', function (Blueprint $table) {
