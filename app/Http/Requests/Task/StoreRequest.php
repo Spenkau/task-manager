@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Task;
 
-use Carbon\Carbon;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -26,16 +25,16 @@ class StoreRequest extends FormRequest
     {
 
         return [
-            'title' => 'required|string',
-            'content' => 'required|string',
-            'category_id' => 'required',
-            'priority_id' => 'required',
-            'status_id' => 'required',
-            'owner_id' => 'required',
-            'started_at' => '',
-            'finished_at' => '',
-            'parent_id' => 'nullable',
-            'tag' => ''
+            'task.title' => 'required|string',
+            'task.content' => 'required|string',
+            'task.category_id' => 'required|integer',
+            'task.priority_id' => 'required|integer',
+            'task.status_id' => 'required|integer',
+            'task.owner_id' => 'required|integer',
+            'task.started_at' => 'nullable|date',
+            'task.finished_at' => 'nullable|date',
+            'task.parent_id' => 'nullable|integer',
+            'tags' => 'nullable|array',
         ];
     }
 
@@ -46,7 +45,10 @@ class StoreRequest extends FormRequest
         $this->merge([
             'title' => trim($this['title']),
             'content' => trim($this['content']),
-            'owner_id' => $this['owner_id'] ?? $user['id']
+            'category_id' => (int) $this['category_id'],
+            'priority_id' => (int) $this['priority_id'],
+            'status_id' => (int) $this['status_id'],
+            'owner_id' => (int) $this['owner_id'] ?? $user['id']
         ]);
     }
 

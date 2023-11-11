@@ -29,9 +29,9 @@ class TagService
         return $this->tagRepo->index();
     }
 
-    public function store(mixed $data)
+    public function store(array $data)
     {
-        $this->tagRepo->store($data);
+        return $this->tagRepo->store($data);
     }
 
     public function update(mixed $data)

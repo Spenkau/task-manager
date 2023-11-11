@@ -34,14 +34,19 @@ class TagController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $tag = $request->validated();
-
+        $data = $request->validated();
 
         try {
-            Tag::create($tag);
-//            $this->taskService->store($tag);
+            $userId = auth()->user()->id;
 
-            return response()->json(['message' => 'Tag created!']);
+            $tag = new Tag();
+            $tag->name = $data['name'];
+            $tag->owner_id = $userId;
+
+            $tag->save();
+//            $tag = $this->tagService->store($data);
+
+            return response()->json(['message' => 'Tag created!', 'tag' => $tag]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store tag: ' . $e]);
         }

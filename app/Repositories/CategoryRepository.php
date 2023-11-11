@@ -5,19 +5,27 @@ namespace App\Repositories;
 use App\Enums\RelationEnum;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 
-class CategoryRepository implements CategoryRepositoryInterface
+class CategoryRepository extends BaseRepository
 {
+    protected Model $model;
+
+    public function __construct(Category $category)
+    {
+        parent::__construct();
+
+        $this->model = $category;
+    }
+
     public function all()
     {
-        return Category::all();
+        return $this->allModels();
     }
 
     public function withChildren()
     {
-        return Category::whereNull('parent_id')
-            ->with('children')
-            ->get();
+        return $this->withChildrenModels(['children']);
     }
 
     public function store(mixed $data)
@@ -28,17 +36,17 @@ class CategoryRepository implements CategoryRepositoryInterface
             return ['message' => 'Category already exist!'];
         }
 
-        Category::create($data);
+        $this->storeModel($data);
 
         return ['message' => 'Category created'];
     }
 
     public function update(mixed $data)
     {
-        $category = Category::find($data['id']);
+        $category = $this->findModel($data['id']);
 
         if ($category) {
-            $category->update($data);
+            $this->updateModel($category, $data);
 
             return ['message' => 'Category updated!'];
         }
@@ -48,10 +56,10 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function delete(int $id)
     {
-        $category = Category::find($id);
+        $category = $this->findModel($id);
 
         if ($category) {
-            $category->delete();
+            $this->destroyModel($category);
 
             return ['message' => 'Category deleted!'];
         }
