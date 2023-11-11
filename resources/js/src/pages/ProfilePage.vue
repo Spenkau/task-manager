@@ -3,8 +3,12 @@
         <div class="personal-area_nav">
             <ul>
                 <li>
+                    <i class=""></i>
+                    <RouterLink to="/">Вернуться на главную</RouterLink>
+                </li>
+                <li>
                     <i class="icon-archive">иконка архива задач</i>
-                    <a href="#">Архив задач</a>
+                    <RouterLink :to="'/user/' + user.name + '/archive'">Архив задач</RouterLink>
                 </li>
                 <li>
                     <i class="icon-invite">иконка приглашения</i>
@@ -20,17 +24,17 @@
             <form class="personal-area_body-info">
                 <div class="form-header">
                     <div class="avatar" id="avatar">
-                        <img src="images/avatar.png" alt="User Avatar" id="avatar-img">
+                        <img src="public/images/avatar.png" alt="User Avatar" id="avatar-img">
                         <input type="file" id="avatar-input" accept="image/*" style="display: none">
                     </div>
                     <button id="change-avatar"><i class="icon-change">Изменить аватар</i></button>
                     <div>
                         <div class="user-name">
-                            <input class="name" name="username" value="Username" disabled="disabled">
+                            <v-text-field name="username" label="sdsd"></v-text-field>
                             <button type="button" class="button-edit"><i class="icon-edit">редактировать</i></button>
                         </div>
-                        <p>{{user.name}}</p>
                     </div>
+<!--                    <UserAchievements/>-->
                 </div>
                 <div class="user-about">
                     <div>
@@ -40,7 +44,7 @@
                     <button type="button" class="button-edit"><i class="icon-edit">редактировать</i></button>
                 </div>
             </form>
-            <UserAchievements/>
+
             <ul class="user-task-list">
                 <li v-for="(userTask,key) in userTasks" :key="key">
                     <MiniTaskCard :task="userTask"/>
@@ -62,12 +66,12 @@ const userTasks = ref([])
 const store = useUserStore()
 const user = store.user
 
-console.log(store)
+
 
 
 onMounted(async () => {
-    // const tasksData = await fetchTaskByPage(1)
-    // userTasks.value = tasksData.tasks.data
+    const tasksData = await fetchTaskByPage(1)
+    userTasks.value = tasksData.data
 })
 
 onMounted(() => {
@@ -114,6 +118,7 @@ onMounted(() => {
 
 .personal-area {
     display: flex;
+    min-height: 100vh;
 
     .icon-archive {
         @include icon(25px, 25px, 'archive');
@@ -130,7 +135,7 @@ onMounted(() => {
 
 
 .personal-area_nav {
-    position: absolute;
+    //position: absolute;
     background-color: $abs-white;
     font-size: 18px;
     padding-right: 30px;
@@ -177,23 +182,10 @@ onMounted(() => {
 }
 
 .user-name {
+    width: 30vw;
     display: flex;
+    gap: 10px;
 
-    input[disabled="disabled"] {
-        background-color: transparent;
-        font-size: 38px;
-        font-style: normal;
-        padding: 0;
-        border: 1px solid transparent;
-    }
-
-    input {
-        font-size: 38px;
-        border: 1px solid $green;
-        padding: 0;
-        border-radius: 5px;
-        background-color: white;
-    }
 }
 
 .form-header {

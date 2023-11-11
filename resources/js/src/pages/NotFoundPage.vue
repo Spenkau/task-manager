@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1><span>404</span> - Страница не найдена</h1>
-        <RouterLink to="/main"> вернуться на главную </RouterLink>
+        <RouterLink to="/"> вернуться на главную </RouterLink>
     </div>
 </template>
 

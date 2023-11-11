@@ -32,6 +32,7 @@ export default {
     left: 0;
     height: 100%;
     overflow-y: scroll;
+    box-shadow: 200px -1px 400px 60px rgba(0,0,0,0.36);
 
     &::-webkit-scrollbar {
         width: 0;

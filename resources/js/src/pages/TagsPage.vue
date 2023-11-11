@@ -1,7 +1,7 @@
 <template>
 <div class="tags-page">
     <div class="link-back">
-        <RouterLink to="/main">Вернуться назад</RouterLink>
+        <RouterLink to="/">Вернуться назад</RouterLink>
     </div>
     <div class="tags-page-header">
         <h2>Поиск по вашим тегам</h2>
@@ -30,9 +30,9 @@ import {onMounted, ref} from "vue";
 import api from "../dict/axios/api"
 const tasks = ref([])
 
-onMounted(()=>{
-    api.get('/tasks').then(res => tasks.value = res.data)
 
+onMounted(()=>{
+    api.get('/tasks').then(res => tasks.value = res.data )
 })
 </script>
 
