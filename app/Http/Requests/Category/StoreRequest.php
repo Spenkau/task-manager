@@ -32,8 +32,6 @@ class StoreRequest extends FormRequest
     {
         $this->merge([
             'name' => trim($this['name']),
-            'parent_id' => $this['parent_id'] ? null : (int) $this['parent_id']
-
         ]);
     }
 }

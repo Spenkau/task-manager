@@ -43,6 +43,8 @@ class TaskController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
+        $data['owner_id'] = auth()->user()->id;
+
         try {
             $newTask = $this->taskService->store($data);
 

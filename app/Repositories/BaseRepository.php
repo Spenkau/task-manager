@@ -45,7 +45,7 @@ abstract class BaseRepository
 
     public function updateModel(Model $model, mixed $data)
     {
-        $model->update($data);
+        return $model->update($data);
     }
 
     public function destroyModel(Model $model)
