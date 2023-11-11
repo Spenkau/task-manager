@@ -34,12 +34,13 @@ class TaskRepository extends BaseRepository
 
     public function store(array $data)
     {
+
         // TODO сделать разделение массивов
         $task = $this->storeModel($data['task']);
 
-        if ($data['tags']) {
-            $this->attachTags($data['tags'], $task);
-        }
+//        if ($data['tags']) {
+//            $this->attachTags($data['tags'], $task);
+//        }
 
         $task->load(['children', 'tags']);
 

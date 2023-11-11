@@ -190,7 +190,7 @@ const submitForm = () => {
         tags:[selectTag.value]
     };
     console.log(selectTag)
-    // api.post('tasks/store', jsonData).then(res => console.log(res.data))
+    api.post('tasks/store', jsonData).then(res => console.log(res.data))
 }
 
 
