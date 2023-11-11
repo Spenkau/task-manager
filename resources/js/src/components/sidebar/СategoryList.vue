@@ -1,8 +1,8 @@
 <template>
     <ul class="sidebar__list">
         <li v-for="(categoryItem,key) in categories" :key="key">
-            <v-icon color="primary" size="x-small" icon="mdi-check-circle"/>
-            {{ categoryItem.name }}
+            <i class="icon-category"></i>
+            <button>{{ categoryItem.name }}</button>
             <CategoryChildren
                 v-if="!!categoryItem.children"
                 :children="categoryItem.children"
@@ -53,13 +53,20 @@ const showModal = ref(false)
 
     li {
         margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        i{
+            width: 20px;
+            height: 20px;
+        }
         button {
             display: flex;
             align-items: center;
             border: none;
             background-color: transparent;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
             gap: 5px;
 
         }

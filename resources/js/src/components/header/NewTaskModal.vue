@@ -22,16 +22,21 @@
                                 v-model="prioritySelect"
                                 clearable
                                 label="Приоритет"
-                                :items="['Низкий','Обычный', 'Высокий']"
+                                :items="[{title:'Низкий',value:1},{title:'Обычный',value:2}, {title:'Высокий',value:3}]"
                                 variant="outlined"
-                            ></v-select>
+                                item-title="title"
+                                item-value="value"
+                            >
+                            </v-select>
                         </div>
                         <v-autocomplete
                             clearable
                             v-model="selectCategory"
                             label="Категория"
-                            :items="categoriesTitle"
+                            :items="categoriesItems"
                             variant="outlined"
+                            item-title="title"
+                            item-value="value"
                         >
                         </v-autocomplete>
                         <v-textarea
@@ -124,11 +129,10 @@ const finishedAt = ref('')
 const selectTag = ref('')
 const dialog = ref(false)
 const newTag = ref('')
-const categoriesTitle = ref([])
+const categoriesItems = ref([])
 const selectCategory = ref('')
-const idSelectedCategory = ref(0)
 const prioritySelect = ref("")
-const priority = ref(0)
+
 
 const tags = ref([])
 const tagsList = ref([])
@@ -136,35 +140,30 @@ const tagsList = ref([])
 
 
 watch(selectTag, () => {
+    console.log(selectTag.value)
     if (selectTag.value === 'Создать тег') {
         dialog.value = true
         selectTag.value = ''
     }
 })
 
-watch(prioritySelect, () => {
-    if (prioritySelect.value === 'Низкий') {
-        priority.value = 1
-    } else if (prioritySelect.value === 'Обычный') {
-        priority.value = 2
-    } else {
-        priority.value = 3
-    }
-})
 
-watch(selectCategory, () => {
-    categories.value.forEach(category => {
-        if (category.name === selectCategory.value) {
-            idSelectedCategory.value = category.id
-        }
-    })
-})
 
 onMounted(async () => {
-    categoriesTitle.value = categories.value.map(category => category.name)
+    categoriesItems.value = categories.value.map(category => {
+        return {
+            title:category.name,
+            value:category.id
+        }
+    })
     tags.value = await api.get('/tags').then(res => res.data)
-    const tagsTitle = tags.value.map(tag => tag.name)
-    tagsList.value = [...tagsTitle, 'Создать тег']
+    const tagsItems = tags.value.map(tag => {
+        return {
+            title:tag.name,
+            value:tag.id
+        }
+    })
+    tagsList.value = [...tagsItems, 'Создать тег']
 
 })
 
@@ -178,14 +177,13 @@ const submitForm = () => {
     const jsonData = {
         task:{
             title:title.value,
-            category_id:idSelectedCategory.value,
+            category_id:selectCategory.value,
             content:content.value,
             started_at:startedAt.value,
             finished_at:finishedAt.value,
-            priority_id:priority.value,
+            priority_id:prioritySelect.value,
             status_id:1,
             owner_id:userID.value
-
         },
         tags:[selectTag.value]
     };
@@ -198,7 +196,11 @@ const submitForm = () => {
 
 <style lang="scss">
 @import "../../../../css/general";
-
+.select-value{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .fade-enter-active,
 .fade-leave-active {

@@ -6,7 +6,7 @@
         <div class="body-main">
             <div class="left" @mousemove="showSidebar=true"></div>
             <Sidebar v-if="showSidebar" @mouseleave="showSidebar=false">
-                <CategoryList :categories="categories"/>
+                <CategoryList :categories="categories.value"/>
             </Sidebar>
             <section class="main">
                 <div class="active-task">
@@ -51,48 +51,45 @@ export default {
         const showSidebar = ref(false)
         const messages = ref([])
 
-        const store = useUserStore()
-        const user = store.user
-        const categoriesWithChildren = store.categoriesWithChildren
-        const allCategories = store.categories
-        const categories = categoriesWithChildren.value
 
+        const {user,tasks,categories,categoriesWithChildren} = useUserStore()
+        const isAuth = computed(() => user.isAuth)
 
-
-        const isAuth = computed(()=>{
-            return store.user.isAuth
-        })
 
         const getCategories = () => {
             try {
                 api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data);
-                api.get('/categories/all').then(res => allCategories.value = res.data.data)
+                api.get('/categories/all').then(res => categories.value = res.data.data)
             } catch (e) {
                 console.error('Ошибка получения данных:', e);
             }
         }
 
+        const getUser = () => {
+            if(user.name){
+                api.get(`users/${user.name}`).then(res => {
+                    if (res?.data?.user) {
+                        const data = res.data.user
+                        user.id = data.id
+                        user.name = data.name
+                        user.email = data.email
+                        user.phone = data.phone
+                        user.role_id = data.role_id
+                        user.isAuth = !!localStorage.getItem('access_token')
+                    }
+
+                    console.log(user)
+                })
+            }
+        }
+
         onMounted(() => {
             getCategories()
-            console.log(store)
         })
 
-        onBeforeMount(() => {
-            api.get(`users/${user.name}`).then(res => {
-                if (res?.data?.user && !user.isAuth) {
-                    const data = res.data.user
-                    user.id = data.id
-                    user.name = data.name
-                    user.email = data.email
-                    user.phone = data.phone
-                    user.role_id = data.role_id
-                    user.isAuth = true
-                } else {
-                    user.isAuth = false
-                }
-            })
+        onMounted(() => {
+            getUser()
         })
-
 
         return {
             isAuth,

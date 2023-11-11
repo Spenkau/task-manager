@@ -1,6 +1,8 @@
 import {useQuery} from "vue-query";
 import api from "../dict/axios/api"
 import {useRouter} from "vue-router";
+
+
 const router = useRouter()
 
 const fetchData = async (data: string) => {
@@ -21,6 +23,8 @@ export const fetchTaskByID = async (ID = "") => {
             return await res.data
         }
         if (res.status === 404) {
+
+            // @ts-ignore
             router.push("/404")
         }
     } catch (e) {
