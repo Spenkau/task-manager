@@ -43,7 +43,6 @@ Route::group([
 
             Route::post('status_update', [TaskController::class, 'manageStatus']);
 
-            Route::get('filter', [TaskController::class, 'filterTasks']);
         });
 
         Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
@@ -67,9 +66,7 @@ Route::group([
         Route::get('test', function () {
             $task = Task::find(20);
 
-            $users = $task->users;
-
-            return $users;
+            return $task;
         });
     });
 });

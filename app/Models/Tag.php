@@ -19,6 +19,11 @@ class Tag extends Model
         return $this->belongsToMany(Task::class);
     }
 
+    public function scopeOwnerId($query, $userId)
+    {
+        return $query->where('owner_id', $userId);
+    }
+
     public function sluggable(): array
     {
         return [

@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\TaskDTO;
 use App\Events\Task\TaskCreateEvent;
 use App\Events\Task\TaskDeleteEvent;
 use App\Events\Task\TaskStatusUpdateEvent;
 use App\Events\Task\TaskUpdateEvent;
-use App\Http\Requests\Task\FinishRequest;
+use App\Http\Requests\Task\FilterRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
-use App\Models\Category;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
@@ -29,9 +28,11 @@ class TaskController extends Controller
         $this->taskService = $taskService;
     }
 
-    public function index()
+    public function index(FilterRequest $request): JsonResponse|AnonymousResourceCollection
     {
-        $tasks = TaskResource::collection($this->taskService->withChildren());
+        $data = $request->validated();
+
+        $tasks = TaskResource::collection($this->taskService->all($data));
 
         try {
             return $tasks;
@@ -40,7 +41,7 @@ class TaskController extends Controller
         }
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): JsonResponse
     {
         $data = $request->validated();
         $data['owner_id'] = auth()->user()->id;
@@ -56,7 +57,7 @@ class TaskController extends Controller
         }
     }
 
-    public function update(UpdateRequest $request)
+    public function update(UpdateRequest $request): JsonResponse
     {
         $data = $request->validated();
 
@@ -66,14 +67,11 @@ class TaskController extends Controller
             $task = $this->taskService->update($data);
             return response()->json(['message' => 'Task successfully updated!', 'data' => $task]);
         } catch (Exception $e) {
-            if ($data->fails()) {
-                return response()->json(['errors' => $data->errors()], 422);
-            }
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
     }
 
-    public function delete(Task $task)
+    public function delete(Task $task): JsonResponse
     {
 
         broadcast(new TaskDeleteEvent($task))->toOthers();
@@ -86,29 +84,29 @@ class TaskController extends Controller
         }
     }
 
-    public function show(Task $task)
+    public function show(Task $task): JsonResponse|TaskResource
     {
         $task = new TaskResource($this->taskService->show($task->id));
 
         try {
-            return response()->json(['data' => $task]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to show your task: ' . $e]);
-        }
-    }
-
-    public function showByCategory(string $slug)
-    {
-        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
-
-        try {
-            return response()->json(['tasks' => $tasks]);
+            return $task;
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
         }
     }
 
-    public function manageStatus(Request $request)
+    public function showByCategory(string $slug): JsonResponse|AnonymousResourceCollection
+    {
+        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
+
+        try {
+            return $tasks;
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
+        }
+    }
+
+    public function manageStatus(Request $request): JsonResponse
     {
         $data = $request->all();
 
@@ -119,16 +117,7 @@ class TaskController extends Controller
 
             return response()->json(['message' => 'Task status changed!', 'task' => $task]);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to complete task:' . $e]);
+            return response()->json(['error' => 'Failed to complete task:' . $e], 500);
         }
-    }
-
-    public function filterTasks()
-    {
-        $tasks = QueryBuilder::for(Task::class)
-            ->allowedFilters('title')
-            ->get();
-
-        return response()->json(['res' => '111']);
     }
 }
