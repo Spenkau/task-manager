@@ -25,30 +25,32 @@ class CategoryRepository extends BaseRepository
 
     public function withChildren()
     {
-        return $this->withChildrenModels(['children']);
+        return
+            $this->withChildrenModels(['children']);
     }
 
-    public function store(mixed $data)
+    public function store(array $data)
     {
         $category = Category::where('name', $data['name']);
 
-        if ($category) {
+        if (isset($category->id)) {
             return ['message' => 'Category already exist!'];
         }
 
-        $this->storeModel($data);
+        $data['owner_id'] = auth()->user()->id;
+        $response = $this->storeModel($data);
 
-        return ['message' => 'Category created'];
+        return ['message' => 'Category created', 'data' => $response];
     }
 
-    public function update(mixed $data)
+    public function update(array $data)
     {
         $category = $this->findModel($data['id']);
 
-        if ($category) {
-            $this->updateModel($category, $data);
+        if (isset($category->id)) {
+            $response = $this->updateModel($category, $data);
 
-            return ['message' => 'Category updated!'];
+            return ['message' => 'Category updated!', 'data' => $response];
         }
 
         return ['message' => 'Something went wrong!'];
@@ -58,10 +60,10 @@ class CategoryRepository extends BaseRepository
     {
         $category = $this->findModel($id);
 
-        if ($category) {
-            $this->destroyModel($category);
+        if (isset($category->id)) {
+            $response = $this->destroyModel($category);
 
-            return ['message' => 'Category deleted!'];
+            return ['message' => 'Category deleted!', $response];
         }
 
         return ['message' => 'Something went wrong!'];

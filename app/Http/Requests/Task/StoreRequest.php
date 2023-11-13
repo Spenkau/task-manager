@@ -34,7 +34,7 @@ class StoreRequest extends FormRequest
             'task.started_at' => 'nullable|date',
             'task.finished_at' => 'nullable|date',
             'task.parent_id' => 'nullable|integer',
-            'tags' => 'nullable|array',
+            'tags' => 'sometimes|array',
         ];
     }
 

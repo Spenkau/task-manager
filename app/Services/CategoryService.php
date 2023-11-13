@@ -23,12 +23,12 @@ class CategoryService
         return $this->categoryRepo->withChildren();
     }
 
-    public function store(mixed $data)
+    public function store(array $data)
     {
         return $this->categoryRepo->store($data);
     }
 
-    public function update(mixed $data)
+    public function update(array $data)
     {
         return $this->categoryRepo->update($data);
     }

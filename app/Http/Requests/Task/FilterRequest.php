@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class FilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:81',
-            'parent_id' => 'nullable|numeric',
+            'title' => 'string',
+            'priority_id' => 'number',
+            'status_id' => 'number',
+            'tag_ids' => 'array'
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'name' => trim($this['name']),
-        ]);
     }
 }
