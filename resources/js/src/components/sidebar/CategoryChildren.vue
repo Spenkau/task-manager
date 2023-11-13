@@ -2,7 +2,7 @@
 <ul>
     <li v-for="(child,key) in childrenCategory" :key="key">
         <v-icon color="primary" size="x-small" icon="mdi-check-circle"/>
-        <button>{{child.name}}</button>
+        <button @click="() => console.log(child.slug)">{{child.name}}</button>
         <CategoryChildren
             v-if="!!child.children"
             :children="child.children"

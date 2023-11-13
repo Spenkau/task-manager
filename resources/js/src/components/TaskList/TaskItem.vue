@@ -1,5 +1,5 @@
 <template>
-    <div class="tasks-container">
+    <div class="tasks-container" v-if="taskItem">
         <div class="item-task">
             <div class="task-card">
                 <div class="task-header">
@@ -40,24 +40,13 @@
                 </div>
                 <div class="task-body">
                     <h3>
-                        <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
+                        <RouterLink :to="'/user/' + user.name + '/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
                     </h3>
                     <div>
-                        <ul class="tag-list">
-                            <li class="task-card-tag">
+                        <ul class="tag-list" v-if="taskItem.tags.length > 0">
+                            <li class="task-card-tag" v-for="(tag, key) in taskItem.tags" :key="key">
                                 <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>тег</span></RouterLink>
-<!--                                {{ taskItem.tag_id }}-->
-                            </li>
-                            <li class="task-card-tag">
-                                <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>тег</span></RouterLink>
-                                <!--                                {{ taskItem.tag_id }}-->
-                            </li>
-                            <li class="task-card-tag">
-                                <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>тег</span></RouterLink>
-                                <!--                                {{ taskItem.tag_id }}-->
+                                <RouterLink :to="'/user/'+ user.name +'/tags'"><span>{{tag.name}}</span></RouterLink>
                             </li>
                         </ul>
                     </div>
@@ -65,7 +54,11 @@
                 </div>
                 <div class="task-footer">
                     <DeleteTaskButton :taskID="taskItem.id"/>
-                    <button><i class="icon-rewrite"></i> редактировать</button>
+                    <button @click="show = true"><i class="icon-rewrite"></i> редактировать</button>
+                    <EditTaskModal v-if="show" :task="taskItem">
+                    <div class="overlay" @click="show = false"/>
+                    </EditTaskModal>
+
                     <button><i class="icon-share"></i> поделиться</button>
                     <button><i class="icon-postpone"></i> отложить</button>
                     <CompleteTaskButton :taskID="taskItem.id"/>
@@ -81,10 +74,11 @@ import {ref, toRefs, computed, reactive} from "vue";
 import CompleteTaskButton from "./СompleteTaskButton.vue";
 import DeleteTaskButton from "./DeleteTaskButton.vue";
 import {useUserStore} from "../../dict/store/store";
+import EditTaskModal from "../widgets/EditTaskModal.vue";
 
 const store = useUserStore()
-const categories = store.categories
-
+const {user,categories} = store
+const show = ref(false)
 
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
@@ -92,8 +86,6 @@ const taskItem = computed(() => task.task as ITask);
 const categoryNameByID = computed(()=>{
     return categories.value.find(category => category.id === taskItem.value.category_id).name
 })
-
-
 
 
 
@@ -179,15 +171,6 @@ const dateIsNull = computed(() => {
 }
 
 
-@keyframes filling {
-    0% {
-        width: 0;
-    }
-    100% {
-        width: 100%;
-    }
-
-}
 
 .activate {
     display: flex;

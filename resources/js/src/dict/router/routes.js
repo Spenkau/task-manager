@@ -16,11 +16,11 @@ const routes = [
     },
     {
         component: TagsPage,
-        path: '/tags'
+        path: '/user/:username/tags'
     },
     {
         component: TaskPage,
-        path: '/task/:id'
+        path: '/user/:username/task/:id'
     },
     {
         component: NotFoundPage,

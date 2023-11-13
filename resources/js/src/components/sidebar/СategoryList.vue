@@ -1,8 +1,13 @@
 <template>
     <ul class="sidebar__list">
         <li v-for="(categoryItem,key) in categories" :key="key">
-            <i class="icon-category"></i>
-            <button>{{ categoryItem.name }}</button>
+            <div class="category">
+                <button @click="() => getTaskByCategory(categoryItem.slug)">
+                    <i class="icon-category"></i>
+                    {{ categoryItem.name }}
+                    <i v-if="activeCategory" class="icon-active-category">иконка</i>
+                </button>
+            </div>
             <CategoryChildren
                 v-if="!!categoryItem.children"
                 :children="categoryItem.children"
@@ -16,6 +21,7 @@
             <NewCategoryModal v-if="showModal">
                 <div class="modal-category__overlay" @click="showModal = false"/>
             </NewCategoryModal>
+
         </li>
     </ul>
 </template>
@@ -24,17 +30,36 @@
 import {computed, ref, toRefs} from "vue";
 import CategoryChildren from "./CategoryChildren.vue";
 import NewCategoryModal from "./NewCategoryModal.vue";
+import api from "../../dict/axios/api"
+import {useUserStore} from "../../dict/store/store";
 
 
 const props = defineProps(['categories'])
 const showModal = ref(false)
+const store = useUserStore()
+const activeCategory = ref(false)
+const {tasks} = toRefs(store)
 
+const getTaskByCategory = (slug) => {
+    api.get(`/tasks/category/${slug}`).then(res => tasks.value = res.data.tasks)
+    activeCategory.value = false
+}
 
 
 </script>
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.category{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icon-active-category{
+    @include icon(45px,10px, 'active_category')
+}
 
 .modal-category__overlay {
     display: block;

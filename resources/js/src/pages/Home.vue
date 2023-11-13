@@ -85,11 +85,9 @@ export default {
 
         onMounted(() => {
             getCategories()
-        })
-
-        onMounted(() => {
             getUser()
         })
+
 
         return {
             isAuth,
@@ -119,7 +117,7 @@ export default {
 }
 
 .icon-sidebar-open {
-    position: absolute;
+    position: fixed;
     left: 20px;
     top: 40px;
     @include icon(30px, 30px, "open_sb");

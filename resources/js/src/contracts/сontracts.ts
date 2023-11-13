@@ -52,6 +52,23 @@ export const formDataToJSON = (formData) => {
     return JSON.stringify(jsonObject);
 }
 
+export function formatISO8601DateTime(date) {
+    const year = date.getFullYear();
+
+    // @ts-ignore
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    // @ts-ignore
+    const day = String(date.getDate()).padStart(2, '0');
+    // @ts-ignore
+    const hours = String(date.getHours()).padStart(2, '0');
+    // @ts-ignore
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // @ts-ignore
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
 export const useTaskByIDQuery = () => useQuery("task_by_id", ()=>fetchTaskByID())
 export const useCategoriesQuery = () => useQuery("categories", () => fetchData("categories"));
 export const useTasksQuery = () => useQuery("tasks", () => fetchData("tasks"))

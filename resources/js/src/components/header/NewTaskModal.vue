@@ -110,15 +110,16 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue';
-import {formDataToJSON} from "../../contracts/сontracts";
+import {computed, onMounted, ref, toRefs, watch} from 'vue';
+import {formatISO8601DateTime, formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
 import {useUserStore} from "../../dict/store/store";
 
 
 
 const store = useUserStore()
-const categories = store.categories
+const {tasks, categories} = toRefs(store)
+
 const userID = computed(() => {
     return store.user.id
 })
@@ -150,7 +151,7 @@ watch(selectTag, () => {
 
 
 onMounted(async () => {
-    categoriesItems.value = categories.value.map(category => {
+    categoriesItems.value = categories.value.value.map(category => {
         return {
             title:category.name,
             value:category.id
@@ -172,7 +173,6 @@ const saveTag = () => {
     dialog.value = false
 }
 
-
 const submitForm = () => {
     const jsonData = {
         task:{
@@ -188,7 +188,7 @@ const submitForm = () => {
         tags:[selectTag.value]
     };
     console.log(selectTag)
-    api.post('tasks/store', jsonData).then(res => console.log(res.data))
+    api.post('tasks/store', jsonData).then(res => tasks.value.unshift(res.data.data))
 }
 
 
