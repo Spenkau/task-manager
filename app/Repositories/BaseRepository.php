@@ -2,31 +2,34 @@
 
 namespace App\Repositories;
 
+use App\Models\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
-
+use App\Models\Task;
 abstract class BaseRepository
 {
     public $sortBy = 'created_at';
     public $sortOrder = 'asc';
 
-    public ?Authenticatable $userId;
+    public int $userId;
 
     protected Model $model;
 
     public function __construct()
     {
-        $this->user = auth()->user()->id;
+        $this->userId = auth()->user()->id;
     }
 
     public function allModels()
     {
-        return $this->model->all();
+        return
+            $this->model->where('owner_id', $this->userId)->get();
     }
 
     public function withChildrenModels(array $relations)
     {
         return $this->model::whereNull('parent_id')
+            ->where('owner_id', $this->userId)
             ->with($relations)
             ->get();
     }
@@ -55,9 +58,9 @@ abstract class BaseRepository
 
     public function paginatedModel($paginate)
     {
-        return $this
-            ->model
+        return $this->model
             ->orderBy($this->sortBy, $this->sortOrder)
             ->paginate($paginate);
     }
+
 }

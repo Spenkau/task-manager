@@ -23,14 +23,9 @@ class TaskService
         $this->categoryRepo = $categoryRepo;
     }
 
-    public function all()
+    public function all(array $data)
     {
-        return $this->taskRepo->all();
-    }
-
-    public function withChildren()
-    {
-        return $this->taskRepo->withChildren();
+        return $this->taskRepo->all($data);
     }
 
     public function store(array $data)
@@ -38,7 +33,7 @@ class TaskService
         return $this->taskRepo->store($data);
     }
 
-    public function update(mixed $data)
+    public function update(array $data)
     {
         return $this->taskRepo->update($data);
     }
@@ -60,14 +55,13 @@ class TaskService
         return $this->taskRepo->showByCategory($categoryId);
     }
 
+    public function filter(array $data)
+    {
+        return $this->taskRepo->filter($data);
+    }
+
     public function manageStatus(mixed $data)
     {
         return $this->taskRepo->manageStatus($data);
     }
-
-//    public function filterTasks(string $field)
-//    {
-//        return $this->taskRepo->filterTasks($field);
-//    }
-
 }

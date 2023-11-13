@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Enums\PriorityEnum;
 use App\Enums\RelationEnum;
+use App\Http\Filters\TaskFilter;
 use App\Models\Task;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -18,23 +20,29 @@ class TaskRepository extends BaseRepository
         $this->model = $task;
     }
 
-    public function all()
+    public function all(array $data)
     {
-            return $this->allModels();
+        $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
+        $tasks = Task::filter($filter)
+            ->whereNull('parent_id')
+            ->ownerId($this->userId)
+            ->with(['tags', 'children'])
+            ->get();
+
+        return $tasks;
     }
 
-    public function withChildren()
-    {
-        return Task::whereNull('parent_id')
-            ->with('tags')
-            ->where('owner_id', $this->user)
-            ->paginate(5);
-    }
+//    public function withChildren()
+//    {
+//        return Task::whereNull('parent_id')
+//            ->with('tags')
+//            ->ownerId($this->userId)
+//            ->paginate(5);
+//    }
 
     public function store(array $data)
     {
-
         // TODO сделать разделение массивов
         $task = $this->storeModel($data['task']);
 
@@ -67,10 +75,6 @@ class TaskRepository extends BaseRepository
         $task->delete();
 
         $task->children()->delete();
-
-//        $children = Task::where('parent_id', $task['id'])->get();
-
-
     }
 
     public function show(int $taskId)
@@ -82,7 +86,13 @@ class TaskRepository extends BaseRepository
     {
         return Task::where('category_id', $categoryId)
             ->with('tags')
+            ->ownerId($this->userId)
             ->get();
+    }
+
+    public function filter(array $data)
+    {
+
     }
 
     public function manageStatus(array $data)

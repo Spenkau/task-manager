@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,6 +14,7 @@ class Task extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Filterable;
 
     protected $table = 'tasks';
 
@@ -49,5 +51,10 @@ class Task extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function scopeOwnerId($query, $userId)
+    {
+        return $query->where('owner_id', $userId);
     }
 }
