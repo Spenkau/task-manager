@@ -53,8 +53,8 @@ export default {
 
 
         const {user,categories,categoriesWithChildren} = useUserStore()
-        const isAuth = computed(() => user.isAuth)
-
+        let isAuth = computed(() => user.isAuth)
+        console.log('III', isAuth)
         const getUser = () => {
             try {
                 api.post('/me').then(data => {
@@ -64,7 +64,7 @@ export default {
                         user.email = data.email
                         user.phone = data.phone
                         user.role_id = data.role_id
-                        user.isAuth = true
+                        isAuth = true
                     }
                 })
             } catch (e) {

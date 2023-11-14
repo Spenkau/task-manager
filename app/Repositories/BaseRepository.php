@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\Base;
+use App\Repositories\Interfaces\BaseRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable;
-use App\Models\Task;
-abstract class BaseRepository
+
+abstract class BaseRepository implements BaseRepositoryInterface
 {
     public $sortBy = 'created_at';
     public $sortOrder = 'asc';
@@ -20,13 +20,13 @@ abstract class BaseRepository
         $this->userId = auth()->user()->id;
     }
 
-    public function allModels()
+    public function allModels(): Collection
     {
         return
             $this->model->where('owner_id', $this->userId)->get();
     }
 
-    public function withChildrenModels(array $relations)
+    public function withChildrenModels(array $relations): Collection
     {
         return $this->model::whereNull('parent_id')
             ->where('owner_id', $this->userId)
@@ -39,28 +39,20 @@ abstract class BaseRepository
         return $this->model->find($id);
     }
 
-    public function storeModel(mixed $data)
+    public function storeModel(array $data)
     {
         $model = $this->model;
 
         return $model->create($data);
     }
 
-    public function updateModel(Model $model, mixed $data)
+    public function updateModel(Model $model, array $data)
     {
         return $model->update($data);
     }
 
-    public function destroyModel(Model $model)
+    public function destroyModel(Model $model): Model|bool|null
     {
         return $model->delete();
     }
-
-    public function paginatedModel($paginate)
-    {
-        return $this->model
-            ->orderBy($this->sortBy, $this->sortOrder)
-            ->paginate($paginate);
-    }
-
 }
