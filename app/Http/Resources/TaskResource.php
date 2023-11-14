@@ -21,12 +21,11 @@ class TaskResource extends JsonResource
             'title' => $this['title'],
             'content' => $this['content'],
             'category_id' => $this['category_id'],
-            'priority' => $this['priority_id'],
-            'status' => $this['status_id'],
+            'priority_id' => $this['priority_id'],
+            'status_id' => $this['status_id'],
             'parent_id' => $this['parent_id'],
             'started_at' => $this['started_at'],
             'finished_at' => $this['finished_at'],
-            'children' => $this['children'],
             'tags' => count($this->tags) > 0 ? $this->tags->map(function ($tag) {
                 return new TagResource($tag);
             }) : [],

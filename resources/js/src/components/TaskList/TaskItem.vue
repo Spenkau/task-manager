@@ -53,7 +53,7 @@
                             </li>
                         </ul>
                     </div>
-                    <i :class="'icon-priority_'+ taskItem.priority || taskItem.priority_id">иконка приоритета</i>
+                    <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <DeleteTaskButton :taskID="taskItem.id"/>

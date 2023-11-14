@@ -54,11 +54,29 @@ export default {
 
         const store = useUserStore()
         const {user, tasks, categories, categoriesWithChildren} = storeToRefs(store)
-
         const isAuth = computed(() => user.value.isAuth)
 
         const getActiveTasks = () => {
             api.get('tasks').then(res => tasks.value = res.data.data)
+        }
+
+        const getUser = () => {
+            try {
+                api.post('/me').then(res => {
+
+                    if (res?.data?.name) {
+                        user.value.id = res.data.id
+                        user.value.name = res.data.name
+                        user.value.email = res.data.email
+                        user.value.phone = res.data.phone
+                        user.value.role_id = res.data.role_id
+                        user.value.isAuth = true
+                    }
+                })
+                console.log(user.value)
+            } catch (e) {
+                console.error("Что-то пошло не так: ", e)
+            }
         }
 
         const getCategories = () => {
@@ -66,45 +84,26 @@ export default {
                 api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data)
                 api.get('/categories/all').then(res => categories.value = res.data.data)
             } catch (e) {
-                console.error('Ошибка получения данных:', e);
-            }
-        }
-
-        const getUser = () => {
-
-            if (user.value.name) {
-
-                api.get(`users/${user.value.name}`).then(res => {
-                    if (res?.data?.user) {
-                        const data = res.data.user
-                        user.value.id = data.id
-                        user.value.name = data.name
-                        user.value.email = data.email
-                        user.value.phone = data.phone
-                        user.value.role_id = data.role_id
-                        user.value.isAuth = !!localStorage.getItem('access_token')
-                    }
-
-                })
+                console.error('Ошибка получения данных: ', e);
             }
         }
 
         onMounted(() => {
-            getCategories()
             getUser()
+            getCategories()
         })
 
 
         return {
-            isAuth,
             showSidebar,
             categories,
             messages,
-            getActiveTasks
+            getActiveTasks,
+            isAuth
         }
-    },
-
+    }
 }
+
 </script>
 
 <style scoped lang="scss">
