@@ -28,8 +28,7 @@ class TaskRepository extends BaseRepository
             ->whereNull('parent_id')
             ->ownerId($this->userId)
             ->with(['tags', 'children'])
-            ->get();
-
+            ->paginate(5);
         return $tasks;
     }
 

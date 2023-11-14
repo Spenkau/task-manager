@@ -4,7 +4,7 @@
             <TaskItem :task="task"/>
         </li>
     </ul>
-    <v-container v-if="tasks.length = 5">
+    <v-container v-if="tasks">
         <v-pagination
             v-model="currentPage"
             :length="totalPage"

@@ -5,12 +5,12 @@
     <template v-if="isAuth">
         <div class="body-main">
             <div class="left" @mousemove="showSidebar=true"></div>
-            <Sidebar v-if="showSidebar" @mouseleave="showSidebar=false">
-                <CategoryList :categories="categories.value"/>
-            </Sidebar>
+            <Sidebar v-if="showSidebar" @mouseleave="showSidebar = false"/>
             <section class="main">
                 <div class="active-task">
-                    <h2 class="list-header">Активные задачи</h2>
+                    <v-btn @click="() => getActiveTasks()" variant="text">
+                        <h2 class="list-header">Активные задачи</h2>
+                    </v-btn>
                     <Suspense>
                         <TaskList/>
                         <template #fallback>
@@ -38,11 +38,12 @@ import Sidebar from "../components/sidebar/Sidebar.vue";
 import DateTimePanel from "../components/widgets/DateTimePanel.vue";
 import CategoryList from "../components/sidebar/СategoryList.vue";
 import TaskList from "../components/TaskList/TaskList.vue";
-import {computed, onBeforeMount, onMounted, ref} from "vue";
+import {computed, onBeforeMount, onMounted, ref, toRefs} from "vue";
 import UserObservation from "../components/widgets/UserObservation.vue";
 import {useUserStore} from "../dict/store/store";
 import UserNotAuth from "../components/widgets/UserNotAuth.vue";
 import api from "../dict/axios/api";
+import {storeToRefs} from "pinia";
 
 export default {
     name: "Home",
@@ -51,14 +52,18 @@ export default {
         const showSidebar = ref(false)
         const messages = ref([])
 
+        const store = useUserStore()
+        const {user, tasks, categories, categoriesWithChildren} = storeToRefs(store)
 
-        const {user,tasks,categories,categoriesWithChildren} = useUserStore()
-        const isAuth = computed(() => user.isAuth)
+        const isAuth = computed(() => user.value.isAuth)
 
+        const getActiveTasks = () => {
+            api.get('tasks').then(res => tasks.value = res.data.data)
+        }
 
         const getCategories = () => {
             try {
-                api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data);
+                api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data)
                 api.get('/categories/all').then(res => categories.value = res.data.data)
             } catch (e) {
                 console.error('Ошибка получения данных:', e);
@@ -66,19 +71,20 @@ export default {
         }
 
         const getUser = () => {
-            if(user.name){
-                api.get(`users/${user.name}`).then(res => {
+
+            if (user.value.name) {
+
+                api.get(`users/${user.value.name}`).then(res => {
                     if (res?.data?.user) {
                         const data = res.data.user
-                        user.id = data.id
-                        user.name = data.name
-                        user.email = data.email
-                        user.phone = data.phone
-                        user.role_id = data.role_id
-                        user.isAuth = !!localStorage.getItem('access_token')
+                        user.value.id = data.id
+                        user.value.name = data.name
+                        user.value.email = data.email
+                        user.value.phone = data.phone
+                        user.value.role_id = data.role_id
+                        user.value.isAuth = !!localStorage.getItem('access_token')
                     }
 
-                    console.log(user)
                 })
             }
         }
@@ -93,7 +99,8 @@ export default {
             isAuth,
             showSidebar,
             categories,
-            messages
+            messages,
+            getActiveTasks
         }
     },
 
@@ -108,6 +115,7 @@ export default {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 15px;
+    width: 200px;
 }
 
 .main {

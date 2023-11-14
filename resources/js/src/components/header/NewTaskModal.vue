@@ -133,8 +133,6 @@ const newTag = ref('')
 const categoriesItems = ref([])
 const selectCategory = ref('')
 const prioritySelect = ref("")
-
-
 const tags = ref([])
 const tagsList = ref([])
 
