@@ -21,13 +21,11 @@ Route::group([
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
-//    Route::post('token', 'AuthController@authenticateWithToken');
     Route::post('me', [AuthController::class, 'me']);
 
     Route::group(['middleware' => 'jwt.auth'], function () {
 
         Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
-            Route::get('', [UserController::class, 'index']);
             Route::get('{username}', [UserController::class, 'show']);
         });
 
@@ -35,6 +33,7 @@ Route::group([
             Route::get('', [TaskController::class, 'index']);
 
             Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
+            Route::get('category_id/{id}', [TaskController::class, 'showByCategoryId']);
             Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
             Route::get('{task}', [TaskController::class, 'show']);
 
@@ -71,7 +70,3 @@ Route::group([
         });
     });
 });
-
-// TODO таблица task_user - таблица участников задания. Переименовать на members. Узнать нужна ли модель для этого
-// TODO чтобы получить все доступные задачи участнику $user->tasks. Чтобы получить всех участников задания
-//TODO $task->users;
