@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class TaskFilter extends AbstractFilter
 {
     public const TITLE = 'title';
+    public const CATEGORY_ID = 'category_id';
     public const PRIORITY_ID = 'priority_id';
     public const STATUS_ID = 'status_id';
     public const TAG_IDS = 'tag_ids';
@@ -18,6 +19,7 @@ class TaskFilter extends AbstractFilter
     {
         return [
             self::TITLE => [$this, 'title'],
+            self::CATEGORY_ID => [$this, 'categoryId'],
             self::PRIORITY_ID => [$this, 'priorityId'],
             self::STATUS_ID => [$this, 'statusId'],
             self::TAG_IDS => [$this, 'tagIds'],
@@ -27,6 +29,11 @@ class TaskFilter extends AbstractFilter
     public function title(Builder $builder, $value)
     {
         $builder->where('title', 'like', "%{$value}%");
+    }
+
+    public function categoryId(Builder $builder, $value)
+    {
+        $builder->where('category_id', $value);
     }
 
     public function priorityId(Builder $builder, $value)

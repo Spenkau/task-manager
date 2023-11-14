@@ -55,6 +55,7 @@ export default {
         const store = useUserStore()
         const {user, tasks, categories, categoriesWithChildren} = storeToRefs(store)
 
+
         const isAuth = computed(() => user.value.isAuth)
 
         const getActiveTasks = () => {
@@ -85,9 +86,53 @@ export default {
                         user.value.isAuth = !!localStorage.getItem('access_token')
                     }
 
+
+        const {user,categories,categoriesWithChildren} = useUserStore()
+        let isAuth = computed(() => user.isAuth)
+        console.log('III', isAuth)
+        const getUser = () => {
+            try {
+                api.post('/me').then(data => {
+                    if (data?.name) {
+                        user.id = data.id
+                        user.name = data.name
+                        user.email = data.email
+                        user.phone = data.phone
+                        user.role_id = data.role_id
+                        isAuth = true
+                    }
+
                 })
+            } catch (e) {
+                console.error("Что-то пошло не так: ", e)
             }
         }
+
+        const getCategories = () => {
+            try {
+                api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data);
+                api.get('/categories/all').then(res => categories.value = res.data.data)
+            } catch (e) {
+                console.error('Ошибка получения данных: ', e);
+            }
+        }
+
+
+            // if(user.name){
+            //     api.get(`users/${user.name}`).then(res => {
+            //         if (res?.data?.user) {
+            //             const data = res.data.user
+            //             user.id = data.id
+            //             user.name = data.name
+            //             user.email = data.email
+            //             user.phone = data.phone
+            //             user.role_id = data.role_id
+            //             user.isAuth = !!localStorage.getItem('access_token')
+            //         }
+            //
+            //         console.log(user)
+            //     })
+            // }
 
         onMounted(() => {
             getCategories()

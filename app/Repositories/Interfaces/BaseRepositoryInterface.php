@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Database\Eloquent\Model;
+
 interface BaseRepositoryInterface
 {
     /**
@@ -9,46 +11,41 @@ interface BaseRepositoryInterface
      *
      * @return mixed
      */
-    public function all();
+    public function allModels();
+
+    public function withChildrenModels(array $relations);
 
     /**
-     * Assign pagination to the selected model.
+     * Find a record by its ID
      *
-     * @param $paginate
-     * @return mixed
+     * @param $id
+     * @return Model|bool|null
      */
-    public function paginated($paginate);
+    public function findModel($id);
 
     /**
      * Create a new record in the repository.
      *
-     * @param $input
-     * @return mixed
+     * @param array $data
+     * @return Model|bool|null
      */
-    public function create($input);
-
-    /**
-     * Find a record by its ID.
-     *
-     * @param int $id
-     * @return mixed
-     */
-    public function find($id);
-
-    /**
-     * Delete a record from the repository.
-     *
-     * @param int $id
-     * @return mixed
-     */
-    public function destroy($id);
+    public function storeModel(array $data);
 
     /**
      * Update fields of selected record.
      *
-     * @param $id
-     * @param array $input
-     * @return mixed
+     * @param Model $model
+     * @param array $data
+     * @return Model|bool|null
      */
-    public function update($id, array $input);
+    public function updateModel(Model $model, array $data);
+
+    /**
+     * Delete a record from the repository.
+     *
+     * @param Model $model
+     * @return Model|bool|null
+     */
+    public function destroyModel(Model $model);
+
 }

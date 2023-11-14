@@ -4,6 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Category;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Model;
 
 interface CategoryRepositoryInterface
 {
@@ -11,9 +12,11 @@ interface CategoryRepositoryInterface
 
     public function withChildren();
 
-    public function store(mixed $data);
+    public function store(array $data);
 
-    public function update(mixed $data);
+    public function update(array $data);
 
     public function delete(int $id);
+
+    public function findOne(string $slug);
 }

@@ -47,7 +47,7 @@ class TaskController extends Controller
         $data['owner_id'] = auth()->user()->id;
 
         try {
-            $newTask = $this->taskService->store($data);
+            $newTask = new TaskResource($this->taskService->store($data));
 
             broadcast(new TaskCreateEvent($newTask))->toOthers();
 

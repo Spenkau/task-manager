@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 interface TagRepositoryInterface
 {
-    public function index();
+    public function index(): Model|bool|null;
 
-    public function store(mixed $data);
+    public function store(array $data);
 
-    public function update(mixed $data);
+    public function update(array $data);
 
     public function delete(int $id);
 }
