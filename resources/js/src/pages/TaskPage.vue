@@ -1,7 +1,7 @@
 <template>
     <div class="task-page">
         <div class="task-page-container">
-            <RouterLink to="/main"><i class="icon-arrow-back">иконка назад</i> Вернуться</RouterLink>
+            <RouterLink to="/"><i class="icon-arrow-back">иконка назад</i> Вернуться</RouterLink>
             <h1 class="task-name">{{ task.title }}</h1>
             <h2 class="task-category">категория {{ task.category_id }}</h2>
             <div class="task-options">
@@ -15,7 +15,14 @@
                     {{ dateTask }}
                 </p>
             </div>
-            <p class="task-content">{{ task.content }}</p>
+            <div class="task-content">
+                <p>{{ task.content }}</p>
+                <v-btn variant="tonal" color="#29a19c" @click="showReactions = true"><i class="icon-add_reaction">иконка</i></v-btn>
+            </div>
+            <v-dialog v-model="showReactions">
+                <AddReactionModal/>
+            </v-dialog>
+
             <div class="task-settings">
                 <button @click="show = true"><i class="icon-rewrite"></i> редатктировать</button>
 
@@ -42,17 +49,18 @@ import {fetchTaskByID} from "../contracts/сontracts";
 import CommentList from "../components/CommentList/CommentList.vue";
 import InputComment from "../components/CommentList/InputComment.vue";
 import EditTaskModal from "../components/widgets/EditTaskModal.vue";
-
+import AddReactionModal from "../components/widgets/AddReactionModal.vue";
 
 const route = useRoute();
 const taskId = route.params.id
 const router = useRouter()
 const task = ref({})
 const show = ref(false)
+const showReactions = ref(false)
 
 onBeforeMount(() => {
         fetchTaskByID(taskId)
-            .then(data => task.value = data.tasks)
+            .then(res => task.value = res.data)
     }
 )
 
@@ -86,6 +94,11 @@ const statusTask = computed(() => {
 @import "../../../css/general";
 
 
+
+.icon-add_reaction{
+    @include icon(35px,35px,"add_reaction")
+}
+
 .icon-arrow-back {
     @include icon(25px, 25px, "arrow-back");
 }
@@ -115,10 +128,17 @@ const statusTask = computed(() => {
 
 
 .task-content {
-    max-width: 920px;
-    font-size: 22px;
-    line-height: 35px;
-    text-align: justify;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    p{
+        width: 70%;
+        line-height: 35px;
+        text-align: justify;
+        font-size: 22px;
+    }
 }
 
 

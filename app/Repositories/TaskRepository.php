@@ -27,7 +27,7 @@ class TaskRepository extends BaseRepository
             ->with(['tags', 'children'])
             ->paginate(5);
     }
-
+  
     public function store(array $data)
     {
         $task = $this->storeModel($data['task']);

@@ -1,5 +1,5 @@
 <template>
-    <div class="tasks-container">
+    <div class="tasks-container" v-if="taskItem">
         <div class="item-task">
             <div class="task-card">
                 <div class="task-header">
@@ -15,7 +15,7 @@
                     </p>
                     <p class="task-card-category">
                         <v-icon color="success" icon="$vuetify" size="x-large"/>
-                        <span>{{ categoryNameByID }}</span>
+                        <span>{{ taskItem.category_id }}</span>
                     </p>
                     <div class="task-card-reaction">
                         <div class="reaction-content">
@@ -40,61 +40,58 @@
                 </div>
                 <div class="task-body">
                     <h3>
-                        <RouterLink :to="'/task/' + taskItem.id" >{{ taskItem.title }}</RouterLink>
+                        <RouterLink :to="'/user/' + user.name + '/task/' + taskItem.id">{{
+                                taskItem.title
+                            }}
+                        </RouterLink>
                     </h3>
                     <div>
-                        <ul class="tag-list">
-                            <li class="task-card-tag">
+                        <ul class="tag-list" v-if="taskItem.tags.length > 0">
+                            <li class="task-card-tag" v-for="(tag, key) in taskItem.tags" :key="key">
                                 <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>тег</span></RouterLink>
-<!--                                {{ taskItem.tag_id }}-->
-                            </li>
-                            <li class="task-card-tag">
-                                <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>тег</span></RouterLink>
-                                <!--                                {{ taskItem.tag_id }}-->
-                            </li>
-                            <li class="task-card-tag">
-                                <i class="icon-tag">иконка тега</i>
-                                <RouterLink to="/tags"><span>тег</span></RouterLink>
-                                <!--                                {{ taskItem.tag_id }}-->
+                                <RouterLink :to="'/user/'+ user.name +'/tags'"><span>{{ tag.name }}</span></RouterLink>
                             </li>
                         </ul>
                     </div>
-                    <i :class="'icon-priority_'+ taskItem.priority">иконка приоритета</i>
+                    <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
                 </div>
                 <div class="task-footer">
                     <DeleteTaskButton :taskID="taskItem.id"/>
-                    <button><i class="icon-rewrite"></i> редактировать</button>
+                    <button @click="show = true"><i class="icon-rewrite"></i> редактировать</button>
+                    <EditTaskModal v-if="show" :task="taskItem">
+                        <div class="overlay" @click="show = false"/>
+                    </EditTaskModal>
+
                     <button><i class="icon-share"></i> поделиться</button>
                     <button><i class="icon-postpone"></i> отложить</button>
                     <CompleteTaskButton :taskID="taskItem.id"/>
                 </div>
             </div>
         </div>
+        <div>
+            <ul>
+                <li v-for="(task, key) in taskItem.children" :key="key">
+                    <TaskItem :task="task"/>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import {ITask} from "../../interfaces/interfaces";
-import {ref, toRefs, computed, reactive} from "vue";
+import {ref, toRefs, computed, reactive, onMounted} from "vue";
 import CompleteTaskButton from "./СompleteTaskButton.vue";
 import DeleteTaskButton from "./DeleteTaskButton.vue";
 import {useUserStore} from "../../dict/store/store";
+import EditTaskModal from "../widgets/EditTaskModal.vue";
+import TaskItem from "./TaskItem.vue";
 
 const store = useUserStore()
-const categories = store.categories
-
-
+const {user, categories} = store
+const show = ref(false)
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
-
-const categoryNameByID = computed(()=>{
-    return categories.value.find(category => category.id === taskItem.value.category_id).name
-})
-
-
-
 
 
 const dateIsNull = computed(() => {
@@ -107,11 +104,11 @@ const dateIsNull = computed(() => {
 <style scoped lang="scss">
 @import "../../../../css/general";
 
-.task-card-date{
+.task-card-date {
     max-width: 140px;
 }
 
-.tag-list{
+.tag-list {
     display: flex;
     gap: 15px;
 }
@@ -179,16 +176,6 @@ const dateIsNull = computed(() => {
 }
 
 
-@keyframes filling {
-    0% {
-        width: 0;
-    }
-    100% {
-        width: 100%;
-    }
-
-}
-
 .activate {
     display: flex;
 }
@@ -235,7 +222,8 @@ const dateIsNull = computed(() => {
         width: 13px;
         height: 18px;
     }
-    i:first-child{
+
+    i:first-child {
         width: 19px;
         height: 19px;
     }
@@ -260,7 +248,6 @@ const dateIsNull = computed(() => {
 
     }
 }
-
 
 
 .task-list {

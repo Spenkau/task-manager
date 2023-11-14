@@ -12,6 +12,7 @@
             type="submit"
             text="Отправить"
             @click.prevent="postComment"
+            :disabled="!comment"
         ></v-btn>
     </div>
 </template>
@@ -20,6 +21,7 @@
 import {computed, ref} from "vue";
 import {useUserStore} from "../../dict/store/store";
 
+const props = defineProps(['id'])
 const comment = ref("")
 
 
@@ -31,6 +33,7 @@ const postComment = () => {
     const commentData = {
         user_id: store.user.id,
         user_name:store.user.name,
+        task_id:task.task.id,
         user_msg: userComment
 
     }

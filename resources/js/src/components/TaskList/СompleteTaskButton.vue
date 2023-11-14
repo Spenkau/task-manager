@@ -1,35 +1,60 @@
 <template>
   <div class="complete-task">
-    <button @click="() => completeTask()">
+    <button @click="dialog = true">
       <i class="icon-complete">завершить</i>
     </button>
+      <v-dialog width="500" v-model="dialog">
+          <v-card title="Завершить задачу">
+              <v-card-text>
+                  Вы уверены что хотите завершить задачу?
+              </v-card-text>
+              <v-card-actions>
+                  <v-btn
+                      text="Да"
+                      color="#29a19c"
+                      @click="() => completeTask()"
+                  >
+                  </v-btn>
+                  <v-btn
+                      text="Нет"
+                      @click="dialog = false"
+                  ></v-btn>
+              </v-card-actions>
+          </v-card>
+      </v-dialog>
   </div>
 </template>
 
 <script setup>
 import api from "../../dict/axios/api";
+import {ref, toRefs} from "vue";
+import {useUserStore} from "../../dict/store/store";
+import {formatISO8601DateTime} from "../../contracts/сontracts";
 
 const props = defineProps(['taskID'])
 const id = props.taskID
+const dialog = ref(false)
+const store = useUserStore()
+const {tasks} = toRefs(store)
 
-// TODO перенести функцию в более разумное место
-function formatISO8601DateTime(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
+const completeTask = async () => {
+    try {
+        const taskDeleteData = {id: id, status_id: 3, finished_at: formatISO8601DateTime(new Date())}
+        await api.post(`tasks/status_update`,taskDeleteData);
 
-  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+        tasks.value = tasks.value.filter(task => task.id !== id);
+
+        dialog.value = false;
+    } catch (error) {
+        console.error('Ошибка при завершения задачи:', error);
+
+    }
 }
 
-const taskDeleteData = {id: id, status_id: 3, finished_at: formatISO8601DateTime(new Date())}
 
-const completeTask = () => {
-  api.post('tasks/status_update', taskDeleteData).then(res => console.log(res))
-}
+
 </script>
+
 
 <style scoped lang="scss">
 .complete-task {

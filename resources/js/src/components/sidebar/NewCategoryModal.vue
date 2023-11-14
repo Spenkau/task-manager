@@ -1,56 +1,78 @@
 <template>
-    <slot></slot>
-    <div class="modal-category_container" >
-        <form id="category" class="decor" novalidate @submit.prevent="createCategory">
-        <div class="form-left-decoration"></div>
-        <div class="form-right-decoration"></div>
-        <div class="circle"></div>
-        <div class="form-inner">
-            <h3>Создать категорию</h3>
-            <div>
-                <v-text-field
-                    v-model="category"
-                    type="text"
-                    label="Название категории..."
-                    name="name"
-                    variant="solo-filled"
-                    :rules="rules"
-                    clearable
-                />
-            </div>
-            <v-btn width="100%" type="submit" text="Отправить" color="#29a19c"></v-btn>
+    <button type="button" @click="showModal = true">
+        <i class="icon-square-plus">иконка добавить задачу</i>
+        <span>Добавить</span>
+    </button>
+    <v-dialog class="overlay" v-model="showModal">
+        <div class="modal">
+            <form id="category" class="decor">
+                <div class="form-left-decoration"></div>
+                <div class="form-right-decoration"></div>
+                <div class="circle"></div>
+                <div class="form-inner">
+                    <h3>Создать категорию</h3>
+                    <div>
+                        <v-text-field
+                            v-model="category"
+                            label="Название категории..."
+                            variant="solo-filled"
+                            clearable
+                        />
+                        <v-select
+                            v-model="selectedParent"
+                            :items="categoriesSelect"
+                            label="К какой категории относиться?"
+                            clearable
+                            item-value="value"
+                            item-title="title"
+                            @click.stop
+                        />
+
+                    </div>
+                    <v-btn width="100%" type="submit" text="Отправить" color="#29a19c" @click.prevent="createCategory"></v-btn>
+                </div>
+            </form>
         </div>
-        </form>
-    </div>
+    </v-dialog>
 </template>
 
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import api from '../../dict/axios/api'
-const category = ref('')
-const rules = ref( [
-    value => !!value || 'Заполните!',
-    value => (value && value.length >= 3) || 'Минимум 3 буквы!',
-])
+import api from '../../dict/axios/api';
+import {useUserStore} from "../../dict/store/store.js";
+import {storeToRefs} from "pinia";
 
-const createCategory = computed(()=>{
-    api.post('/categories/store', {name:category.value, parent_id: null}).then(res => res.data)
+const category = ref('')
+const showModal = ref(false)
+const store = useUserStore()
+const activeCategory = ref(false)
+const {tasks, categories} = storeToRefs(store)
+const categoriesSelect = categories.value
+    .map((category) => {
+        return {
+            title: category.name,
+            value: category.id
+        }
+    })
+
+const selectedParent = ref('')
+const createCategory = computed(() => {
+    api.post('/categories/store', {name: category.value, parent_id: selectedParent.value}).then(res => res.data)
 })
 </script>
 
 <style scoped lang="scss">
 
 @import "../../../../css/general";
-
-.modal-category_container {
+.modal{
     position: fixed;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 7;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
 
+.modal-category_container {
     form {
-        min-width: 500px;
         background-color: $white;
         border-radius: 15px;
     }
@@ -58,8 +80,8 @@ const createCategory = computed(()=>{
 
 
 .decor {
+    width: 60vh;
     position: relative;
-    max-width: 400px;
     background: white;
     border-radius: 30px;
 }
@@ -69,7 +91,7 @@ const createCategory = computed(()=>{
     position: absolute;
     width: 50px;
     height: 20px;
-    background: #D0D0D6;
+    background: rgb(143, 143, 147);
     border-radius: 20px;
 }
 
@@ -89,7 +111,7 @@ const createCategory = computed(()=>{
     width: 50px;
     height: 20px;
     border-radius: 30px;
-    background: #FAFAFA;
+    background: white;
 }
 
 .form-left-decoration:before {
@@ -147,6 +169,25 @@ const createCategory = computed(()=>{
             border-left: 4px solid #175d5a;
         }
     }
+}
+
+.list__new-category {
+    margin-top: 30px;
+
+    button {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        color: $green;
+    }
+}
+
+.icon-category {
+    @include icon(5px, 5px, "category")
+}
+
+.icon-square-plus {
+    @include icon(20px, 20px, "square-plus");
 }
 
 </style>

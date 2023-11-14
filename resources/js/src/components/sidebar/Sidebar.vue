@@ -4,7 +4,7 @@
             <img src="images/icons/logo.svg" alt="logo">
         </div>
         <h2>Категории</h2>
-        <slot></slot>
+        <CategoryList/>
         <a class="logout" href="/signin"><i class="icon-logout">иконка выхода</i> Выйти</a>
     </div>
 </template>

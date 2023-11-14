@@ -1,21 +1,20 @@
 <template>
     <ul class="sidebar__list">
-        <li v-for="(categoryItem,key) in categories" :key="key">
-            <i class="icon-category"></i>
-            <button>{{ categoryItem.name }}</button>
+        <li v-for="(categoryItem,key) in categoriesWithChildren" :key="key">
+            <div class="category">
+                <button @click="() => getTaskByCategory(categoryItem.slug)">
+                    <i class="icon-category"></i>
+                    {{ categoryItem.name }}
+                    <i v-if="activeCategory" class="icon-active-category">иконка</i>
+                </button>
+            </div>
             <CategoryChildren
                 v-if="!!categoryItem.children"
                 :children="categoryItem.children"
             />
         </li>
         <li class="list__new-category">
-            <button type="button" @click="showModal = true">
-                <i class="icon-square-plus">иконка добавить задачу</i>
-                Добавить
-            </button>
-            <NewCategoryModal v-if="showModal">
-                <div class="modal-category__overlay" @click="showModal = false"/>
-            </NewCategoryModal>
+            <NewCategoryModal />
         </li>
     </ul>
 </template>
@@ -24,11 +23,18 @@
 import {computed, ref, toRefs} from "vue";
 import CategoryChildren from "./CategoryChildren.vue";
 import NewCategoryModal from "./NewCategoryModal.vue";
+import api from "../../dict/axios/api.js"
+import {useUserStore} from "../../dict/store/store.js";
+import {storeToRefs} from "pinia";
+
+const store = useUserStore()
+const activeCategory = ref(false)
+const {tasks, categoriesWithChildren} = storeToRefs(store)
 
 
-const props = defineProps(['categories'])
-const showModal = ref(false)
-
+const getTaskByCategory = (slug) => {
+    api.get(`/tasks/category/${slug}`).then(res => tasks.value = res.data.data)
+}
 
 
 </script>
@@ -36,26 +42,23 @@ const showModal = ref(false)
 <style scoped lang="scss">
 @import "../../../../css/general";
 
-.modal-category__overlay {
-    display: block;
-    position: fixed;
-    background-color: rgb(40, 40, 70, .2);
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 6;
-    font-size: 0;
+.category{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.icon-active-category{
+    @include icon(45px,10px, 'active_category')
+}
+
+
 
 .sidebar__list {
     padding-right: 7px;
 
     li {
         margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
         i{
             width: 20px;
             height: 20px;
