@@ -23,7 +23,7 @@ class TagRepository extends BaseRepository
 
     public function store(array $data)
     {
-        $data['owner_id'] = $this->user;
+        $data['owner_id'] = $this->userId;
 
         return $this->storeModel($data);
     }

@@ -24,8 +24,9 @@ class FilterRequest extends FormRequest
     {
         return [
             'title' => 'string',
-            'priority_id' => 'number',
-            'status_id' => 'number',
+            'category_id' => 'int',
+            'priority_id' => 'int',
+            'status_id' => 'int',
             'tag_ids' => 'array'
         ];
     }
