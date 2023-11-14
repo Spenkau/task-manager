@@ -2,11 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Enums\PriorityEnum;
-use App\Enums\RelationEnum;
 use App\Http\Filters\TaskFilter;
 use App\Models\Task;
-use App\Repositories\Interfaces\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class TaskRepository extends BaseRepository

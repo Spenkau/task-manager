@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Enums\RelationEnum;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryRepository extends BaseRepository
+class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {
     protected Model $model;
 
@@ -18,12 +18,12 @@ class CategoryRepository extends BaseRepository
         $this->model = $category;
     }
 
-    public function all()
+    public function all(): Collection
     {
         return $this->allModels();
     }
 
-    public function withChildren()
+    public function withChildren(): Collection
     {
         return
             $this->withChildrenModels(['children']);
@@ -31,42 +31,23 @@ class CategoryRepository extends BaseRepository
 
     public function store(array $data)
     {
-        $category = Category::where('name', $data['name']);
-
-        if (isset($category->id)) {
-            return ['message' => 'Category already exist!'];
-        }
-
         $data['owner_id'] = auth()->user()->id;
-        $response = $this->storeModel($data);
 
-        return ['message' => 'Category created', 'data' => $response];
+        return $this->storeModel($data);
     }
 
     public function update(array $data)
     {
         $category = $this->findModel($data['id']);
 
-        if (isset($category->id)) {
-            $response = $this->updateModel($category, $data);
-
-            return ['message' => 'Category updated!', 'data' => $response];
-        }
-
-        return ['message' => 'Something went wrong!'];
+        return $this->updateModel($category, $data);
     }
 
     public function delete(int $id)
     {
         $category = $this->findModel($id);
 
-        if (isset($category->id)) {
-            $response = $this->destroyModel($category);
-
-            return ['message' => 'Category deleted!', $response];
-        }
-
-        return ['message' => 'Something went wrong!'];
+        return $this->destroyModel($category);
     }
 
     public function findOne(string $slug)
