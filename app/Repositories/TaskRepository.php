@@ -24,33 +24,22 @@ class TaskRepository extends BaseRepository
     {
         $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
-        $tasks = Task::filter($filter)
+        return Task::filter($filter)
             ->whereNull('parent_id')
             ->ownerId($this->userId)
             ->with(['tags', 'children'])
-            ->get();
-
-        return $tasks;
+            ->paginate(5);
     }
-
-//    public function withChildren()
-//    {
-//        return Task::whereNull('parent_id')
-//            ->with('tags')
-//            ->ownerId($this->userId)
-//            ->paginate(5);
-//    }
 
     public function store(array $data)
     {
-        // TODO сделать разделение массивов
         $task = $this->storeModel($data['task']);
 
-        if ($data['tags'][0] === '') {
+        if ($data['tags'][0] !== '') {
             $this->attachTags($data['tags'], $task);
         }
 
-        $task->load(['children', 'tags']);
+        $task->load(['tags']);
 
         return $task;
     }

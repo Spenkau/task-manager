@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -17,9 +18,11 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function show(string $email)
+    public function show()
     {
-        $user = $this->userService->show($email);
+//        $user = $this->userService->show($email);
+
+        $user = JWTAuth::parseToken()->authenticate();
 
         try {
             return response()->json(['user' => $user]);

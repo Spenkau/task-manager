@@ -52,44 +52,60 @@ export default {
         const messages = ref([])
 
 
-        const {user,tasks,categories,categoriesWithChildren} = useUserStore()
+        const {user,categories,categoriesWithChildren} = useUserStore()
         const isAuth = computed(() => user.isAuth)
 
+        const getUser = () => {
+            try {
+                api.post('/me').then(data => {
+                    if (data?.name) {
+                        user.id = data.id
+                        user.name = data.name
+                        user.email = data.email
+                        user.phone = data.phone
+                        user.role_id = data.role_id
+                        user.isAuth = true
+                    }
+                })
+            } catch (e) {
+                console.error("Что-то пошло не так: ", e)
+            }
+        }
 
         const getCategories = () => {
             try {
                 api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data);
                 api.get('/categories/all').then(res => categories.value = res.data.data)
             } catch (e) {
-                console.error('Ошибка получения данных:', e);
+                console.error('Ошибка получения данных: ', e);
             }
         }
 
-        const getUser = () => {
-            if(user.name){
-                api.get(`users/${user.name}`).then(res => {
-                    if (res?.data?.user) {
-                        const data = res.data.user
-                        user.id = data.id
-                        user.name = data.name
-                        user.email = data.email
-                        user.phone = data.phone
-                        user.role_id = data.role_id
-                        user.isAuth = !!localStorage.getItem('access_token')
-                    }
 
-                    console.log(user)
-                })
-            }
-        }
+            // if(user.name){
+            //     api.get(`users/${user.name}`).then(res => {
+            //         if (res?.data?.user) {
+            //             const data = res.data.user
+            //             user.id = data.id
+            //             user.name = data.name
+            //             user.email = data.email
+            //             user.phone = data.phone
+            //             user.role_id = data.role_id
+            //             user.isAuth = !!localStorage.getItem('access_token')
+            //         }
+            //
+            //         console.log(user)
+            //     })
+            // }
+
+        onMounted(() => {
+            getUser()
+        })
 
         onMounted(() => {
             getCategories()
         })
 
-        onMounted(() => {
-            getUser()
-        })
 
         return {
             isAuth,

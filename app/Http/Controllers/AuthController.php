@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class AuthController extends Controller
 {
@@ -30,7 +31,11 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $remember = request()->has('remember');
+        $cookie = cookie('jwt_token', $token, $remember ? 1440 : null);
+
+
+        return $this->respondWithToken($token, $cookie);
     }
 
     /**
@@ -72,12 +77,12 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $cookie)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        ])->withCookie($cookie);
     }
 }
