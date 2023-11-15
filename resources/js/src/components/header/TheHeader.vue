@@ -9,7 +9,7 @@
                         Новая задача
                     </button>
                     <Teleport to="#app">
-                        <NewTaskModal v-if="newTaskModalShow">
+                        <NewTaskModal v-if="newTaskModalShow" :parentID="null">
                             <div class="overlay" @click="newTaskModalShow = false"/>
                         </NewTaskModal>
                     </Teleport>
