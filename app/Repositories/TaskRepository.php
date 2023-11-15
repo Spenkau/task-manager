@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Filters\TaskFilter;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class TaskRepository extends BaseRepository
@@ -21,11 +22,9 @@ class TaskRepository extends BaseRepository
     {
         $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
-        return Task::filter($filter)
-            ->whereNull('parent_id')
-            ->ownerId($this->userId)
-            ->with(['tags', 'children'])
-            ->paginate(5);
+        $query = Task::filter($filter);
+
+        return $this->applyRequest($query);
     }
 
     public function store(array $data)
@@ -36,7 +35,7 @@ class TaskRepository extends BaseRepository
             $this->attachTags($data['tags'], $task);
         }
 
-        $task->load(['tags']);
+        $task->load(['tags', 'children']);
 
         return $task;
     }
@@ -70,10 +69,9 @@ class TaskRepository extends BaseRepository
 
     public function showByCategory($categoryId)
     {
-        return Task::where('category_id', $categoryId)
-            ->with('tags')
-            ->ownerId($this->userId)
-            ->paginate(5);
+        $query = Task::where('category_id', $categoryId);
+
+        return $this->applyRequest($query);
     }
 
     public function filter(array $data)
@@ -108,11 +106,13 @@ class TaskRepository extends BaseRepository
         $task->refresh();
     }
 
-    public function applyRequest()
+    public function applyRequest(Builder $query)
     {
-        
+        return $query->whereNull('parent_id')
+            ->ownerId($this->userId)
+            ->paginate(5);
     }
-    
+
 //    public function filterTasks(string $field)
 //    {
 //        $tasks = QueryBuilder::for(Task::class)

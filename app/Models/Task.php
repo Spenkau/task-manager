@@ -18,8 +18,6 @@ class Task extends Model
 
     protected $table = 'tasks';
 
-    protected $dates = ['finished_at'];
-
     protected $guarded = false;
 
     public function parent(): BelongsTo
@@ -38,9 +36,9 @@ class Task extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function tags(): BelongsToMany
+    public function tags()
     {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
+        return $this->belongsToMany(Tag::class);
     }
 
     public function users(): BelongsToMany
@@ -57,4 +55,13 @@ class Task extends Model
     {
         return $query->where('owner_id', $userId);
     }
+
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::deleting(function ($task) {
+//            $task->tags()->detach();
+//        });
+//    }
 }
