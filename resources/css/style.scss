@@ -98,3 +98,11 @@
 .icon-bugs {
     @include icon(15px,15px, "bugs")
 }
+
+.icon-finish{
+    @include icon(25px,25px, "finish")
+}
+
+.icon-category_active{
+    @include icon(45px,20px, "active_category")
+}

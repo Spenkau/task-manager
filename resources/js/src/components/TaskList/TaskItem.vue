@@ -55,26 +55,39 @@
                     </div>
                     <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
                 </div>
-                <div class="task-footer">
-                    <DeleteTaskButton :taskID="taskItem.id"/>
-                    <button @click="show = true"><i class="icon-rewrite"></i> редактировать</button>
-                    <EditTaskModal v-if="show" :task="taskItem">
-                        <div class="overlay" @click="show = false"/>
-                    </EditTaskModal>
+                <div>
+                    <div class="task-footer">
+                        <DeleteTaskButton :taskID="taskItem.id"/>
+                        <button @click="show = true"><i class="icon-rewrite"></i> редактировать</button>
+                        <EditTaskModal v-if="show" :task="taskItem">
+                            <div class="overlay" @click="show = false"/>
+                        </EditTaskModal>
 
-                    <button><i class="icon-share"></i> поделиться</button>
-                    <button><i class="icon-postpone"></i> отложить</button>
-                    <CompleteTaskButton :taskID="taskItem.id"/>
+                        <button><i class="icon-share"></i> поделиться</button>
+                        <button><i class="icon-postpone"></i> отложить</button>
+                        <CompleteTaskButton :taskID="taskItem.id"/>
+                    </div>
+                    <div>
+                        <button
+                            v-if="taskItem.children.length"
+                            class="button-child-task"
+                            :class="isShowChildTask? 'hide':'show'"
+                            @click="isShowChildTask = !isShowChildTask"
+                        >{{isShowChildTask?'Скрыть':'Показать вложенные задачи'}}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div>
-            <ul class="children-list">
-                <li v-for="(task, key) in children || []" :key="key">
-                    <TaskItem :task="task"/>
-                </li>
-            </ul>
-        </div>
+        <Transition name="slide-fade">
+            <div v-if="isShowChildTask">
+                <ul class="children-list">
+                    <li v-for="(task, key) in children || []" :key="key">
+                        <TaskItem :task="task"/>
+                    </li>
+                </ul>
+            </div>
+        </Transition>
     </div>
 </template>
 
@@ -92,12 +105,11 @@ const {user, categories} = store
 const show = ref(false)
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
-
+const isShowChildTask = ref(false)
 
 const dateIsNull = computed(() => {
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
-console.log(taskItem.value)
 const children = computed(()=> taskItem.value.children)
 
 
@@ -106,8 +118,47 @@ const children = computed(()=> taskItem.value.children)
 <style scoped lang="scss">
 @import "../../../../css/general";
 
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.button-child-task{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    height: 30px;
+    padding: 10px;
+    &:hover{
+        color: white;
+        box-shadow: 0 0 1px 1px rgba(111,97,97,0.29) inset;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+}
+.show{
+    &:hover{background-color: rgba(41, 161, 156, .7);}
+}
+
+.hide{
+    &:hover{background-color: rgba(240, 84, 84, 0.7);}
+}
+
 .children-list{
-    padding: 0 30px;
+    padding: 35px;
+    background-color: rgba(41, 161, 156, .4);
+    border-radius: 10px;
 }
 
 .task-card-date {
@@ -121,13 +172,10 @@ const children = computed(()=> taskItem.value.children)
 
 .item-task {
     display: flex;
-    position: relative;
-    margin-bottom: 30px;
 }
 
 .task-card {
     width: 700px;
-    padding: 20px;
     background-color: $bg-white;
     border-radius: 10px;
     border: 1px solid rgba(41, 161, 156, 0.3);
@@ -192,6 +240,7 @@ const children = computed(()=> taskItem.value.children)
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    padding: 20px 20px 0;
 }
 
 .task-card-category {
@@ -211,6 +260,7 @@ const children = computed(()=> taskItem.value.children)
     align-items: center;
     margin-top: 25px;
     margin-bottom: 25px;
+    padding: 0 25px;
 
 
     h3 {
@@ -238,7 +288,7 @@ const children = computed(()=> taskItem.value.children)
 .task-footer {
     display: flex;
     justify-content: space-around;
-
+    padding-bottom: 20px;
     button {
         display: flex;
         align-items: center;
@@ -373,4 +423,5 @@ const children = computed(()=> taskItem.value.children)
         }
     }
 }
+
 </style>
