@@ -57,8 +57,9 @@ const deleteTask = async () => {
 .delete-task{
     display: flex;
     align-items: center;
-    &:hover{
-        transform: scale(1.25);
+    &:hover {
+        transform: scale(1.35);
+
     }
 }
 
