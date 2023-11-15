@@ -51,7 +51,7 @@ class TaskController extends Controller
         try {
             $newTask = new TaskResource($this->taskService->store($data));
 
-            Mail::to('kholyavskij@mail.ru')->send(new TaskReminder($newTask));
+//            Mail::to('kholyavskij@mail.ru')->send(new TaskReminder($newTask));
 
 
             broadcast(new TaskCreateEvent($newTask))->toOthers();
