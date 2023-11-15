@@ -149,7 +149,7 @@ watch(selectTag, () => {
 
 
 onMounted(async () => {
-    categoriesItems.value = categories.value.value.map(category => {
+    categoriesItems.value = categories.value.map(category => {
         return {
             title:category.name,
             value:category.id
@@ -183,7 +183,7 @@ const submitForm = () => {
             status_id:1,
             owner_id:userID.value
         },
-        tags:[selectTag.value]
+        tags: selectTag.value ? [selectTag.value] : []
     };
     console.log(selectTag)
     api.post('tasks/store', jsonData).then(res => tasks.value.unshift(res.data.data))

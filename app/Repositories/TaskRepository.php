@@ -31,7 +31,7 @@ class TaskRepository extends BaseRepository
     {
         $task = $this->storeModel($data['task']);
 
-        if ($data['tags'][0] !== '') {
+        if (!empty($data['tags'])) {
             $this->attachTags($data['tags'], $task);
         }
 
