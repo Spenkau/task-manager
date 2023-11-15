@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Tag;
 use App\Repositories\Interfaces\TagRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class TagRepository extends BaseRepository implements TagRepositoryInterface
@@ -17,7 +18,7 @@ class TagRepository extends BaseRepository implements TagRepositoryInterface
         $this->model = $tag;
     }
 
-    public function index(): Model|bool|null
+    public function index(): Collection
     {
         return $this->allModels();
     }

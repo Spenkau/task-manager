@@ -25,7 +25,7 @@ class TaskFactory extends Factory
             'category_id' => fake()->numberBetween(1, 3),
             'priority_id' => fake()->numberBetween(1, 3),
             'status_id' => fake()->numberBetween(1, 3),
-            'owner_id' => fake()->numberBetween(1, 3),
+            'owner_id' => 21,
             'parent_id' => null,
         ];
     }

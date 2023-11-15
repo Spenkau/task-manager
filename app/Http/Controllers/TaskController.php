@@ -11,12 +11,14 @@ use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
+use App\Mail\TaskReminder;
 use App\Models\Task;
 use App\Services\TaskService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Mail;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
@@ -48,6 +50,9 @@ class TaskController extends Controller
 
         try {
             $newTask = new TaskResource($this->taskService->store($data));
+
+//            Mail::to('kholyavskij@mail.ru')->send(new TaskReminder($newTask));
+
 
             broadcast(new TaskCreateEvent($newTask))->toOthers();
 

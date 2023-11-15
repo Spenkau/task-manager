@@ -25,7 +25,7 @@ export const fetchTaskByID = async (ID = "") => {
         if (res.status === 404) {
 
             // @ts-ignore
-            router.push("/404")
+            await router.push("/404")
         }
     } catch (e) {
         console.error('Ошибка получения данных', e)

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface TagRepositoryInterface
 {
-    public function index(): Model|bool|null;
+    public function index();
 
     public function store(array $data);
 

@@ -20,9 +20,9 @@ class AdminService
         $this->adminRepo = $adminRepo;
     }
 
-    public function getAllUsers()
+    public function getUsers()
     {
-        return $this->adminRepo->getAllUsers();
+        return $this->adminRepo->getUsers();
     }
 
 //    public function getUserData(string $username)
