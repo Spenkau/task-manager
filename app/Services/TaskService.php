@@ -55,11 +55,6 @@ class TaskService
         return $this->taskRepo->showByCategory($categoryId);
     }
 
-    public function filter(array $data)
-    {
-        return $this->taskRepo->filter($data);
-    }
-
     public function manageStatus(mixed $data)
     {
         return $this->taskRepo->manageStatus($data);

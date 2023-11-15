@@ -27,7 +27,7 @@ class TaskRepository extends BaseRepository
             ->with(['tags', 'children'])
             ->paginate(5);
     }
-  
+
     public function store(array $data)
     {
         $task = $this->storeModel($data['task']);
@@ -73,7 +73,7 @@ class TaskRepository extends BaseRepository
         return Task::where('category_id', $categoryId)
             ->with('tags')
             ->ownerId($this->userId)
-            ->get();
+            ->paginate(5);
     }
 
     public function filter(array $data)
@@ -108,6 +108,11 @@ class TaskRepository extends BaseRepository
         $task->refresh();
     }
 
+    public function applyRequest()
+    {
+        
+    }
+    
 //    public function filterTasks(string $field)
 //    {
 //        $tasks = QueryBuilder::for(Task::class)

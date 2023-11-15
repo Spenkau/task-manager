@@ -23,6 +23,6 @@ class AdminController extends Controller
 
     public function index()
     {
-        $users = $this->adminService->getAllUsers();
+        $users = $this->adminService->getUsers();
     }
 }
