@@ -1,6 +1,5 @@
 <?php
 
-use App\Broadcasting\ChatChannel;
 use App\Broadcasting\TaskChannel;
 use Illuminate\Support\Facades\Broadcast;
 

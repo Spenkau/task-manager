@@ -20,7 +20,10 @@ class TaskResource extends JsonResource
             'id' => $this['id'],
             'title' => $this['title'],
             'content' => $this['content'],
-            'category_id' => $this['category_id'],
+            'category' => [
+                'id' => $this->category->id,
+                'name' => $this->category->name
+            ],
             'priority_id' => $this['priority_id'],
             'status_id' => $this['status_id'],
             'parent_id' => $this['parent_id'],

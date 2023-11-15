@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('category_id')->unsigned();
             $table->integer('priority_id')->unsigned();
             $table->integer('status_id')->unsigned()->default(1);
             $table->unsignedBigInteger('parent_id')->nullable();
