@@ -9,7 +9,9 @@ export const useUserStore = defineStore('user', () => {
         name:null,
         email:null,
         role_id:null,
-        isAuth:null
+        isAuth: localStorage.getItem('is_auth')? (
+            JSON.parse(localStorage.getItem('is_auth'))
+        ):false
     })
     const tasks = ref<Tasks | []>([])
 
