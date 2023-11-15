@@ -3,12 +3,13 @@
         <div class="header">
             <template v-if="isAuth">
                 <div class="header__buttons">
+                    <slot></slot>
                     <button class="button__create-task" type="button" @click="newTaskModalShow = true">
                         <i class="icon-plus"> иконка плюса </i>
                         Новая задача
                     </button>
                     <Teleport to="#app">
-                        <NewTaskModal v-if="newTaskModalShow">
+                        <NewTaskModal v-if="newTaskModalShow" :parentID="null">
                             <div class="overlay" @click="newTaskModalShow = false"/>
                         </NewTaskModal>
                     </Teleport>

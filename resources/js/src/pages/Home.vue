@@ -1,15 +1,19 @@
 <template>
     <TheHeader>
-        <i class="icon-sidebar-open" @mousemove="showSidebar = true"> открыть сайдбар </i>
+        <v-btn @mousemove="showSidebar = true" class="icon-sidebar-open" variant="text">
+            <i> открыть сайдбар </i>
+        </v-btn>
     </TheHeader>
     <template v-if="isAuth">
         <div class="body-main">
-            <div class="left" @mousemove="showSidebar=true"></div>
-            <Sidebar v-if="showSidebar" @mouseleave="showSidebar = false"/>
+            <Sidebar v-if="showSidebar">
+                <div class="sidebar-overlay" @mousemove="showSidebar = false">
+                </div>
+            </Sidebar>
             <section class="main">
                 <div class="active-task">
-                    <v-btn @click="() => getActiveTasks()" variant="text">
-                        <h2 class="list-header">Активные задачи</h2>
+                    <v-btn @click="() => getActiveTasks()" variant="text" color="#29a19c">
+                        <span class="list-header">Активные задачи</span>
                     </v-btn>
                     <Suspense>
                         <TaskList/>
@@ -108,12 +112,21 @@ export default {
 <style scoped lang="scss">
 @import "../../../css/general";
 
+
+.sidebar-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 3;
+}
+
 .list-header {
     color: $green;
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 15px;
-    width: 200px;
 }
 
 .main {
@@ -126,8 +139,8 @@ export default {
     position: fixed;
     left: 20px;
     top: 40px;
-    @include icon(30px, 30px, "open_sb");
-    z-index: 3;
+    i{@include icon(30px, 30px, "open_sb");}
+    z-index: 4;
 }
 
 </style>

@@ -1,11 +1,14 @@
 <template>
-    <div class="sidebar">
-        <div class="sidebar__logo">
-            <img src="images/icons/logo.svg" alt="logo">
+    <div>
+        <div class="sidebar">
+            <div class="sidebar__logo">
+                <img src="images/icons/logo.svg" alt="logo">
+            </div>
+            <h2>Категории</h2>
+            <CategoryList/>
+            <a class="logout" href="/signin"><i class="icon-logout">иконка выхода</i> Выйти</a>
         </div>
-        <h2>Категории</h2>
-        <CategoryList/>
-        <a class="logout" href="/signin"><i class="icon-logout">иконка выхода</i> Выйти</a>
+        <slot></slot>
     </div>
 </template>
 
@@ -21,18 +24,19 @@ export default {
 <style scoped lang="scss">
 @import "../../../../css/general";
 
+
 .sidebar {
     background-color: $abs-white;
     min-width: 300px;
     padding: 20px 0 20px 20px;
-    transition: left 350ms ease;
     position: fixed;
     z-index: 5;
     top: 0;
     left: 0;
     height: 100%;
     overflow-y: scroll;
-    box-shadow: 200px -1px 400px 60px rgba(0,0,0,0.36);
+    animation: sidebar 230ms ease;
+
 
     &::-webkit-scrollbar {
         width: 0;
@@ -56,6 +60,17 @@ export default {
         i {
             transform: rotate(180deg);
         }
+    }
+}
+
+@keyframes sidebar {
+    0%{
+        left: -2000px;
+        opacity: 0;
+    }
+    100%{
+        left: 0;
+        opacity: 1;
     }
 }
 

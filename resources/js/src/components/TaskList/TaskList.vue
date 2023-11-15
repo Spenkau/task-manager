@@ -32,6 +32,7 @@ let tasksData = await fetchTaskByPage(currentPage.value)
 const totalPage = ref(Number(tasksData.meta.last_page))
 tasks.value = tasksData.data
 
+
 watchEffect(async () => {
     const tasksData = await fetchTaskByPage(currentPage.value);
     tasks.value = tasksData.data;
@@ -40,5 +41,9 @@ watchEffect(async () => {
 </script>
 
 <style scoped lang="scss">
-
+ul{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
 </style>

@@ -135,7 +135,7 @@ const selectCategory = ref('')
 const prioritySelect = ref("")
 const tags = ref([])
 const tagsList = ref([])
-
+const props = defineProps(['parentID'])
 
 
 watch(selectTag, () => {
@@ -181,9 +181,10 @@ const submitForm = () => {
             finished_at:finishedAt.value,
             priority_id:prioritySelect.value,
             status_id:1,
-            owner_id:userID.value
+            owner_id:userID.value,
+            parent_id:props.parentID
         },
-        tags: selectTag.value ? [selectTag.value] : []
+        tags:selectTag.value?[selectTag.value]:[]
     };
     console.log(selectTag)
     api.post('tasks/store', jsonData).then(res => tasks.value.unshift(res.data.data))

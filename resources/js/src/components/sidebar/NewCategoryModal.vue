@@ -29,7 +29,7 @@
                         />
 
                     </div>
-                    <v-btn width="100%" type="submit" text="Отправить" color="#29a19c" @click.prevent="createCategory"></v-btn>
+                    <v-btn width="100%" type="submit" text="Отправить" color="#29a19c" @click="createCategory"></v-btn>
                 </div>
             </form>
         </div>
@@ -56,9 +56,9 @@ const categoriesSelect = categories.value
     })
 
 const selectedParent = ref('')
-const createCategory = computed(() => {
+const createCategory = () => {
     api.post('/categories/store', {name: category.value, parent_id: selectedParent.value}).then(res => res.data)
-})
+}
 </script>
 
 <style scoped lang="scss">

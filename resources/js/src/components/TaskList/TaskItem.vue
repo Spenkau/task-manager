@@ -1,79 +1,103 @@
 <template>
-    <div class="tasks-container" v-if="taskItem">
-        <div class="item-task">
-            <div class="task-card">
-                <div class="task-header">
-                    <p class="task-card-date">
+    <div>
+        <div class="tasks-container" v-if="taskItem">
+            <div class="item-task">
+                <div class="task-card">
+                    <div class="task-header">
+                        <div class="task-card-date">
                         <span v-if="dateIsNull">
                             Дата не указана
                         </span>
-                        <template v-else>
-                            <span>{{ taskItem.started_at }}</span>
-                            по
-                            <span>{{ taskItem.finished_at }}</span>
-                        </template>
-                    </p>
-                    <p class="task-card-category">
-                        <v-icon color="success" icon="$vuetify" size="x-large"/>
-                        <span>{{ taskItem.category_id }}</span>
-                    </p>
-                    <div class="task-card-reaction">
-                        <div class="reaction-content">
-                            <a href="/user/1">
-                                <img src="/images/reaction/reaction_13.png" alt="реакция">
-                            </a>
-                            <span>3</span>
+                            <template v-else>
+                                <div class="date">
+                                    <span>{{ taskItem.started_at }}</span>
+                                    <p>по</p>
+                                    <span>{{ taskItem.finished_at }}</span>
+                                </div>
+                            </template>
                         </div>
-                        <div class="reaction-content">
-                            <a href="/user/1">
-                                <img src="/images/reaction/reaction_14.png" alt="реакция">
-                            </a>
-                            <span>6</span>
-                        </div>
-                        <div class="reaction-content">
-                            <a href="/user/1">
-                                <img src="/images/reaction/reaction_10.png" alt="реакция">
-                            </a>
-                            <span>2</span>
+                        <p class="task-card-category">
+                            <v-icon color="success" icon="$vuetify" size="x-large"/>
+                            <span>{{ taskItem.category_id }}</span>
+                        </p>
+                        <div class="task-card-reaction">
+                            <div class="reaction-content">
+                                <a href="/user/1">
+                                    <img src="/images/reaction/reaction_13.png" alt="реакция">
+                                </a>
+                                <span>3</span>
+                            </div>
+                            <div class="reaction-content">
+                                <a href="/user/1">
+                                    <img src="/images/reaction/reaction_14.png" alt="реакция">
+                                </a>
+                                <span>6</span>
+                            </div>
+                            <div class="reaction-content">
+                                <a href="/user/1">
+                                    <img src="/images/reaction/reaction_10.png" alt="реакция">
+                                </a>
+                                <span>2</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="task-body">
-                    <h3>
-                        <RouterLink :to="'/user/' + user.name + '/task/' + taskItem.id">{{
-                                taskItem.title
-                            }}
-                        </RouterLink>
-                    </h3>
+                    <div class="task-body">
+                        <h3>
+                            <RouterLink :to="'/user/' + user.name + '/task/' + taskItem.id">{{
+                                    taskItem.title
+                                }}
+                            </RouterLink>
+                        </h3>
+                        <button @click="addChild = true">
+                            Добавить подзадачу
+                        </button>
+                        <NewTaskModal v-if="addChild" :parentID="taskItem.id">
+                            <div class="overlay" @click="addChild = false"></div>
+                        </NewTaskModal>
+                        <div>
+                            <ul class="tag-list" v-if="taskItem.tags && taskItem.tags.length > 0">
+                                <li class="task-card-tag" v-for="(tag, key) in taskItem.tags || []" :key="key">
+                                    <i class="icon-tag">иконка тега</i>
+                                    <RouterLink :to="'/user/'+ user.name +'/tags'"><span>{{ tag.name }}</span>
+                                    </RouterLink>
+                                </li>
+                            </ul>
+                        </div>
+                        <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
+                    </div>
                     <div>
-                        <ul class="tag-list" v-if="taskItem.tags && taskItem.tags.length > 0">
-                            <li class="task-card-tag" v-for="(tag, key) in taskItem.tags || []" :key="key">
-                                <i class="icon-tag">иконка тега</i>
-                                <RouterLink :to="'/user/'+ user.name +'/tags'"><span>{{ tag.name }}</span></RouterLink>
-                            </li>
-                        </ul>
-                    </div>
-                    <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
-                </div>
-                <div class="task-footer">
-                    <DeleteTaskButton :taskID="taskItem.id"/>
-                    <button @click="show = true"><i class="icon-rewrite"></i> редактировать</button>
-                    <EditTaskModal v-if="show" :task="taskItem">
-                        <div class="overlay" @click="show = false"/>
-                    </EditTaskModal>
+                        <div class="task-footer">
+                            <DeleteTaskButton :taskID="taskItem.id"/>
+                            <button @click="show = true"><i class="icon-rewrite"></i> редактировать</button>
+                            <EditTaskModal v-if="show" :task="taskItem">
+                                <div class="overlay" @click="show = false"/>
+                            </EditTaskModal>
 
-                    <button><i class="icon-share"></i> поделиться</button>
-                    <button><i class="icon-postpone"></i> отложить</button>
-                    <CompleteTaskButton :taskID="taskItem.id"/>
+                            <button><i class="icon-share"></i> поделиться</button>
+                            <button><i class="icon-postpone"></i> отложить</button>
+                            <CompleteTaskButton :taskID="taskItem.id"/>
+                        </div>
+                        <div>
+                            <button
+                                v-if="taskItem.children.length"
+                                class="button-child-task"
+                                :class="isShowChildTask? 'hide':'show'"
+                                @click="isShowChildTask = !isShowChildTask"
+                            >{{ isShowChildTask ? 'Скрыть' : 'Показать вложенные задачи' }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <ul class="children-list">
-                <li v-for="(task, key) in children || []" :key="key">
-                    <TaskItem :task="task"/>
-                </li>
-            </ul>
+            <Transition name="slide-fade">
+                <div v-if="isShowChildTask">
+                    <ul class="children-list">
+                        <li v-for="(task, key) in children || []" :key="key">
+                            <TaskItem :task="task"/>
+                        </li>
+                    </ul>
+                </div>
+            </Transition>
         </div>
     </div>
 </template>
@@ -86,32 +110,94 @@ import DeleteTaskButton from "./DeleteTaskButton.vue";
 import {useUserStore} from "../../dict/store/store";
 import EditTaskModal from "../widgets/EditTaskModal.vue";
 import TaskItem from "./TaskItem.vue";
+import NewTaskModal from "../header/NewTaskModal.vue";
 
 const store = useUserStore()
 const {user, categories} = store
 const show = ref(false)
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task as ITask);
-
+const isShowChildTask = ref(false)
 
 const dateIsNull = computed(() => {
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
-console.log(taskItem.value)
-const children = computed(()=> taskItem.value.children)
+const children = computed(() => taskItem.value.children)
+const addChild = ref(false)
 
 
 </script>
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgb(40, 40, 70, .2);;
+}
 
-.children-list{
-    padding: 0 30px;
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.button-child-task {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    height: 30px;
+    padding: 10px;
+
+    &:hover {
+        color: white;
+        box-shadow: 0 0 1px 1px rgba(111, 97, 97, 0.29) inset;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+}
+
+.show {
+    &:hover {
+        background-color: rgba(41, 161, 156, .7);
+    }
+}
+
+.hide {
+    &:hover {
+        background-color: rgba(240, 84, 84, 0.7);
+    }
+}
+
+.children-list {
+    padding: 35px;
+    background-color: rgba(41, 161, 156, .4);
+    border-radius: 10px;
 }
 
 .task-card-date {
-    max-width: 140px;
+    max-width: 160px;
+    p{
+        margin: 5px 0;
+    }
+    span {
+        display: flex;
+        flex-wrap: nowrap;
+    }
 }
 
 .tag-list {
@@ -121,13 +207,10 @@ const children = computed(()=> taskItem.value.children)
 
 .item-task {
     display: flex;
-    position: relative;
-    margin-bottom: 30px;
 }
 
 .task-card {
     width: 700px;
-    padding: 20px;
     background-color: $bg-white;
     border-radius: 10px;
     border: 1px solid rgba(41, 161, 156, 0.3);
@@ -192,6 +275,7 @@ const children = computed(()=> taskItem.value.children)
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+    padding: 20px 20px 0;
 }
 
 .task-card-category {
@@ -211,6 +295,7 @@ const children = computed(()=> taskItem.value.children)
     align-items: center;
     margin-top: 25px;
     margin-bottom: 25px;
+    padding: 0 25px;
 
 
     h3 {
@@ -238,6 +323,7 @@ const children = computed(()=> taskItem.value.children)
 .task-footer {
     display: flex;
     justify-content: space-around;
+    padding-bottom: 20px;
 
     button {
         display: flex;
@@ -373,4 +459,5 @@ const children = computed(()=> taskItem.value.children)
         }
     }
 }
+
 </style>
