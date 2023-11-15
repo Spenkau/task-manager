@@ -63,7 +63,6 @@ export default {
         const getUser = () => {
             try {
                 api.post('/me').then(res => {
-
                     if (res?.data?.name) {
                         user.value.id = res.data.id
                         user.value.name = res.data.name

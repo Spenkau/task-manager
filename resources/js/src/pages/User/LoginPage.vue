@@ -43,6 +43,11 @@
                 <v-card-actions>
                     <v-spacer v-if="errorMessage">{{ errorMessage }}</v-spacer>
                     <v-btn type="submit" text="Отправить" @click.prevent="authUser"/>
+                    <v-checkbox
+                        v-model="rememberMe"
+                        label="Запомнить меня"
+                        color="#29a19c"
+                    ></v-checkbox>
                 </v-card-actions>
             </v-form>
         </v-card>
@@ -59,6 +64,7 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('')
 import {useUserStore} from "../../dict/store/store";
+const rememberMe = ref(false)
 
 
 const store = useUserStore()
@@ -81,7 +87,9 @@ const authUser = () => {
         .then(res => {
             if (res.data) {
                 localStorage.setItem('access_token', res.data.access_token)
-                store.user.name = email.value
+                if(rememberMe.value) {
+                    localStorage.setItem('is_auth', JSON.stringify(true))
+                }
                 router.push('/')
             }
         })

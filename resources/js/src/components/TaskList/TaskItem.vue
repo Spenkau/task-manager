@@ -46,8 +46,8 @@
                         </RouterLink>
                     </h3>
                     <div>
-                        <ul class="tag-list" v-if="taskItem.tags.length > 0">
-                            <li class="task-card-tag" v-for="(tag, key) in taskItem.tags" :key="key">
+                        <ul class="tag-list" v-if="taskItem.tags && taskItem.tags.length > 0">
+                            <li class="task-card-tag" v-for="(tag, key) in taskItem.tags || []" :key="key">
                                 <i class="icon-tag">иконка тега</i>
                                 <RouterLink :to="'/user/'+ user.name +'/tags'"><span>{{ tag.name }}</span></RouterLink>
                             </li>
@@ -69,8 +69,8 @@
             </div>
         </div>
         <div>
-            <ul>
-                <li v-for="(task, key) in taskItem.children" :key="key">
+            <ul class="children-list">
+                <li v-for="(task, key) in children || []" :key="key">
                     <TaskItem :task="task"/>
                 </li>
             </ul>
@@ -97,12 +97,18 @@ const taskItem = computed(() => task.task as ITask);
 const dateIsNull = computed(() => {
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
+console.log(taskItem.value)
+const children = computed(()=> taskItem.value.children)
 
 
 </script>
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.children-list{
+    padding: 0 30px;
+}
 
 .task-card-date {
     max-width: 140px;
