@@ -18,7 +18,7 @@
                         </div>
                         <p class="task-card-category">
                             <v-icon color="success" icon="$vuetify" size="x-large"/>
-                            <span>{{ taskItem.category_id }}</span>
+                            <span>{{ 'taskItem.category.name' }}</span>
                         </p>
                         <div class="task-card-reaction">
                             <div class="reaction-content">
@@ -123,6 +123,7 @@ const dateIsNull = computed(() => {
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
 const children = computed(() => taskItem.value.children)
+const childrenNotNull = computed(() => !!taskItem.value.children)
 const addChild = ref(false)
 
 
@@ -130,6 +131,7 @@ const addChild = ref(false)
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
 .overlay {
     position: fixed;
     left: 0;
@@ -184,16 +186,21 @@ const addChild = ref(false)
 }
 
 .children-list {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
     padding: 35px;
-    background-color: rgba(41, 161, 156, .4);
+    background-color: rgba(41, 161, 156, .05);
     border-radius: 10px;
 }
 
 .task-card-date {
     max-width: 160px;
-    p{
+
+    p {
         margin: 5px 0;
     }
+
     span {
         display: flex;
         flex-wrap: nowrap;
