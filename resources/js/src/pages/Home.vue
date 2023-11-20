@@ -19,7 +19,7 @@
                         <TaskList/>
                         <template #fallback>
                             <p>
-                                ожидание
+                                <Loader/>
                             </p>
                         </template>
                     </Suspense>
@@ -27,6 +27,7 @@
                 <v-container>
                     <DateTimePanel/>
                     <UserObservation/>
+                    <UserAchievements/>
                 </v-container>
             </section>
         </div>
@@ -48,53 +49,28 @@ import {useUserStore} from "../dict/store/store";
 import UserNotAuth from "../components/widgets/UserNotAuth.vue";
 import api from "../dict/axios/api";
 import {storeToRefs} from "pinia";
+import Loader from "../components/widgets/Loader.vue";
+import UserAchievements from "../components/widgets/UserAchievements.vue";
 
 export default {
     name: "Home",
-    components: {UserNotAuth, UserObservation, TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
+    components: {
+        UserAchievements,
+        Loader, UserNotAuth, UserObservation, TaskList, CategoryList, DateTimePanel, Sidebar, TheHeader},
     setup() {
         const showSidebar = ref(false)
         const messages = ref([])
 
         const store = useUserStore()
-        const {user, tasks, categories, categoriesWithChildren} = storeToRefs(store)
+        const {user, tasks, categories, categoriesWithChildren, activeCategory} = storeToRefs(store)
         const isAuth = computed(() => user.value.isAuth)
 
         const getActiveTasks = () => {
+            activeCategory.value = 0
             api.get('tasks').then(res => tasks.value = res.data.data)
         }
 
-        const getUser = () => {
-            try {
-                api.post('/me').then(res => {
-                    if (res?.data?.name) {
-                        user.value.id = res.data.id
-                        user.value.name = res.data.name
-                        user.value.email = res.data.email
-                        user.value.phone = res.data.phone
-                        user.value.role_id = res.data.role_id
-                        user.value.isAuth = true
-                    }
-                })
-                console.log(user.value)
-            } catch (e) {
-                console.error("Что-то пошло не так: ", e)
-            }
-        }
 
-        const getCategories = () => {
-            try {
-                api.get('/categories/with_children').then(res => categoriesWithChildren.value = res.data.data)
-                api.get('/categories/all').then(res => categories.value = res.data.data)
-            } catch (e) {
-                console.error('Ошибка получения данных: ', e);
-            }
-        }
-
-        onMounted(() => {
-            getUser()
-            getCategories()
-        })
 
 
         return {

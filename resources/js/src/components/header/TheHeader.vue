@@ -13,8 +13,6 @@
                             <div class="overlay" @click="newTaskModalShow = false"/>
                         </NewTaskModal>
                     </Teleport>
-                    <button class="button__change-color-mode"><i class="icon-moon"> Переключатель цветового режима </i>
-                    </button>
                 </div>
                 <div class="header__container">
                     <slot></slot>

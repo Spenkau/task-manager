@@ -24,29 +24,25 @@
             <form class="personal-area_body-info">
                 <div class="form-header">
                     <div class="avatar" id="avatar">
-                        <img src="public/images/avatar.png" alt="User Avatar" id="avatar-img">
+                        <img src="../../../../public/images/avatar.png" alt="User Avatar" id="avatar-img">
                         <input type="file" id="avatar-input" accept="image/*" style="display: none">
                     </div>
-                    <button id="change-avatar"><i class="icon-change">Изменить аватар</i></button>
                     <div>
                         <div class="user-name">
-                            <v-text-field name="username" label="sdsd"></v-text-field>
-                            <button type="button" class="button-edit"><i class="icon-edit">редактировать</i></button>
+                            <v-text-field name="username" :label="user.name"></v-text-field>
                         </div>
                     </div>
-<!--                    <UserAchievements/>-->
                 </div>
                 <div class="user-about">
                     <div>
-                        <textarea name="user-desc" cols="30" rows="10" maxlength="255" disabled="disabled">Я Такой такой то человек, у меня много много дел</textarea>
+                        <v-textarea name="user-desc" cols="30" rows="10" maxlength="255" label="Я Такой такой то человек, у меня много много дел"></v-textarea>
                         <p class="about-length len-hidden">Длина рассказа: <span></span>/255</p>
                     </div>
-                    <button type="button" class="button-edit"><i class="icon-edit">редактировать</i></button>
                 </div>
             </form>
 
             <ul class="user-task-list">
-                <li v-for="(userTask,key) in userTasks" :key="key">
+                <li v-for="(userTask,key) in tasks" :key="key">
                     <MiniTaskCard :task="userTask"/>
                 </li>
             </ul>
@@ -60,19 +56,17 @@ import {onMounted, ref} from "vue";
 import {fetchTaskByPage} from "../contracts/сontracts";
 import MiniTaskCard from "../components/widgets/MiniTaskCard.vue";
 import {useUserStore} from "../dict/store/store";
+import {storeToRefs} from "pinia";
 
 const userTasks = ref([])
 
 const store = useUserStore()
-const user = store.user
+const {user, tasks} = storeToRefs(store)
+
+console.log(tasks.value)
 
 
 
-
-onMounted(async () => {
-    const tasksData = await fetchTaskByPage(1)
-    userTasks.value = tasksData.data
-})
 
 onMounted(() => {
     try {
@@ -101,7 +95,8 @@ onMounted(() => {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+    width: 90%;
 }
 
 .icon-edit {
@@ -141,6 +136,7 @@ onMounted(() => {
     padding-right: 30px;
     padding-top: 30px;
     padding-left: 30px;
+    height: fit-content;
 
     li {
         display: flex;
@@ -158,7 +154,7 @@ onMounted(() => {
 
 .personal-area_body {
     width: 100%;
-    padding: 30px;
+    padding: 30px 30px 30px 100px;
 }
 
 .personal-area_body-info {
@@ -192,14 +188,14 @@ onMounted(() => {
     display: flex;
     gap: 30px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    width: 80%;
     margin-bottom: 40px;
 }
 
 .user-about {
-    display: flex;
-    justify-content: center;
     padding-top: 30px;
+    width: 90%;
 
     textarea {
         resize: none;

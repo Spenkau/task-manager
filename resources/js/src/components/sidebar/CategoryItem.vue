@@ -1,9 +1,9 @@
 <template>
-    <div class="category" v-if="category" :class="activeCategory && 'active'">
+    <div class="category" v-if="category" :class="activeCategory.id === category.id && 'active'">
         <button @click="getTaskByCategory">
             <i class="icon-category">иконка категории</i>
             {{ category.name }}
-            <i v-if="activeCategory" class="icon-category_active">иконка категории</i>
+            <i v-if="activeCategory === category.id" class="icon-category_active">иконка категории</i>
         </button>
         <ul v-if="!!category.children" class="category-child-list">
             <li v-for="(category,key) in category.children" :key="key" class="child-item">
@@ -18,24 +18,31 @@
 import api from "../../dict/axios/api";
 import {useUserStore} from "../../dict/store/store";
 import {storeToRefs} from "pinia";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 
 const props = defineProps(['category'])
 const category = ref(props.category)
 const store = useUserStore()
-const {tasks} = storeToRefs(store)
-const activeCategory = ref(false)
+const {tasks,activeCategory} = storeToRefs(store)
 
 const getTaskByCategory = () => {
-    if (activeCategory.value) {
-        activeCategory.value = false;
-        api.get('/tasks').then((res) => {tasks.value = res.data.data})
-    } else {
-        activeCategory.value = true;
-        api.get(`/tasks/category/${category.value.slug}`).then((res) => (tasks.value = res.data.data));
-    }
+    activeCategory.value = category.value.id
+
+    api.get(`/tasks/category/${category.value.slug}`).then((res) => (tasks.value = res.data.data));
+
+    // if (isActiveCategory.value) {
+    //     activeCategory.value = null;
+    //     api.get('/tasks').then((res) => {tasks.value = res.data.data})
+    //     isActiveCategory.value = false
+    // } else {
+    //     activeCategory.value = category.id;
+    //
+    // }
 }
+
+
+
 </script>
 <style scoped lang="scss">
 @import "../../../../css/general";
