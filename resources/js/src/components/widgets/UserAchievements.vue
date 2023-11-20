@@ -45,16 +45,16 @@
 
 .account-success{
     display: block;
-    margin:0 auto;
     background-color: $abs-white;
     padding: 30px;
     width: 500px;
     border-radius: 15px;
+    border: 1px solid rgba(41, 161, 156, 0.3);
     h2{
         display: flex;
         justify-content: start;
-        font-size: 22px;
-        font-weight: bolder;
+        font-size: 20px;
+        font-weight: 600;
         color: $green;
         margin-bottom: 20px;
     }

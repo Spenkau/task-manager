@@ -6,9 +6,11 @@
     <div class="tags-page-header">
         <h2>Поиск по вашим тегам</h2>
         <v-text-field
+            v-model="tag"
             label="Поиск"
             prepend-icon="$vuetify"
             variant="underlined"
+            @input="getTasksByPage"
         ></v-text-field>
         <div class="tag-list">
             <TagList/>
@@ -29,7 +31,16 @@ import {useUserStore} from "../dict/store/store";
 import {onMounted, ref} from "vue";
 import api from "../dict/axios/api"
 const tasks = ref([])
+const tag = ref('')
 
+const getTasksByPage = () => {
+    setTimeout(()=>{
+        api.get(`tasks?tag=${tag.value}`).then(res => console.log(res))
+        clearTimeout()
+    },200)
+
+
+}
 
 onMounted(()=>{
     api.get('/tasks').then(res => tasks.value = res.data )

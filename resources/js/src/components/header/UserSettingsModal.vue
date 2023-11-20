@@ -56,7 +56,7 @@ const username = computed(() => {
 .overlay__modal {
     position: absolute;
     display: block;
-    right: 200px;
+    right: 430px;
     top: 100px;
     width: 200px;
     background-color: $white;

@@ -10,15 +10,19 @@
                         </span>
                             <template v-else>
                                 <div class="date">
-                                    <span>{{ taskItem.started_at }}</span>
-                                    <p>по</p>
-                                    <span>{{ taskItem.finished_at }}</span>
+                                    <div class="span">
+                                        <span>по</span>
+                                    </div>
+                                    <div>
+                                        <span>{{ dateStarted }}</span>
+                                        <span>{{ dateFinished }}</span>
+                                    </div>
                                 </div>
                             </template>
                         </div>
                         <p class="task-card-category">
                             <v-icon color="success" icon="$vuetify" size="x-large"/>
-                            <span>{{ 'taskItem.category.name' }}</span>
+                            <span>{{ taskItem.category.name }}</span>
                         </p>
                         <div class="task-card-reaction">
                             <div class="reaction-content">
@@ -48,12 +52,6 @@
                                 }}
                             </RouterLink>
                         </h3>
-                        <button @click="addChild = true">
-                            Добавить подзадачу
-                        </button>
-                        <NewTaskModal v-if="addChild" :parentID="taskItem.id">
-                            <div class="overlay" @click="addChild = false"></div>
-                        </NewTaskModal>
                         <div>
                             <ul class="tag-list" v-if="taskItem.tags && taskItem.tags.length > 0">
                                 <li class="task-card-tag" v-for="(tag, key) in taskItem.tags || []" :key="key">
@@ -64,6 +62,23 @@
                             </ul>
                         </div>
                         <i :class="'icon-priority_'+ taskItem.priority_id">иконка приоритета</i>
+                    </div>
+                    <div class="task-pre-footer">
+                        <div class="add-button-child">
+                            <button @mousemove="addButton = true">
+                                <i class="icon-add_child">
+                                    иконка добавить задачу
+                                </i>
+                            </button>
+                        </div>
+                        <div class="child-button" :class="addButton? 'activate':null" @mouseleave="addButton = false">
+                            <button @click="addChild = true">
+                                Добавить подзадачу
+                            </button>
+                            <NewTaskModal v-if="addChild" :parentID="taskItem.id">
+                                <div class="overlay" @click="addChild = false"></div>
+                            </NewTaskModal>
+                        </div>
                     </div>
                     <div>
                         <div class="task-footer">
@@ -111,6 +126,7 @@ import {useUserStore} from "../../dict/store/store";
 import EditTaskModal from "../widgets/EditTaskModal.vue";
 import TaskItem from "./TaskItem.vue";
 import NewTaskModal from "../header/NewTaskModal.vue";
+import axios from "axios";
 
 const store = useUserStore()
 const {user, categories} = store
@@ -122,15 +138,81 @@ const isShowChildTask = ref(false)
 const dateIsNull = computed(() => {
     return taskItem.value.started_at === null && taskItem.value.finished_at === null
 })
+
+const dateStarted = computed(() => {
+    return new Date(taskItem.value.started_at).toLocaleDateString(
+        ["by", "ru"],
+        {weekday:'long', month: 'long', day: 'numeric'}
+    )
+})
+
+const dateFinished = computed(() => {
+    return new Date(taskItem.value.finished_at).toLocaleDateString(
+        ["by", "ru"],
+        {weekday:'long',month: 'long', day: 'numeric'}
+    )
+})
+
 const children = computed(() => taskItem.value.children)
 const childrenNotNull = computed(() => !!taskItem.value.children)
 const addChild = ref(false)
-
+const addButton = ref(false)
 
 </script>
 
 <style scoped lang="scss">
 @import "../../../../css/general";
+
+.task-pre-footer {
+    display: flex;
+    align-items: center;
+}
+
+.add-button-child {
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        border: 1px solid rgba(41, 161, 156, 0.3);
+        border-left: 0;
+    }
+}
+
+
+.child-button {
+    display: none;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0;
+    background-color: #FAFAFA;
+    animation: active 350ms linear;
+    border: 1px solid rgba(41, 161, 156, 0.3);
+    border-left: 0;
+    border-right: 0;
+    font-size: 10px;
+    font-style: italic;
+
+    button {
+        padding: 7px 0;
+        opacity: 0.7;
+
+    }
+}
+
+.activate {
+    display: flex;
+}
+
+@keyframes active {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%
+    }
+}
 
 .overlay {
     position: fixed;
@@ -195,15 +277,21 @@ const addChild = ref(false)
 }
 
 .task-card-date {
-    max-width: 160px;
+    max-width: 220px;
+    .date{
+        display: flex;
+    }
 
-    p {
-        margin: 5px 0;
+    .span {
+        display: flex;
+        align-items: center;
+        margin-right: 5px;
     }
 
     span {
         display: flex;
         flex-wrap: nowrap;
+        margin-bottom: 5px;
     }
 }
 
@@ -217,7 +305,7 @@ const addChild = ref(false)
 }
 
 .task-card {
-    width: 700px;
+    width: 45vw;
     background-color: $bg-white;
     border-radius: 10px;
     border: 1px solid rgba(41, 161, 156, 0.3);

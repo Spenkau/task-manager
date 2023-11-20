@@ -4,7 +4,7 @@
             <TaskItem :task="task"/>
         </li>
     </ul>
-    <v-container v-if="tasksMoreFive">
+    <v-container v-if="true">
         <v-pagination
             v-model="currentPage"
             :length="totalPage"
@@ -31,8 +31,8 @@ let tasksData = await fetchTaskByPage(currentPage.value)
 const totalPage = ref(Number(tasksData.meta.last_page))
 tasks.value = tasksData.data
 
-const tasksMoreFive = computed(() => {
-    return tasks.value.length === 5
+const isHidePagination = computed(() => {
+    return tasks.value.length <= 5 && currentPage.value === 1
 })
 
 watchEffect(async () => {

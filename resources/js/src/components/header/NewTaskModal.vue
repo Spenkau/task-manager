@@ -58,6 +58,8 @@
                                     hide-details="auto"
                                     name="started_at"
                                     variant="outlined"
+                                    :min="minStartDate"
+                                    @input="validateDates"
                                     clearable
                                 ></v-text-field>
                             </li>
@@ -69,6 +71,8 @@
                                     hide-details="auto"
                                     name="finished_at"
                                     variant="outlined"
+                                    :min="minEndDate"
+                                    @input="validateDates"
                                     clearable
                                 ></v-text-field>
                             </li>
@@ -101,6 +105,15 @@
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
+                        <div class="checkboxs">
+                            <v-checkbox
+                                label="Скрытая задача"
+                            >
+                            </v-checkbox>
+                            <v-checkbox
+                                label="Совместная задача"
+                            ></v-checkbox>
+                        </div>
                         <v-btn type="submit" block text="Отправить" color="#29a19c"/>
                     </div>
                 </form>
@@ -109,7 +122,7 @@
     </Transition>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import {computed, onMounted, ref, toRefs, watch} from 'vue';
 import {formatISO8601DateTime, formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
@@ -118,25 +131,43 @@ import {useUserStore} from "../../dict/store/store";
 
 
 const store = useUserStore()
-const {tasks, categories} = toRefs(store)
+const {tasks, categories, tags} = toRefs(store)
 
 const userID = computed(() => {
     return store.user.id
 })
 const title = ref('')
 const content = ref('')
-const startedAt = ref('')
-const finishedAt = ref('')
 const selectTag = ref('')
 const dialog = ref(false)
 const newTag = ref('')
 const categoriesItems = ref([])
 const selectCategory = ref('')
 const prioritySelect = ref("")
-const tags = ref([])
 const tagsList = ref([])
 const props = defineProps(['parentID'])
 
+const getCurrentDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = `${now.getMonth() + 1}`.padStart(2, '0');
+    const day = `${now.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const startedAt = ref('');
+const finishedAt = ref('');
+const minStartDate = ref(getCurrentDate());
+const minEndDate = ref('');
+
+const validateDates = () => {
+    minEndDate.value = startedAt.value
+    console.log(typeof minEndDate.value )
+    console.log(minEndDate.value )
+    if(finishedAt.value < startedAt.value) {
+        finishedAt.value = startedAt.value
+    }
+};
 
 watch(selectTag, () => {
     console.log(selectTag.value)
@@ -165,6 +196,8 @@ onMounted(async () => {
     tagsList.value = [...tagsItems, 'Создать тег']
 
 })
+
+
 
 const saveTag = () => {
     api.post('/tags/store', {name: newTag.value}).then(res => console.log(res))
@@ -195,6 +228,14 @@ const submitForm = () => {
 
 <style lang="scss">
 @import "../../../../css/general";
+
+.checkboxs{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    height: 70px;
+}
+
 .select-value{
     display: flex;
     align-items: center;
