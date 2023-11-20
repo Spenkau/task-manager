@@ -2,12 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\PriorityEnum;
-use App\Enums\StatusEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+class TaskChildResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -29,9 +27,12 @@ class TaskResource extends JsonResource
             'parent_id' => $this['parent_id'],
             'started_at' => $this['started_at'],
             'finished_at' => $this['finished_at'],
-            'tags' => count($this['tags']) > 0 ? $this['tags']->map(function ($tag) {
+            'children' => $this['children']->map(function ($child) {
+                return new TaskChildResource($child);
+            }),
+            'tags' => $this['tags']->map(function ($tag) {
                 return new TagResource($tag);
-            }) : [],
+            }),
         ];
     }
 }

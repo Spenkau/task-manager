@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Task;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,20 +19,21 @@ class UpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'numeric|min:1',
-            'priority_id' => 'numeric|min:1|max:3',
-            'status_id' => 'numeric|min:1|max:3',
-            'owner_id' => 'numeric',
-            'parentId' => 'numeric',
-            'started_at' => 'date_format:Y-m-d',
-            'finished_at' => 'date_format:Y-m-d',
+            'task.id' => 'integer',
+            'task.title' => 'required|string|max:255',
+            'task.content' => 'required|string|max:400',
+            'task.category_id' => 'required|integer|min:1',
+            'task.priority_id' => 'required|integer|min:1|max:3',
+//            'task.status_id' => 'nullable|integer|min:0|max:3',
+            'task.started_at' => 'nullable|date',
+            'task.finished_at' => 'nullable|date',
+            'task.parent_id' => 'nullable|integer',
+            'tags' => 'nullable|array',
         ];
      }
 

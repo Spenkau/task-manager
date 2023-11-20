@@ -19,7 +19,7 @@
                     :items="[1,2, 3]"
                     variant="outlined"
                     name="priority_id"
-                    v-model="priority"
+                    v-model="priorityID"
                 ></v-select>
             </div>
             <v-select
@@ -72,7 +72,7 @@ import api from "../../dict/axios/api";
 const task = defineProps(['task'])
 const taskItem = computed(() => task.task)
 const title = ref(taskItem.value.title)
-const priority = ref(taskItem.value.priority)
+const priorityID = ref(taskItem.value.priority_id)
 const categoryID = ref(taskItem.value.category_id)
 const content = ref(taskItem.value.content)
 const started = ref(taskItem.value.started_at)
@@ -80,13 +80,17 @@ const finished = ref(taskItem.value.finished_at)
 
 
 const editTask = () => {
-    api.post("task/update", {
+    api.patch("task/update", {
+      task: {
         id: taskItem.value.id,
         title: title.value,
-        category_id:categoryID.value,
-        content:content.value,
-        started_at:started.value,
-        finished_at:finished.value
+        content: content.value,
+        category_id: categoryID.value,
+        priority_id: priorityID.value,
+        started_at: started.value,
+        finished_at: finished.value
+      },
+      tags: []
     }).then(res => console.log(res))
 }
 

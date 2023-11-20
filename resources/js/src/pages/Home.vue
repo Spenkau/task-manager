@@ -61,7 +61,7 @@ export default {
         const isAuth = computed(() => user.value.isAuth)
 
         const getActiveTasks = () => {
-            api.get('tasks').then(res => tasks.value = res.data.data)
+            api.get('nested_tasks').then(res => tasks.value = res.data.data)
         }
 
         const getUser = () => {

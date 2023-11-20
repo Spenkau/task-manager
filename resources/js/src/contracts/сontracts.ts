@@ -18,7 +18,7 @@ const fetchData = async (data: string) => {
 
 export const fetchTaskByID = async (ID = "") => {
     try {
-        const res = await api.get(`tasks/${ID}`);
+        const res = await api.get(`task/${ID}`);
         if (res.data) {
             return await res.data
         }
@@ -34,7 +34,7 @@ export const fetchTaskByID = async (ID = "") => {
 
 export const fetchTaskByPage = async (page:number|string) => {
     try {
-        const res = await api.get(`tasks?page=${page}`);
+        const res = await api.get(`nested_tasks?page=${page}`);
         if (res.data) {
             return await res.data
         }

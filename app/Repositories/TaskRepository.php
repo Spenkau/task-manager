@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Http\Filters\TaskFilter;
+use App\Http\Resources\TaskChildResource;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -18,11 +20,20 @@ class TaskRepository extends BaseRepository
         $this->model = $task;
     }
 
-    public function all(array $data)
+    public function nested()
+    {
+        $query = Task::whereNull('parent_id')
+            ->whereNull('finished_at');
+
+        return $this->applyRequest($query);
+    }
+
+    public function flat(array $data)
     {
         $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
         $query = Task::filter($filter);
+
 
         return $this->applyRequest($query);
     }
@@ -42,9 +53,11 @@ class TaskRepository extends BaseRepository
 
     public function update(array $data)
     {
-        $task = Task::find($data['id']);
+        $taskData = $data['task'];
 
-        $task->update($data);
+        $task = Task::find($taskData['id']);
+
+        $this->updateModel($task, $taskData);
 
         if ($data['tags']) {
             $this->attachTags($data['tags'], $task);
@@ -72,11 +85,6 @@ class TaskRepository extends BaseRepository
         $query = Task::where('category_id', $categoryId);
 
         return $this->applyRequest($query);
-    }
-
-    public function filter(array $data)
-    {
-
     }
 
     public function manageStatus(array $data)
@@ -108,17 +116,9 @@ class TaskRepository extends BaseRepository
 
     public function applyRequest(Builder $query)
     {
-        return $query->whereNull('parent_id')
-            ->ownerId($this->userId)
+        return $query->ownerId($this->userId)
             ->paginate(5);
     }
 
-//    public function filterTasks(string $field)
-//    {
-//        $tasks = QueryBuilder::for(Task::class)
-//            ->allowedFilters($field)
-//            ->get();
-//
-//        return $tasks;
-//    }
+
 }

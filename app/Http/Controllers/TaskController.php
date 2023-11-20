@@ -9,6 +9,7 @@ use App\Events\Task\TaskUpdateEvent;
 use App\Http\Requests\Task\FilterRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\TaskChildResource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
 use App\Mail\TaskReminder;
@@ -30,11 +31,22 @@ class TaskController extends Controller
         $this->taskService = $taskService;
     }
 
-    public function index(FilterRequest $request): JsonResponse|AnonymousResourceCollection
+    public function nested()
+    {
+        $tasks = TaskChildResource::collection($this->taskService->nested());
+
+        try {
+            return $tasks;
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to show your tasks: ' . $e], 500);
+        }
+    }
+
+    public function flat(FilterRequest $request)
     {
         $data = $request->validated();
 
-        $tasks = TaskResource::collection($this->taskService->all($data));
+        $tasks = TaskResource::collection($this->taskService->flat($data));
 
         try {
             return $tasks;
@@ -46,17 +58,15 @@ class TaskController extends Controller
     public function store(StoreRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $data['owner_id'] = auth()->user()->id;
 
         try {
-            $newTask = new TaskResource($this->taskService->store($data));
+            $task = new TaskResource($this->taskService->store($data));
 
 //            Mail::to('kholyavskij@mail.ru')->send(new TaskReminder($newTask));
 
+            broadcast(new TaskCreateEvent($task))->toOthers();
 
-            broadcast(new TaskCreateEvent($newTask))->toOthers();
-
-            return response()->json(['message' => 'Task successfully stored!', 'data' => $newTask]);
+            return response()->json(['message' => 'Task successfully stored!', 'data' => $task]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
         }
@@ -66,10 +76,11 @@ class TaskController extends Controller
     {
         $data = $request->validated();
 
-        broadcast(new TaskUpdateEvent($data))->toOthers();
-
         try {
-            $task = $this->taskService->update($data);
+            $task = new TaskResource($this->taskService->update($data));
+
+            broadcast(new TaskUpdateEvent($task))->toOthers();
+
             return response()->json(['message' => 'Task successfully updated!', 'data' => $task]);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to store your task: ' . $e], 500);
@@ -78,7 +89,6 @@ class TaskController extends Controller
 
     public function delete(Task $task): JsonResponse
     {
-
         broadcast(new TaskDeleteEvent($task))->toOthers();
 
         try {
@@ -89,12 +99,12 @@ class TaskController extends Controller
         }
     }
 
-    public function show(Task $task): JsonResponse|TaskResource
+    public function show(Task $task): JsonResponse
     {
-        $task = new TaskResource($this->taskService->show($task->id));
+        $task = $this->taskService->show($task->id);
 
         try {
-            return $task;
+            return response()->json($task);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to show your task: ' . $e], 500);
         }
@@ -116,7 +126,7 @@ class TaskController extends Controller
         $data = $request->all();
 
         try {
-            $task = $this->taskService->manageStatus($data);
+            $task = new TaskResource($this->taskService->manageStatus($data));
 
             broadcast(new TaskStatusUpdateEvent($task))->toOthers();
 

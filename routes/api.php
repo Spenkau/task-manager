@@ -27,21 +27,24 @@ Route::group([
             Route::get('{username}', [UserController::class, 'show']);
         });
 
-        Route::group(['namespace' => 'Task', 'prefix' => 'tasks'], function () {
-            Route::get('', [TaskController::class, 'index']);
+        Route::group(['namespace' => 'Task', 'prefix' => 'task'], function () {
+            Route::get('{task}', [TaskController::class, 'show']);
 
             Route::get('category/{slug}', [TaskController::class, 'showByCategory']);
-            Route::get('category_id/{id}', [TaskController::class, 'showByCategoryId']);
-            Route::get('tag/{slug}', [TaskController::class, 'showByTag']);
-            Route::get('{task}', [TaskController::class, 'show']);
 
             Route::post('store', [TaskController::class, 'store']);
             Route::patch('update', [TaskController::class, 'update']);
             Route::delete('delete/{task}', [TaskController::class, 'delete']);
-
             Route::post('status_update', [TaskController::class, 'manageStatus']);
-
         });
+
+        Route::get('nested_tasks', [TaskController::class, 'nested']);
+        Route::get('flat_tasks', [TaskController::class, 'flat']); // allowed query params
+//        Route::group(['namespace' => 'Nested_Tasks', 'prefix' => 'nested_tasks'], function () {
+//        });
+//
+//        Route::group(['namespace' => 'Task', 'prefix' => 'flat_tasks'], function () {
+//        });
 
         Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
             Route::get('all', [CategoryController::class, 'index']);

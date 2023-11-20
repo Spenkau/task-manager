@@ -2,6 +2,7 @@
 
 namespace App\Events\Task;
 
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -13,12 +14,12 @@ class TaskStatusUpdateEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private Task $task;
+    private TaskResource $task;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Task $task)
+    public function __construct(TaskResource $task)
     {
         $this->task = $task;
     }

@@ -30,10 +30,10 @@ const activeCategory = ref(false)
 const getTaskByCategory = () => {
     if (activeCategory.value) {
         activeCategory.value = false;
-        api.get('/tasks').then((res) => {tasks.value = res.data.data})
+        api.get('/nested_tasks').then((res) => {tasks.value = res.data.data})
     } else {
         activeCategory.value = true;
-        api.get(`/tasks/category/${category.value.slug}`).then((res) => (tasks.value = res.data.data));
+        api.get(`/task/category/${category.value.slug}`).then((res) => (tasks.value = res.data.data));
     }
 }
 </script>
