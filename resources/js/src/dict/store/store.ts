@@ -17,7 +17,15 @@ export const useUserStore = defineStore('user', () => {
 
     const categories = ref<Categories | []>([])
     const categoriesWithChildren = ref([])
-    const activeCategory = ref(false)
+    const activeCategory = ref(0)
+    const tags = ref([])
 
-    return {user,tasks,categories,categoriesWithChildren, activeCategory}
+    return {
+        user,
+        tasks,
+        categories,
+        categoriesWithChildren,
+        activeCategory,
+        tags
+    }
 })

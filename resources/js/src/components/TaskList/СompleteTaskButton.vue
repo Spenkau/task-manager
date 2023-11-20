@@ -56,6 +56,8 @@ const completeTask = async () => {
 
 
 <style scoped lang="scss">
+
+
 .complete-task {
     display: flex;
     align-items: center;

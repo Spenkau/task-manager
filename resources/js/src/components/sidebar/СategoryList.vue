@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import {computed, ref, toRefs} from "vue";
-import CategoryChildren from "./CategoryChildren.vue";
 import NewCategoryModal from "./NewCategoryModal.vue";
 import api from "../../dict/axios/api.js"
 import CategoryItem from "./CategoryItem.vue";

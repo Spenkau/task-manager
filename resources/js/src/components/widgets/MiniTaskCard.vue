@@ -5,7 +5,7 @@
                 <h3>
                     {{ task.title }}
                 </h3>
-                <p class="task-card-tag">
+                <p class="task-card-tag" v-if="task.tags">
                     <i class="icon-tag">иконка тега</i>
                     <span>Тег</span>
                 </p>
@@ -13,14 +13,14 @@
             <div class="search-task-body">
                 <div class="category">
                     <v-icon color="success" icon="$vuetify" size="x-small"/>
-                    <span> {{ categoryNameByID }}</span>
+                    <span> {{ task.category.name }}</span>
                 </div>
                 <div>
-                    {{dateTask}}
+                    {{ dateTask }}
                 </div>
             </div>
             <div class="search-task-footer">
-                Приоритет <i :class="'icon-priority_' + task.priority">иконка приоритета</i>
+                {{statusTask}} <i :class="'icon-priority_' + task.priority_id">иконка приоритета</i>
             </div>
         </div>
     </RouterLink>
@@ -31,29 +31,28 @@ import {computed, onMounted, ref} from "vue";
 import api from "../../dict/axios/api"
 
 const props = defineProps(['task'])
-const task = computed(() => props.task);
-const categories = ref([])
-
-onMounted(()=>{
-    api.get('/categories/all').then(res => categories.value = res.data.data)
+const task = ref(props.task);
+const dateStarted = computed(() => {
+    return new Date(task.value.started_at).toLocaleDateString(
+        ["by", "ru"],
+        {weekday: 'long', month: 'long', day: 'numeric'}
+    )
 })
-
-const categoryNameByID = computed(()=>{
-    return categories.value.find(category => category.id === task.value.category_id)
-
-
+const dateFinished = computed(() => {
+    return new Date(task.value.finished_at).toLocaleDateString(
+        ["by", "ru"],
+        {weekday: 'long', month: 'long', day: 'numeric'}
+    )
 })
-
-const dateTask = computed(()=>{
-    if (task.value.started_at && task.value.finished_at){
-        return `с ${task.value.started_at} по ${task.value.finished_at}`
+const dateTask = computed(() => {
+    if (task.value.started_at && task.value.finished_at) {
+        return `${dateStarted.value} по ${dateFinished.value}`
     } else {
         return 'Дата не указана'
     }
 })
-
 const statusTask = computed(() => {
-    switch (task.value.status) {
+    switch (task.value.status_id) {
         case 0:
             return "Заброшено";
         case 1:

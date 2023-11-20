@@ -41,7 +41,7 @@ onMounted(()=>{
 @import "../../../../css/general";
 
 .time-date-section {
-    width: 500px;
+    width: 32vw;
     max-height: 160px;
     padding: 30px;
     background-color: $abs-white;

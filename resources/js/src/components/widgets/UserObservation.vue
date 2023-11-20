@@ -15,6 +15,7 @@
 .observation {
     background-color: $abs-white;
     padding: 40px;
+    width: 35vw;
     border-radius: 10px;
     border: 1px solid rgba(41, 161, 156, 0.3);
     margin-bottom: 80px;

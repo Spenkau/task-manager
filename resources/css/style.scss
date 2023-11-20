@@ -106,3 +106,9 @@
 .icon-category_active{
     @include icon(45px,20px, "active_category")
 }
+
+.icon-add_child{
+    @include icon(20px,20px, "add_child");
+    opacity: .7;
+
+}
