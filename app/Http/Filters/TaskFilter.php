@@ -4,7 +4,10 @@
 namespace App\Http\Filters;
 
 
+use App\Models\Category;
+use App\Models\Tag;
 use App\Models\Task;
+use App\Repositories\CategoryRepository;
 use Illuminate\Database\Eloquent\Builder;
 
 class TaskFilter extends AbstractFilter
@@ -13,7 +16,9 @@ class TaskFilter extends AbstractFilter
     public const CATEGORY_ID = 'category_id';
     public const PRIORITY_ID = 'priority_id';
     public const STATUS_ID = 'status_id';
-    public const TAG_IDS = 'tag_ids';
+//    public const CATEGORY_SLUG = 'category_slug';
+
+//    public const TAGS_ID = 'tags_id';
 
     protected function getCallbacks(): array
     {
@@ -22,7 +27,8 @@ class TaskFilter extends AbstractFilter
             self::CATEGORY_ID => [$this, 'categoryId'],
             self::PRIORITY_ID => [$this, 'priorityId'],
             self::STATUS_ID => [$this, 'statusId'],
-            self::TAG_IDS => [$this, 'tagIds'],
+//            self::CATEGORY_SLUG => [$this, 'categorySlug']
+//            self::TAGS_ID => [$this, 'tagsId'],
         ];
     }
 
@@ -36,6 +42,13 @@ class TaskFilter extends AbstractFilter
         $builder->where('category_id', $value);
     }
 
+//    public function categorySlug(Builder $builder, $value)
+//    {
+//        $categoryId = Category::where('slug', $value)->pluck('id')->firstOrFail();
+//
+//        $builder->where('category_id', $categoryId);
+//    }
+
     public function priorityId(Builder $builder, $value)
     {
         $builder->where('priority_id', $value);
@@ -46,8 +59,10 @@ class TaskFilter extends AbstractFilter
         $builder->where('status_id', $value);
     }
 
-    public function tagIds(Builder $builder, $value)
-    {
-        $builder->where('tag_ids', $value);
-    }
+//    public function tagsId(Builder $builder, $value)
+//    {
+//        return Task::whereHas('tags', function ($query) use ($value) {
+//            $query->whereIn('tag_id', $value);
+//        });
+//    }
 }

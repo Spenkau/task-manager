@@ -41,7 +41,7 @@ const dialog = ref(false)
 const deleteTask = async () => {
     try {
 
-        await api.delete(`tasks/delete/${id}`);
+        await api.delete(`task/delete/${id}`);
 
         tasks.value = tasks.value.filter(task => task.id !== id);
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Task;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FilterRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,9 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|string',
-            'category_id' => 'nullable|int',
-            'priority_id' => 'nullable|int',
-            'status_id' => 'nullable|int',
-            'tags_id' => 'array'
+            'content' => 'required|string|max:255',
+            'user_id' => 'required|integer|min:1',
+            'task_id' => 'required|integer|min:1'
         ];
     }
 }

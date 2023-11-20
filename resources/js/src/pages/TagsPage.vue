@@ -43,7 +43,7 @@ const getTasksByPage = () => {
 }
 
 onMounted(()=>{
-    api.get('/tasks').then(res => tasks.value = res.data )
+    api.get('/flat_tasks').then(res => tasks.value = res.data )
 })
 </script>
 

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
@@ -17,7 +18,13 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function __construct()
     {
-        $this->userId = auth()->user()->id;
+        $user = auth()->user();
+
+        if (!$user) {
+            throw new UnauthorizedHttpException('Unauthorized');
+        }
+
+        $this->userId = $user->id;
     }
 
     public function allModels(): Collection
@@ -42,6 +49,8 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function storeModel(array $data)
     {
         $model = $this->model;
+
+        $data['owner_id'] = $this->userId;
 
         return $model->create($data);
     }

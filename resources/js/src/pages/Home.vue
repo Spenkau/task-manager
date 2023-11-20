@@ -67,7 +67,7 @@ export default {
 
         const getActiveTasks = () => {
             activeCategory.value = 0
-            api.get('tasks').then(res => tasks.value = res.data.data)
+            api.get('nested_tasks').then(res => tasks.value = res.data.data)
         }
 
 

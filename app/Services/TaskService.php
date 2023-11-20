@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\TaskChildResource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
 use App\Models\Category;
@@ -23,9 +24,14 @@ class TaskService
         $this->categoryRepo = $categoryRepo;
     }
 
-    public function all(array $data)
+    public function nested()
     {
-        return $this->taskRepo->all($data);
+        return $this->taskRepo->nested();
+    }
+
+    public function flat(array $data)
+    {
+        return $this->taskRepo->flat($data);
     }
 
     public function store(array $data)
@@ -45,7 +51,7 @@ class TaskService
 
     public function show(int $taskId)
     {
-        return new TaskResource($this->taskRepo->show($taskId));
+        return new TaskChildResource($this->taskRepo->show($taskId));
     }
 
     public function showByCategory(string $slug)

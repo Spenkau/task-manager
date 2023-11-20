@@ -30,7 +30,6 @@ class StoreRequest extends FormRequest
             'task.category_id' => 'required|integer',
             'task.priority_id' => 'required|integer',
             'task.status_id' => 'required|integer',
-            'task.owner_id' => 'required|integer',
             'task.started_at' => 'nullable|date',
             'task.finished_at' => 'nullable|date',
             'task.parent_id' => 'nullable|integer',

@@ -40,7 +40,7 @@ const {tasks} = toRefs(store)
 const completeTask = async () => {
     try {
         const taskDeleteData = {id: id, status_id: 3, finished_at: formatISO8601DateTime(new Date())}
-        await api.post(`tasks/status_update`, taskDeleteData);
+        await api.post(`task/status_update`, taskDeleteData);
 
         tasks.value = tasks.value.filter(task => task.id !== id);
 
