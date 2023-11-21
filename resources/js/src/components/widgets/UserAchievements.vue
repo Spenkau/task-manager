@@ -47,12 +47,12 @@
     display: block;
     background-color: $abs-white;
     padding: 30px;
-    width: 500px;
+    width: 32vw;
     border-radius: 15px;
     border: 1px solid rgba(41, 161, 156, 0.3);
     h2{
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         font-size: 20px;
         font-weight: 600;
         color: $green;
@@ -75,6 +75,7 @@
     ul{
         display: flex;
         justify-content: space-around;
+        flex-wrap: wrap;
     }
 
     .success-item_body{
