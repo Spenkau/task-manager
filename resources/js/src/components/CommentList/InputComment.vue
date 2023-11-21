@@ -32,10 +32,10 @@ const postComment = () => {
     const store = useUserStore()
 
     const commentData = {
-        user_id: store.user.id,
-        user_name:store.user.name,
+        // user_id: store.user.id,
+        // user_name:store.user.name,
         task_id:props.id,
-        user_msg: userComment
+        content: userComment
 
     }
     api.post('comment/store',commentData).then(res => console.log(res))

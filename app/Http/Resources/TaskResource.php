@@ -29,9 +29,8 @@ class TaskResource extends JsonResource
             'parent_id' => $this['parent_id'],
             'started_at' => $this['started_at'],
             'finished_at' => $this['finished_at'],
-            'tags' => $this['tags']->map(function ($tag) {
-                return new TagResource($tag);
-            }),
+            'comments' => CommentResource::collection($this->comments),
+            'tags' => TagResource::collection($this->tags)
         ];
     }
 }
