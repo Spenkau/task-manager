@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
@@ -31,7 +32,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function flatModels()
     {
         return
-            $this->model->where('owner_id', $this->userId)->get();
+            $this->model->where('owner_id', $this->userId);
     }
 
     public function nestedModels(array $relations): Builder

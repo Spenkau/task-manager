@@ -35,7 +35,7 @@ class AuthController extends Controller
         $cookie = cookie('jwt_token', $token, $remember ? 1440 : null);
 
 
-        return $this->respondWithToken($token, $cookie);
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -77,12 +77,12 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    protected function respondWithToken($token, $cookie)
+    protected function respondWithToken($token)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
-        ])->withCookie($cookie);
+        ]);
     }
 }
