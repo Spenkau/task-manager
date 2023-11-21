@@ -4,10 +4,11 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
+class CategoryRepository extends BaseRepository
 {
     protected Model $model;
 
@@ -20,13 +21,13 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function all(): Collection
     {
-        return $this->allModels();
+        return $this->flatModels();
     }
 
-    public function withChildren(): Collection
+    public function withChildren(): Builder
     {
         return
-            $this->withChildrenModels(['children']);
+            $this->nestedModels(['children']);
     }
 
     public function store(array $data)
