@@ -9,6 +9,7 @@ use App\Events\Task\TaskUpdateEvent;
 use App\Http\Requests\Task\FilterRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Requests\Task\UpdateRequest;
+use App\Http\Resources\TaskByIdResource;
 use App\Http\Resources\TaskChildResource;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskResourceCollection;
@@ -101,7 +102,7 @@ class TaskController extends Controller
 
     public function show(Task $task): JsonResponse
     {
-        $task = $this->taskService->show($task->id);
+        $task = new TaskResource($this->taskService->show($task->id));
 
         try {
             return response()->json($task);
