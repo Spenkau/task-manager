@@ -29,7 +29,8 @@ class TaskRepository extends BaseRepository
     {
         $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
-        $query = Task::filter($filter);
+        $query = Task::filter($filter)
+            ->with(['children', 'tags', 'category', 'comments']);
 
 //        if ($data['archived']) {
 //            return $query->get();

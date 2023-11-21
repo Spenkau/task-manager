@@ -14,7 +14,7 @@ class Comment extends Model
 
     protected $guarded = false;
 
-    public function user(): BelongsTo
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

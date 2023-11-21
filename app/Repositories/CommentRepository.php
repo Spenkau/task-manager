@@ -21,8 +21,6 @@ class CommentRepository extends BaseRepository
 
     public function store(array $data)
     {
-        $data['user_id'] = $this->userId;
-
         return $this->storeModel($data);
     }
 

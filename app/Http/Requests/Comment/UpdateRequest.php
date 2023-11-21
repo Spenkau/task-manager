@@ -24,7 +24,6 @@ class UpdateRequest extends FormRequest
     {
         return [
             'content' => 'required|string|max:255',
-            'user_id' => 'required|integer|min:1',
             'task_id' => 'required|integer|min:1'
         ];
     }
