@@ -51,6 +51,7 @@ import api from "../dict/axios/api";
 import {storeToRefs} from "pinia";
 import Loader from "../components/widgets/Loader.vue";
 import UserAchievements from "../components/widgets/UserAchievements.vue";
+import {fetchTaskByPage} from "../contracts/сontracts";
 
 export default {
     name: "Home",
@@ -65,9 +66,11 @@ export default {
         const {user, tasks, categories, categoriesWithChildren, activeCategory} = storeToRefs(store)
         const isAuth = computed(() => user.value.isAuth)
 
-        const getActiveTasks = () => {
+        const getActiveTasks = async () => {
             activeCategory.value = 0
-            api.get('nested_tasks').then(res => tasks.value = res.data.data)
+            const res = await fetchTaskByPage(1)
+            tasks.value = res.data
+
         }
 
         return {

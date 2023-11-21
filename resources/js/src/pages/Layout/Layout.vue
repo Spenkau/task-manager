@@ -16,17 +16,20 @@ const {user, tasks, categories, categoriesWithChildren, tags} = storeToRefs(stor
 
 const getUser = () => {
     try {
-        api.post('/me').then(res => {
-            if (res?.data?.name) {
-                user.value.id = res.data.id
-                user.value.name = res.data.name
-                user.value.email = res.data.email
-                user.value.phone = res.data.phone
-                user.value.role_id = res.data.role_id
-                user.value.isAuth = true
-            }
-            console.log(user.value)
-        })
+        api.post('/me')
+            .then(res => {
+                if (res?.data?.name) {
+                    user.value.id = res.data.id
+                    user.value.name = res.data.name
+                    user.value.email = res.data.email
+                    user.value.phone = res.data.phone
+                    user.value.role_id = res.data.role_id
+                    user.value.isAuth = true
+                }
+                console.log(user.value)
+            })
+
+
 
     } catch (e) {
         console.error("Что-то пошло не так: ", e)

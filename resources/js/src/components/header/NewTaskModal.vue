@@ -127,11 +127,12 @@ import {computed, onMounted, ref, toRefs, watch} from 'vue';
 import {formatISO8601DateTime, formDataToJSON} from "../../contracts/сontracts";
 import api from '../../dict/axios/api'
 import {useUserStore} from "../../dict/store/store";
+import {storeToRefs} from "pinia";
 
 
 
 const store = useUserStore()
-const {tasks, categories, tags} = toRefs(store)
+const {tasks, categories, tags} = storeToRefs(store)
 
 const userID = computed(() => {
     return store.user.id
@@ -186,7 +187,6 @@ onMounted(async () => {
             value:category.id
         }
     })
-    tags.value = await api.get('/tags').then(res => res.data)
     const tagsItems = tags.value.map(tag => {
         return {
             title:tag.name,
@@ -218,7 +218,6 @@ const submitForm = () => {
         },
         tags:selectTag.value?[selectTag.value]:[]
     };
-    console.log(selectTag)
     api.post('task/store', jsonData).then(res => tasks.value.unshift(res.data.data))
 }
 

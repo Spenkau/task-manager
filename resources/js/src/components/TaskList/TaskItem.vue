@@ -75,10 +75,10 @@
                             <button @click="addChild = true">
                                 Добавить подзадачу
                             </button>
-                            <NewTaskModal v-if="addChild" :parentID="taskItem.id">
-                                <div class="overlay" @click="addChild = false"></div>
-                            </NewTaskModal>
                         </div>
+                        <NewTaskModal v-if="addChild" :parentID="taskItem.id">
+                            <div class="overlay" @click="addChild = false"></div>
+                        </NewTaskModal>
                     </div>
                     <div>
                         <div class="task-footer">

@@ -3,13 +3,14 @@
         <div class="task-page-container">
             <RouterLink to="/"><i class="icon-arrow-back">иконка назад</i> Вернуться</RouterLink>
             <h1 class="task-name">{{ task.title }}</h1>
-            <h2 class="task-category">категория {{ task.category_id }}</h2>
+            <h2 class="task-category">{{ task.category.name }}</h2>
             <div class="task-options">
+                <v-btn variant="tonal" color="#29a19c" @click="showReactions = true"><i class="icon-add_reaction">иконка</i></v-btn>
                 <p class="task-status">
                     {{ statusTask }}
                 </p>
                 <p class="task-priority"> Приоритет
-                    <i :class="'icon-priority_' + task.priority">иконка приоритета</i>
+                    <i :class="'icon-priority_' + task.priority_id">иконка приоритета</i>
                 </p>
                 <p class="task-date">
                     {{ dateTask }}
@@ -17,12 +18,10 @@
             </div>
             <div class="task-content">
                 <p>{{ task.content }}</p>
-                <v-btn variant="tonal" color="#29a19c" @click="showReactions = true"><i class="icon-add_reaction">иконка</i></v-btn>
             </div>
             <v-dialog v-model="showReactions">
                 <AddReactionModal/>
             </v-dialog>
-
             <div class="task-settings">
                 <button @click="show = true"><i class="icon-rewrite"></i> редатктировать</button>
 
@@ -35,7 +34,7 @@
             </EditTaskModal>
             <button class="task-page-delete"><i class="icon-delete"> иконка удалить</i></button>
             <button class="task-page-complete"><i class="icon-complete"> иконка завершить</i></button>
-            <InputComment/>
+            <InputComment :id="taskId"/>
             <CommentList/>
         </div>
     </div>
@@ -60,7 +59,7 @@ const showReactions = ref(false)
 
 onBeforeMount(() => {
         fetchTaskByID(taskId)
-            .then(res => task.value = res.data)
+            .then(res => task.value = res)
     }
 )
 
@@ -128,13 +127,11 @@ const statusTask = computed(() => {
 
 
 .task-content {
-    width: 90%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 30px;
     p{
-        width: 70%;
         line-height: 35px;
         text-align: justify;
         font-size: 22px;
