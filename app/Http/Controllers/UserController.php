@@ -18,19 +18,6 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function show()
-    {
-//        $user = $this->userService->show($email);
-
-        $user = JWTAuth::parseToken()->authenticate();
-
-        try {
-            return response()->json(['user' => $user]);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'User is not found: ' . $e]);
-        }
-    }
-
     public function store(StoreRequest $request)
     {
         $data = $request->validated();

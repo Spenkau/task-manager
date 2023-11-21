@@ -21,7 +21,7 @@ class TaskRepository extends BaseRepository
     public function nested()
     {
         return $this->nestedModels(['children', 'tags', 'category'])
-            ->whereNull('finished_at')
+            ->where('status_id', '!=', 3)
             ->paginate(5);
     }
 
@@ -31,9 +31,15 @@ class TaskRepository extends BaseRepository
 
         $query = Task::filter($filter);
 
-        return tap($query, function () {
-            $this->flatModels();
-        })->paginate(5);
+//        if ($data['archived']) {
+//            return $query->get();
+//        }
+        //TODO сделать перебор по задачам и заносить дочернюю в родительскую.
+//        foreach ($tasks as $task) {
+//            $child = $task->children->where('category_id', $);
+//        }
+
+        return $query->where('status_id', '!=', 3)->get();
     }
 
     public function store(array $data)

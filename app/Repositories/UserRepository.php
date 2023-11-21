@@ -8,10 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function show(string $email)
-    {
-        return User::whereEmail($email)->first();
-    }
 
     public function store(mixed $data)
     {

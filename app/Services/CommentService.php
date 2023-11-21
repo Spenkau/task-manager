@@ -16,17 +16,17 @@ class CommentService
 
     public function store(array $data)
     {
-        $this->commentRepository->store($data);
+        return $this->commentRepository->store($data);
     }
 
     public function update(array $data)
     {
-        $this->commentRepository->update($data);
+        return $this->commentRepository->update($data);
     }
 
     public function delete(int $id)
     {
-        $this->commentRepository->delete($id);
+        return $this->commentRepository->delete($id);
     }
 
 }

@@ -70,9 +70,6 @@ export default {
             api.get('nested_tasks').then(res => tasks.value = res.data.data)
         }
 
-
-
-
         return {
             showSidebar,
             categories,

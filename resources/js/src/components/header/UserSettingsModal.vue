@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import {useUserStore} from "../../dict/store/store";
+import api from '../../dict/axios/api'
 import {computed} from "vue";
 import {useRouter} from "vue-router";
 
@@ -39,6 +40,7 @@ const router = useRouter()
 const store = useUserStore()
 
 const logout = computed(() => {
+    api.post('logout');
     store.user.isAuth = false
     localStorage.removeItem('access_token')
     router.push('/login')

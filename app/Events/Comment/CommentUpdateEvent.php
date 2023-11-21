@@ -2,6 +2,7 @@
 
 namespace App\Events\Comment;
 
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
@@ -14,12 +15,12 @@ class CommentUpdateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private Comment $comment;
+    private CommentResource $comment;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Comment $comment)
+    public function __construct(CommentResource $comment)
     {
         $this->comment = $comment;
     }
