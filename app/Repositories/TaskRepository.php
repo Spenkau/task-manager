@@ -31,7 +31,9 @@ class TaskRepository extends BaseRepository
 
         $query = Task::filter($filter);
 
-        return $this->applyRequest($query);
+        return tap($query, function () {
+            $this->flatModels();
+        })->paginate(5);
     }
 
     public function store(array $data)
@@ -51,7 +53,7 @@ class TaskRepository extends BaseRepository
     {
         $taskData = $data['task'];
 
-        $task = Task::find($taskData['id']);
+        $task = $this->findModel($taskData['id']);
 
         $this->updateModel($task, $taskData);
 
@@ -78,7 +80,7 @@ class TaskRepository extends BaseRepository
 
     public function showByCategory($categoryId)
     {
-        $query = Task::query()->where('category_id', $categoryId);
+        $query = Task::where('category_id', $categoryId);
 
         return $this->applyRequest($query);
     }
