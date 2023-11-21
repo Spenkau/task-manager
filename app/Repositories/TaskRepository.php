@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\Http\Filters\TaskFilter;
-use App\Http\Resources\TaskChildResource;
-use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -22,10 +20,9 @@ class TaskRepository extends BaseRepository
 
     public function nested()
     {
-        $query = Task::whereNull('parent_id')
-            ->whereNull('finished_at');
-
-        return $this->applyRequest($query);
+        return $this->nestedModels(['children', 'tags', 'category'])
+            ->whereNull('finished_at')
+            ->paginate(5);
     }
 
     public function flat(array $data)
@@ -33,7 +30,6 @@ class TaskRepository extends BaseRepository
         $filter = app()->make(TaskFilter::class, ['queryParams' => array_filter($data)]);
 
         $query = Task::filter($filter);
-
 
         return $this->applyRequest($query);
     }
@@ -82,7 +78,7 @@ class TaskRepository extends BaseRepository
 
     public function showByCategory($categoryId)
     {
-        $query = Task::where('category_id', $categoryId);
+        $query = Task::query()->where('category_id', $categoryId);
 
         return $this->applyRequest($query);
     }
@@ -114,11 +110,9 @@ class TaskRepository extends BaseRepository
         $task->refresh();
     }
 
-    public function applyRequest(Builder $query)
+    public function applyRequest(Builder $builder)
     {
-        return $query->ownerId($this->userId)
+        return $builder->ownerId($this->userId)
             ->paginate(5);
     }
-
-
 }
