@@ -19,11 +19,6 @@ class UserService
         $this->userRepo = $userRepo;
     }
 
-    public function show(string $email)
-    {
-        return $this->userRepo->show($email);
-    }
-
     public function create(mixed $data)
     {
         return $this->userRepo->store($data);

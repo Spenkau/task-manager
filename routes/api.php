@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -40,13 +41,14 @@ Route::group([
 
         Route::get('nested_tasks', [TaskController::class, 'nested']);
         Route::get('flat_tasks', [TaskController::class, 'flat']); // allowed query params
-//        Route::group(['namespace' => 'Nested_Tasks', 'prefix' => 'nested_tasks'], function () {
-//        });
-//
-//        Route::group(['namespace' => 'Task', 'prefix' => 'flat_tasks'], function () {
-//        });
 
-        Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
+        Route::group(['namespace' => 'Comment', 'prefix' => 'comment'], function () {
+            Route::post('store', [CommentController::class, 'store']);
+            Route::patch('update', [CommentController::class, 'update']);
+            Route::delete('delete', [CategoryController::class, 'delete']);
+        });
+
+            Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
             Route::get('all', [CategoryController::class, 'index']);
 
             Route::get('with_children', [CategoryController::class, 'withChildren']);

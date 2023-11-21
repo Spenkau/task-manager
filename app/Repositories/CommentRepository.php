@@ -21,16 +21,22 @@ class CommentRepository extends BaseRepository
 
     public function store(array $data)
     {
+        $data['user_id'] = $this->userId;
 
+        return $this->storeModel($data);
     }
 
     public function update(array $data)
     {
+        $comment = $this->findModel($data['id']);
 
+        return $this->updateModel($comment, $data);
     }
 
     public function delete(int $id)
     {
+        $comment = $this->findModel($id);
 
+        return $this->destroyModel($comment);
     }
 }

@@ -32,7 +32,7 @@ class CategoryRepository extends BaseRepository
 
     public function store(array $data)
     {
-        $data['owner_id'] = auth()->user()->id;
+        $data['owner_id'] = $this->userId;
 
         return $this->storeModel($data);
     }
