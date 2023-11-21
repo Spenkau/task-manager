@@ -25,11 +25,14 @@
                 <div class="form-header">
                     <div class="avatar" id="avatar">
                         <img src="../../../../public/images/avatar.png" alt="User Avatar" id="avatar-img">
-                        <input type="file" id="avatar-input" accept="image/*" style="display: none">
+                        <v-file-input clearable label="File input" variant="solo-filled">
+                        </v-file-input>
+
                     </div>
                     <div>
                         <div class="user-name">
                             <v-text-field name="username" :label="user.name"></v-text-field>
+
                         </div>
                     </div>
                 </div>
@@ -227,18 +230,7 @@ onMounted(() => {
     cursor: pointer;
 
     img {
-        width: 100%;
-        height: 100%;
         object-fit: cover;
-    }
-
-    input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
     }
 
 }

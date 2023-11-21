@@ -2,7 +2,7 @@
     <div class="user-comment">
         <img src="/images/avatar.png" alt="user avatar">
         <div class="comment">
-            <p class="user-name">{{ comment.comment.user_name }}</p>
+            <p class="user-name">{{ comment.user_name }}</p>
             <p class="comment-text">
                 {{ comment.comment.user_msg }}
             </p>
@@ -11,8 +11,10 @@
 </template>
 
 <script setup>
-const comment = defineProps(['comment'])
-console.log(comment)
+import {ref} from "vue";
+
+const props = defineProps(['comment'])
+const comment = ref(props.comment)
 
 </script>
 

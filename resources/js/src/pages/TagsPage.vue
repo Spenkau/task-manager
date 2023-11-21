@@ -38,12 +38,10 @@ const getTasksByPage = () => {
         api.get(`tasks?tag=${tag.value}`).then(res => console.log(res))
         clearTimeout()
     },200)
-
-
 }
 
 onMounted(()=>{
-    api.get('/flat_tasks').then(res => tasks.value = res.data )
+    api.get('/flat_tasks').then(res => tasks.value = res.data.data)
 })
 </script>
 

@@ -33,7 +33,7 @@ const postComment = () => {
     const commentData = {
         user_id: store.user.id,
         user_name:store.user.name,
-        task_id:task.task.id,
+        task_id:props.id,
         user_msg: userComment
 
     }

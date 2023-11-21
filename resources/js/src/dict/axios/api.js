@@ -22,7 +22,6 @@ api.interceptors.request.use(config => {
 
 
 api.interceptors.response.use({}, error => {
-    console.log("моя ошибка" ,error)
     if(error.response.data.message === 'Token has expired'){
         axios.post('/api/auth/refresh',{}, {
             headers:{

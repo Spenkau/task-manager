@@ -27,16 +27,6 @@ const store = useUserStore()
 const {tasks,activeCategory} = storeToRefs(store)
 
 const getTaskByCategory = () => {
- // ALEX
-    if (activeCategory.value) {
-        activeCategory.value = false;
-        api.get('/nested_tasks').then((res) => {tasks.value = res.data.data})
-    } else {
-        activeCategory.value = true;
-        api.get(`/task/category/${category.value.slug}`).then((res) => (tasks.value = res.data.data));
-    }
-    activeCategory.value = category.value.id
-// ALEX
     api.get(`/tasks/category/${category.value.slug}`).then((res) => (tasks.value = res.data.data));
 
     // if (isActiveCategory.value) {
