@@ -21,13 +21,13 @@ class CategoryRepository extends BaseRepository
 
     public function all(): Collection
     {
-        return $this->flatModels();
+        return $this->flatModels()->get();
     }
 
-    public function withChildren(): Builder
+    public function withChildren(): array|Collection
     {
         return
-            $this->nestedModels(['children']);
+            $this->nestedModels(['children'])->get();
     }
 
     public function store(array $data)

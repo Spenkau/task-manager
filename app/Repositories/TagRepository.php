@@ -20,7 +20,7 @@ class TagRepository extends BaseRepository implements TagRepositoryInterface
 
     public function index(): Collection
     {
-        return $this->allModels();
+        return $this->flatModels()->get();
     }
 
     public function store(array $data)
