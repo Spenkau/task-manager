@@ -112,7 +112,7 @@ class TaskController extends Controller
 
     public function showByCategory(string $slug): JsonResponse|AnonymousResourceCollection
     {
-        $tasks = TaskResource::collection($this->taskService->showByCategory($slug));
+        $tasks = TaskChildResource::collection($this->taskService->showByCategory($slug));
 
         try {
             return $tasks;

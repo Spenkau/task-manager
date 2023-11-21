@@ -11,9 +11,9 @@ interface BaseRepositoryInterface
      *
      * @return mixed
      */
-    public function allModels();
+    public function flatModels();
 
-    public function withChildrenModels(array $relations);
+    public function nestedModels(array $relations);
 
     /**
      * Find a record by its ID

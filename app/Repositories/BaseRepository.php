@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 abstract class BaseRepository implements BaseRepositoryInterface
@@ -27,18 +28,17 @@ abstract class BaseRepository implements BaseRepositoryInterface
         $this->userId = $user->id;
     }
 
-    public function allModels(): Collection
+    public function flatModels()
     {
         return
             $this->model->where('owner_id', $this->userId)->get();
     }
 
-    public function withChildrenModels(array $relations): Collection
+    public function nestedModels(array $relations): Builder
     {
         return $this->model::whereNull('parent_id')
             ->where('owner_id', $this->userId)
-            ->with($relations)
-            ->get();
+            ->with($relations);
     }
 
     public function findModel($id)
@@ -63,5 +63,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function destroyModel(Model $model): Model|bool|null
     {
         return $model->delete();
+    }
+
+    public function ownerId(Builder $builder)
+    {
+        return $builder->where('owner_id', $this->userId);
     }
 }
