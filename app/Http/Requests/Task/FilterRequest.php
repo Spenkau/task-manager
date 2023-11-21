@@ -27,7 +27,15 @@ class FilterRequest extends FormRequest
             'category_id' => 'nullable|int',
             'priority_id' => 'nullable|int',
             'status_id' => 'nullable|int',
-            'tags_id' => 'array'
+            'tags_id' => 'array',
+            'archived' => 'nullable|boolean'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'archived' => false,
         ];
     }
 }

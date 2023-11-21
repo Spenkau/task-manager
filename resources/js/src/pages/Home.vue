@@ -73,9 +73,6 @@ export default {
 
         }
 
-
-
-
         return {
             showSidebar,
             categories,
