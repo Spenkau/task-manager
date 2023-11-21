@@ -20,6 +20,7 @@
 <script setup>
 import {computed, ref} from "vue";
 import {useUserStore} from "../../dict/store/store";
+import api from "../../dict/axios/api";
 
 const props = defineProps(['id'])
 const comment = ref("")
@@ -37,7 +38,7 @@ const postComment = () => {
         user_msg: userComment
 
     }
-    console.log(commentData)
+    api.post('comment/store',commentData).then(res => console.log(res))
 }
 
 </script>
